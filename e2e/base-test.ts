@@ -1,0 +1,79 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+
+import { test as base } from "@playwright/test";
+import { DashboardPage } from "./pages/dashboard.pom";
+import { ROUTES } from "./routes";
+import { NavigationPage } from "./pages/navigation.pom";
+import { ManagePersonasPage } from "./pages/managePersonas.pom";
+import { QuizGeneratorPage } from "./pages/demos/quizGenerator.pom";
+import { ContentMappingPage } from "./pages/demos/contentMapping.pom";
+import { PersonalizedContentPage } from "./pages/demos/personalizedContent.pom";
+import { ProfilePage } from "./pages/profile.pom";
+import { MobileNavigationPage } from "./pages/mobileNavigation.pom";
+
+type CustomFixtures = {
+  // Dashboard
+  dashboardPage: DashboardPage;
+
+  // Navigation
+  navigationPage: NavigationPage;
+  managePersonasPage: ManagePersonasPage;
+  profilePage: ProfilePage;
+  mobileNavigationPage: MobileNavigationPage;
+
+  // Demos
+  quizGeneratorPage: QuizGeneratorPage;
+  personalizedContentPage: PersonalizedContentPage;
+  contentMappingPage: ContentMappingPage;
+};
+
+// 📝 Define the global setup here
+export const test = base.extend<CustomFixtures>({
+  // Dashboard
+  dashboardPage: async ({ page }, use) => {
+    const dashboardPage = new DashboardPage(page);
+    await use(dashboardPage);
+  },
+
+  // Navigation
+  navigationPage: async ({ page }, use) => {
+    const navigationPage = new NavigationPage(page);
+    await use(navigationPage);
+  },
+  managePersonasPage: async ({ page }, use) => {
+    const managePersonasPage = new ManagePersonasPage(page);
+    await use(managePersonasPage);
+  },
+  profilePage: async ({ page }, use) => {
+    const profilePage = new ProfilePage(page);
+    await use(profilePage);
+  },
+  mobileNavigationPage: async ({ page }, use) => {
+    const mobileNavigationPage = new MobileNavigationPage(page);
+    await use(mobileNavigationPage);
+  },
+
+  // Demos
+  quizGeneratorPage: async ({ page }, use) => {
+    const profilePage = new ProfilePage(page);
+    await use(profilePage);
+  },
+  contentMappingPage: async ({ page }, use) => {
+    const contentMappingPage = new ContentMappingPage(page);
+    await use(contentMappingPage);
+  },
+  personalizedContentPage: async ({ page }, use) => {
+    const personalizedContentPage = new PersonalizedContentPage(page);
+    await use(personalizedContentPage);
+  },
+
+  // Global/Default Page Setup
+  page: async ({ page }, use) => {
+    // Navigate to the dashboard before each test
+    await page.goto(ROUTES.dashboard);
+    await use(page);
+  },
+});
+
+// Re-export the expect function
+export { expect } from "@playwright/test";
