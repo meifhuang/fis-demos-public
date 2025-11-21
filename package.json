@@ -11,7 +11,8 @@
     "test:integration": "vitest test",
     "test": "vitest --reporter=html --coverage",
     "e2e": "playwright test",
-    "e2e:report": "playwright show-report"
+    "e2e:report": "playwright show-report",
+    "prepare": "husky"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
@@ -23,6 +24,8 @@
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@eslint/json": "^0.14.0",
+    "@eslint/markdown": "^7.5.1",
     "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
@@ -37,7 +40,9 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
+    "husky": "^9.1.7",
     "jsdom": "^27.2.0",
+    "lint-staged": "^16.2.7",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
