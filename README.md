@@ -28,13 +28,13 @@ While the `./supabase` directory in this repo could be elsewhere (e.g. it's own 
 
 Generate migrations using the [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started):
 
-```
+```bash
 npx supabase migration new [name_of_migration]
 ```
 
 Open the file generated and write the migration, considering best practices for data (constraints, indexes, unique indexes, timestamps, etc). When your migration is ready, lint and format it with `npm run lint:sql`, then perform the migration locally:
 
-```
+```bash
 npx supabase migration up
 ```
 
@@ -49,8 +49,10 @@ When merged to `main`, the migration will run automatically in the Supabase prod
 #### Recommended
 
 Configure your text editor with the following linters:
+- [ActionLint](https://github.com/rhysd/actionlint) NOTE: this is not included as a direct dependency of the project. You can install it with [Homebrew](https://formulae.brew.sh/formula/actionlint).
 - [ESLint](https://eslint.org/)
 - [SQLFluff](https://www.sqlfluff.com/) NOTE: this is not included as a direct dependency of the project. You can install it with [Homebrew](https://formulae.brew.sh/formula/sqlfluff).
+- [YAMLLint](https://github.com/adrienverge/yamllint) NOTE: this is not included as a direct dependency of the project. You can install it with [Homebrew](https://formulae.brew.sh/formula/yamllint).
 
 ### Pre-commit
 

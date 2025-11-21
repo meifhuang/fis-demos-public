@@ -1,4 +1,5 @@
 {
+  "**/*.sql": ["./scripts/sqlfluff lint", "supabase db lint"],
   "**/*.{js,ts,jsx,tsx}": ["eslint"],
-  "**/*.sql": ["./scripts/sqlfluff lint", "supabase db lint"]
+  "**/*.{yaml,yml}": ["./scripts/yamllint"]
 }
