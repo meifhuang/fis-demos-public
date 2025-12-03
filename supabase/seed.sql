@@ -1,17 +1,26 @@
--- Seed fake_learner_profiles
-insert into fake_learner_profiles
-(label, age, reading_level, interests)
+-- Seed learner_profiles
+insert into learner_profiles
+(label, age, reading_level, experience, interests)
 values
 (
     '7th grader', 12, 5,
+    $experience$
+Has completed introductory STEM activities and basic robotics challenges.
+$experience$,
     array['Robotics', 'Graphic novels', 'Animals']
 ),
 (
     'High school junior', 16, 9,
+    $experience$
+Has taken several high-school science courses and completed independent creative projects.
+$experience$,
     array['Basketball', 'Hip-hop production', 'Science fiction']
 ),
 (
     '4th grader', 9, 3,
+    $experience$
+Has explored early elementary science units and enjoys hands-on learning projects.
+$experience$,
     array['Dinosaurs', 'Drawing', 'Minecraft']
 );
 
