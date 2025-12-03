@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# pg-schema-dump wrapper
+# https://www.npmjs.com/package/pg-schema-dump
+
+OUT_DIR=${1:-"./supabase/schema"}
+
+rm -rf "${OUT_DIR}"
+
+npx pg-schema-dump dump-tree "${OUT_DIR}" -h localhost -p 54322 -U postgres -W postgres
+
+# This file is not useful to us and creates noise because its generation is
+# non-deterministic.
+rm -f "${OUT_DIR}"/**/grants.sql
+
+# Remove any empty generated files
+find "${OUT_DIR}" -type f -empty -delete

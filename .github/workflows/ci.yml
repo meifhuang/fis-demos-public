@@ -10,8 +10,8 @@ on:  # yamllint disable-line rule:truthy
       - main
 
 jobs:
-  lint-test:
-    name: "Lint, Test"
+  lint_and_test:
+    name: "Lint & Test"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +44,16 @@ jobs:
 
       - name: Run integration tests
         run: npm run test:integration
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start DB
+        run: supabase db start
+
+      - name: Run DB tests
+        run: supabase test db
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
