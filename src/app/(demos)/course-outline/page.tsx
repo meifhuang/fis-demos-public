@@ -3,10 +3,10 @@
 import { CourseOutlineRecord } from "@/types/demos/course-outline";
 import ListView from "../_components/List";
 import CourseOutlineListRecord from "./_components/CourseOutlineListRecord";
-import { useCourseOutlines } from "@demos/course-outline/_store";
+import { useCourseOutlinesList } from "./_store";
 
 export default function CourseOutlineDemoPage() {
-  const { data: outlines, isLoading, isError, error } = useCourseOutlines();
+  const { data: outlines, isLoading, isError, error } = useCourseOutlinesList();
 
   if (isError) {
     return <p>Error loading courses: {error.message}</p>;

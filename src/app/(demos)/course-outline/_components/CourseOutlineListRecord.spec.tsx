@@ -1,121 +1,109 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, test, expect, vi, beforeEach, Mock } from "vitest"; // Import Mock for type assertion
+import "@testing-library/jest-dom";
+import { CourseOutlineRecord } from "@/types/demos/course-outline"; // Adjust path as necessary
+import { useRouter } from "next/navigation";
 import CourseOutlineListRecord from "./CourseOutlineListRecord";
-import * as HeroUI from "@heroui/react";
-import LearnerProfileChip from "@/components/learner-profile/LearnerProfileChip";
-import { CourseOutlineRecord } from "@/types";
 
-// --- MOCK DATA ---
-// Create a mock record matching the expected structure of CourseOutlineRecord
-const MOCK_COURSE_RECORD = {
-  id: "1",
-  title: "Introduction to JavaScript",
-  description:
-    "A comprehensive course covering JS fundamentals and DOM manipulation.",
-  numberOfLessons: 15,
-  durationValue: 45,
-  durationUnit: "minutes" as "minutes" | "hours",
-  learnerProfileId: "101",
-};
-
-// --- MOCKING DEPENDENCIES ---
-
-vi.mock("@heroui/react", () => ({
-  Button: vi.fn(({ children, startContent, ...props }) => (
-    <button data-testid="mock-button" {...props}>
-      {startContent}
-      {children}
-    </button>
-  )),
+// Mock the next/navigation useRouter
+vi.mock("next/navigation", () => ({
+  useRouter: vi.fn(),
 }));
 
-vi.mock("@/components/learner-profile/LearnerProfileChip", () => ({
-  default: vi.fn((props) => (
-    <div data-testid="mock-learner-chip" {...props}>
-      Learner ID: {props.learnerProfileId}
-    </div>
-  )),
-}));
+// Mock the LearnerProfileChip component as it's an external dependency
+vi.mock("@/components/learner-profile/LearnerProfileChip", () => {
+  return {
+    default: ({ learnerProfileId, className, ...props }: any) => (
+      <div data-testid="mock-learner-chip" {...props}>
+        Learner Profile: {learnerProfileId}
+      </div>
+    ),
+  };
+});
 
 describe("CourseOutlineListRecord", () => {
-  const MockButton = vi.mocked(HeroUI.Button);
+  const mockRecord: CourseOutlineRecord = {
+    id: "course-123",
+    title: "Advanced Testing Strategies",
+    description: "Learn property-based testing and fuzzing.",
+    durationValue: 60,
+    durationUnit: "minutes",
+    numberOfLessons: 5,
+    learnerProfileId: "senior-engineer",
+  } as CourseOutlineRecord; // Cast to ensure all required fields are present
+
+  const mockPush = vi.fn();
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Reset mock before each test
+    mockPush.mockClear();
+    // FIX: Use the imported 'Mock' type for assertion
+    (useRouter as Mock).mockReturnValue({
+      push: mockPush,
+    });
   });
 
-  // --- CONTENT RENDERING TESTS ---
+  // Test 1: Component renders correctly with all data points
+  test("should render course details and learner chip correctly", () => {
+    render(<CourseOutlineListRecord record={mockRecord} />);
 
-  it("renders the title, description, and lesson details correctly", () => {
-    render(<CourseOutlineListRecord record={MOCK_COURSE_RECORD} />);
-
-    // Title
+    // Title and Description
     expect(
-      screen.getByRole("heading", { name: /introduction to javascript/i })
-    ).toBeInTheDocument();
-
-    // Description
+      screen.getByTestId("course-outline-list-record-title")
+    ).toHaveTextContent(mockRecord.title);
     expect(
-      screen.getByText(MOCK_COURSE_RECORD.description)
-    ).toBeInTheDocument();
+      screen.getByTestId("course-outline-list-record-description")
+    ).toHaveTextContent(mockRecord.description);
 
-    // Time per lesson
-    expect(screen.getByText(/45 minutes per lesson/i)).toBeInTheDocument();
+    // Duration/Lesson details
+    expect(
+      screen.getByTestId("course-outline-list-time-per-lesson")
+    ).toHaveTextContent("60 minutes per lesson");
+    expect(
+      screen.getByTestId("course-outline-list-total-lessons")
+    ).toHaveTextContent("5 total lessons");
 
-    // Total lessons
-    expect(screen.getByText(/15 total lessons/i)).toBeInTheDocument();
-  });
-
-  it("handles singular unit correctly when the plural ends in 's' (e.g., 'days' -> 'day')", () => {
-    // Test case: 1 day (singular)
-    const singularRecord: CourseOutlineRecord = {
-      ...MOCK_COURSE_RECORD,
-      durationValue: 1,
-      durationUnit: "hours", // Plural unit provided
-    };
-    render(<CourseOutlineListRecord record={singularRecord} />);
-
-    const durationElement = screen.getByTestId(
-      "course-outline-list-time-per-lesson"
-    );
-    // "days" should be sliced to "day"
-    expect(durationElement).toHaveTextContent("1 hour per lesson");
-    expect(durationElement).not.toHaveTextContent("1 hours per lesson");
-  });
-
-  // --- CHILD COMPONENT ASSERTIONS ---
-
-  it("renders the LearnerProfileChip with the correct ID", () => {
-    const MockLearnerProfileChip = vi.mocked(LearnerProfileChip);
-    render(<CourseOutlineListRecord record={MOCK_COURSE_RECORD} />);
-
-    // 1. Check that the mock component was called
-    expect(MockLearnerProfileChip).toHaveBeenCalledTimes(1);
-
-    // 2. Check that the component received the correct ID prop
-    expect(MockLearnerProfileChip).toHaveBeenCalledWith(
-      expect.objectContaining({
-        learnerProfileId: MOCK_COURSE_RECORD.learnerProfileId,
-        className: "mt-2",
-      }),
-      undefined
-    );
-
-    // 3. Check for the element in the DOM
+    // Learner chip
     expect(
       screen.getByTestId("course-outline-list-learner-chip")
-    ).toHaveTextContent("Learner ID: 101");
+    ).toHaveTextContent("Learner Profile: senior-engineer");
   });
 
-  it("renders the View and Edit buttons with correct props and icons", () => {
-    render(<CourseOutlineListRecord record={MOCK_COURSE_RECORD} />);
+  // Test 2: Handles singular duration unit correctly (e.g., 1 hour, not 1 hours)
+  test("should handle singular duration unit", () => {
+    const singleLessonRecord = {
+      ...mockRecord,
+      durationValue: 1,
+      durationUnit: "hours",
+    } as CourseOutlineRecord;
 
-    // 2. Assert Button component was called exactly twice (View and Edit)
-    expect(MockButton).toHaveBeenCalledTimes(2);
+    render(<CourseOutlineListRecord record={singleLessonRecord} />);
+    expect(
+      screen.getByTestId("course-outline-list-time-per-lesson")
+    ).toHaveTextContent("1 hour per lesson");
+  });
+
+  // Test 3: View button navigates to the view route
+  test("should navigate to view route when View button is clicked", () => {
+    render(<CourseOutlineListRecord record={mockRecord} />);
 
     const viewButton = screen.getByTestId("course-outline-list-button-view");
-    const editButton = screen.getByTestId("course-outline-list-button-edit");
+    fireEvent.click(viewButton);
 
-    expect(viewButton).toBeInTheDocument();
-    expect(editButton).toBeInTheDocument();
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith(`/course-outline/${mockRecord.id}`);
+  });
+
+  // Test 4: Edit button navigates to the edit route
+  test("should navigate to edit route when Edit button is clicked", () => {
+    render(<CourseOutlineListRecord record={mockRecord} />);
+
+    const editButton = screen.getByTestId("course-outline-list-button-edit");
+    fireEvent.click(editButton);
+
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith(
+      `/course-outline/${mockRecord.id}/edit`
+    );
   });
 });

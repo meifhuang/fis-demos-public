@@ -9,6 +9,26 @@ export interface CourseOutlineRecord extends BaseListRecord {
   learnerProfileId: string;
 }
 
+export interface CourseOutlineDetail extends CourseOutlineRecord {
+  lessons: Lesson[];
+}
+
 export interface CourseOutlineFormState extends CourseOutlineRecord {
   customization: string;
+}
+
+export interface LessonContentBlock {
+  rationale: string;
+  assessment_format: string;
+}
+
+export interface Lesson {
+  title: string;
+  duration: string;
+  introduction: LessonContentBlock;
+  context: LessonContentBlock;
+  example: LessonContentBlock;
+  activity: LessonContentBlock;
+  assessment: LessonContentBlock;
+  reflection: LessonContentBlock;
 }

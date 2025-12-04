@@ -1,2 +1,2 @@
-export * from "./useCourseOutlines";
+export * from "./useCourseOutlinesList";
 export * from "./useCreateCourseOutline";

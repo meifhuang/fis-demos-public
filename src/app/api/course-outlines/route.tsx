@@ -22,7 +22,7 @@ const mockCourseOutlines: CourseOutlineRecord[] = [
     numberOfLessons: 8,
     durationValue: 75,
     durationUnit: "minutes",
-    learnerProfileId: "2", // Assigned Maya
+    learnerProfileId: "2", // Assigned Maya,
   },
   {
     id: "3",

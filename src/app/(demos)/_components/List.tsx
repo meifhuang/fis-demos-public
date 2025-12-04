@@ -5,7 +5,6 @@ import { Button, Card, Divider, Link } from "@heroui/react";
 import ListSkeleton from "./ListSkeleton";
 import { Plus } from "lucide-react";
 
-// Use a generic function component to accept any type that extends BaseRecord
 export default function ListView<T extends BaseListRecord>({
   records,
   title,

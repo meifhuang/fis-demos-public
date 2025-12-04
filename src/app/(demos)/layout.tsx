@@ -1,3 +1,5 @@
+import BackButton from "@/components/BackButton";
+
 export default function DemoLayout({
   children,
 }: {
@@ -5,6 +7,7 @@ export default function DemoLayout({
 }) {
   return (
     <div className="max-w-5xl flex flex-col items-center mx-auto p-6">
+      <BackButton className="self-start mb-4" />
       {children}
     </div>
   );
