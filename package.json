@@ -12,7 +12,6 @@
     "lint:db": "supabase db lint",
     "lint:sql": "./scripts/sqlfluff lint",
     "lint:yaml": "./scripts/yamllint .",
-    "test:db": "supabase test db",
     "test:unit": "vitest spec",
     "test:integration": "vitest test",
     "test": "vitest --reporter=html --coverage",
