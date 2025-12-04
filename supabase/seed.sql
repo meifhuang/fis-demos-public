@@ -75,3 +75,57 @@ A **simple machine** is a tool that makes work easier by changing the direction 
 Example: Using a ramp (inclined plane) to move a heavy box requires less force than lifting it straight up. Learning about simple machines helps students understand mechanics and physics in everyday life.
 $md$
 );
+
+-- Seed course_outlines
+insert into course_outlines
+(title, description, creation_meta, lesson_outlines)
+values
+(
+    'Introduction to Atoms',
+    $description$
+This course provides instructors with a structured framework to teach students about the fundamental building blocks of matter: atoms. Instructors will guide students from the broad concept of matter to the detailed structure of atoms, exploring subatomic particles, their properties, and how atomic arrangements influence real-world phenomena. The course emphasizes clear, conceptual explanations and practical examples to help students connect atomic theory to everyday experiences and scientific observations.
+$description$,
+    $creation_meta$
+{
+  "source_material": {
+    "title": "What is an atom?",
+    "content": "Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.\n- **Protons** have a positive charge and sit in the center, called the **nucleus**.\n- **Neutrons** have no charge and are also in the nucleus.\n- **Electrons** have a negative charge and orbit around the nucleus.\nLearning about atoms helps us understand chemistry, biology, and physics.\nFor example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms."
+  },
+  "learner_profile": {
+    "label": "7th grader",
+    "age": 12,
+    "reading_level": 5,
+    "experience": "Has completed introductory STEM activities and basic robotics challenges.",
+    "interests": ["Robotics", "Graphic novels", "Animals"]
+  }
+}
+$creation_meta$,
+    $lesson_outlines$
+[
+  {
+    "title": "Lesson 1: What Is Matter Made Of?",
+    "outcome": "Students understand that atoms are the basic building blocks of all matter and can identify everyday examples that rely on atoms.",
+    "description": "Introduce the concept of matter and explain that everything is made of atoms. Establish scale and smallness, preparing students to explore atomic structure in detail.",
+    "minutes": 15
+  },
+  {
+    "title": "Lesson 2: Inside the Atom",
+    "outcome": "Students can describe the three main subatomic particles and their roles: protons, neutrons, and electrons.",
+    "description": "Break down the structure of an atom, focusing on the nucleus (protons and neutrons) and electron orbits. Highlight charges and placement of each particle.",
+    "minutes": 15
+  },
+  {
+    "title": "Lesson 3: Why Structure Matters",
+    "outcome": "Students understand how the arrangement and charges of subatomic particles influence atomic behavior.",
+    "description": "Connect particle properties to atomic stability, bonding, and interactions. Use conceptual models to show why electrons orbit and how charge affects behavior.",
+    "minutes": 15
+  },
+  {
+    "title": "Lesson 4: Atoms in the Real World",
+    "outcome": "Students can explain how atoms relate to real scientific phenomena such as molecules, reactions, and material differences.",
+    "description": "Apply atomic concepts to chemistry and everyday examples. Introduce molecules, chemical reactions, and why different materials behave differently based on atomic structure.",
+    "minutes": 15
+  }
+]
+$lesson_outlines$
+);

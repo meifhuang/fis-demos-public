@@ -57,7 +57,7 @@
     "jsdom": "^27.2.0",
     "lint-staged": "^16.2.7",
     "pg-schema-dump": "^2.0.2",
-    "supabase": "^2.64.2",
+    "supabase": "^2.65.3",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
