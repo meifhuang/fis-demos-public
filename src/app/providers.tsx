@@ -1,6 +1,6 @@
 "use client";
 
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {process.env.NODE_ENV === "development" && (
         <ReactQueryDevtools initialIsOpen={false} />
       )}
-      <HeroUIProvider navigate={router.push}>{children}</HeroUIProvider>
+      <HeroUIProvider navigate={router.push}>
+        <ToastProvider placement="bottom-left" />
+        {children}
+      </HeroUIProvider>
     </QueryClientProvider>
   );
 }

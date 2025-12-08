@@ -1,5 +1,3 @@
-// CourseOutline API Logic (e.g., in a file like src/api/course.ts)
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CourseOutlineDetail } from "@/types";
 import { courseKeys } from "./keys";

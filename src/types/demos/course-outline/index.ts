@@ -22,13 +22,16 @@ export interface LessonContentBlock {
   assessment_format: string;
 }
 
-export interface Lesson {
-  title: string;
-  duration: string;
+export interface LessonSections {
   introduction: LessonContentBlock;
   context: LessonContentBlock;
   example: LessonContentBlock;
   activity: LessonContentBlock;
   assessment: LessonContentBlock;
   reflection: LessonContentBlock;
+}
+
+export interface Lesson extends LessonSections {
+  title: string;
+  duration: string;
 }

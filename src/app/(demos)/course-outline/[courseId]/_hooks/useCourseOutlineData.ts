@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { CourseOutlineDetail, Lesson, LessonContentBlock } from "@/types";
-import { useCourseOutlineDetail } from "../../_store/useCourseOutlineDetail";
-import { useUpdateCourseOutline } from "../../_store/useUpdateCourseOutline";
+import { useCourseOutlineDetail, useUpdateCourseOutline } from "../../_store";
 
 const isCourseModified = (
   courseA?: CourseOutlineDetail,
