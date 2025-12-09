@@ -51,6 +51,7 @@ test("3. Shows the correct description for each tool", async ({ page }) => {
 
 test("4. Quiz Generator card navigates to /quiz-generator and verifies the heading", async ({
   page,
+  quizGeneratorPage,
 }) => {
   // Find the button inside the Quiz Generator card (first button on the page)
   const quizCardButton = page.getByRole("button", { name: "View Demo" }).nth(0);
@@ -61,9 +62,8 @@ test("4. Quiz Generator card navigates to /quiz-generator and verifies the headi
   await expect(page).toHaveURL(ROUTES.quizGenerator);
 
   // ASSERTION: Verify the content on the new page
-  await expect(
-    page.getByRole("heading", { name: "Quiz Generator Demo" })
-  ).toBeVisible();
+
+  await expect(quizGeneratorPage.heading).toBeVisible();
 });
 
 test("5. Content Mapping card navigates to /course-outline and verifies the heading", async ({

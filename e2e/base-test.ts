@@ -59,8 +59,8 @@ export const test = base.extend<CustomFixtures>({
 
   // Demos
   quizGeneratorPage: async ({ page }, use) => {
-    const profilePage = new ProfilePage(page);
-    await use(profilePage);
+    const quizPage = new QuizGeneratorPage(page);
+    await use(quizPage);
   },
   personalizedContentPage: async ({ page }, use) => {
     const personalizedContentPage = new PersonalizedContentPage(page);
