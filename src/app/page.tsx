@@ -32,6 +32,12 @@ export default function Home() {
             description={`Instantly rewrite any text or document into a format, tone, and complexity level that perfectly matches the individual learner's needs.`}
             href="/personalized-content"
           ></DemoCard>
+          <DemoCard
+            imageSource="/lesson-plan-thumbnail.png"
+            title="Lesson Planner"
+            description={`Plan your lessons perfectly based around the individual's unique profile.`}
+            href="/lesson-plan"
+          ></DemoCard>
         </div>
       </DashboardSection>
     </>
