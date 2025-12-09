@@ -12,17 +12,20 @@
     "lint:db": "supabase db lint",
     "lint:sql": "./scripts/sqlfluff lint",
     "lint:yaml": "./scripts/yamllint .",
-    "test:unit": "vitest spec",
-    "test:integration": "vitest test",
     "test": "vitest --reporter=html --coverage",
+    "test:cli": "vitest --coverage",
+    "test:integration": "vitest test",
+    "test:unit": "vitest spec",
     "e2e": "playwright test",
     "e2e:report": "playwright show-report",
     "prepare": "husky",
     "db:dump": "./scripts/db-dump",
-    "db:migrate": "supabase migration up && npm run db:dump",
-    "db:reset": "supabase db reset && npm run db:dump",
+    "db:migrate": "supabase migration up && npm run db:sync",
+    "db:reset": "supabase db reset && npm run db:sync",
+    "db:reset:test": "node scripts/db-reset-test.js",
     "db:start": "supabase start",
-    "db:status": "supabase status"
+    "db:status": "supabase status",
+    "db:sync": "npm run db:reset:test && npm run db:dump"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
@@ -33,6 +36,7 @@
     "lucide-react": "^0.555.0",
     "next": "16.0.7",
     "next-router-mock": "^1.0.4",
+    "pg": "^8.16.3",
     "react": "19.2.1",
     "react-dom": "19.2.1"
   },

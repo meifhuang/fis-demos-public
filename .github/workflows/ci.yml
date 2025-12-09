@@ -13,6 +13,8 @@ jobs:
   lint_and_test:
     name: "Lint & Test"
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,6 +40,12 @@ jobs:
 
       - name: Run SQLFluff
         run: sqlfluff lint .
+
+      - name: Run Supabase
+        run: npm run db:start
+
+      - name: Run migrations
+        run: npm run db:migrate
 
       - name: Run unit tests
         run: npm run test:unit
