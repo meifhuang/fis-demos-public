@@ -14,10 +14,11 @@ import {
 } from "@heroui/react";
 import { BookOpen, Clock, User, Send } from "lucide-react";
 import React, { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CourseOutlineForm() {
   const [formData, setFormData] = useState<CourseOutlineFormState>({
-    id: "",
+    id: "1",
     title: "",
     description: "",
     numberOfLessons: 1,
@@ -31,19 +32,33 @@ export default function CourseOutlineForm() {
   const { mutate: createCourse, isPending: isSubmitting } =
     useCreateCourseOutline();
 
+  const router = useRouter();
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Convert number fields back to number immediately, as inputs return strings
+    if (name === "numberOfLessons") {
+      const numValue = Number(value);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: isNaN(numValue) || value === "" ? 0 : numValue,
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  // Handler for the new duration number input
+  // Handler for the duration number input
   const handleDurationValueChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = e.target;
-    const numValue = Number(value) ?? 0;
+
+    // If the input is cleared, set to 0. Otherwise, convert to number.
+    const numValue = value === "" ? 0 : Number(value);
 
     if (!isNaN(numValue) && numValue >= 0) {
       setFormData((prev: CourseOutlineFormState) => ({
@@ -72,9 +87,10 @@ export default function CourseOutlineForm() {
     return (
       title.trim().length > 0 &&
       description.trim().length > 0 &&
+      // Check that lessons is a number greater than 0
       typeof numberOfLessons === "number" &&
       numberOfLessons > 0 &&
-      // Check that durationValue is a positive number
+      // Check that durationValue is a number greater than 0
       typeof durationValue === "number" &&
       durationValue > 0 &&
       learnerProfileId !== ""
@@ -87,8 +103,7 @@ export default function CourseOutlineForm() {
       // Structure data for API submission
       const submissionData = {
         ...formData,
-        numberOfLessons: Number(formData.numberOfLessons),
-        // Construct the final timePerLesson string for submission
+        // numberOfLessons is already a number due to handleChange fix
         timePerLesson: `${formData.durationValue} ${formData.durationUnit}`,
         // Find the full name for context in the mock
         learnerProfileName: profiles?.find(
@@ -97,6 +112,8 @@ export default function CourseOutlineForm() {
       };
 
       createCourse(submissionData);
+
+      router.push(`/course-outline/${submissionData.id}/edit`);
     }
   };
 
@@ -143,7 +160,7 @@ export default function CourseOutlineForm() {
               startContent={<BookOpen size={18} />}
               placeholder="e.g., 10"
               value={String(formData.numberOfLessons)}
-              onChange={handleChange}
+              onChange={handleChange} // Uses updated handleChange
               labelPlacement="outside"
               min={1}
               required
@@ -158,7 +175,7 @@ export default function CourseOutlineForm() {
                 type="number"
                 placeholder="Value"
                 value={String(formData.durationValue)}
-                onChange={handleDurationValueChange}
+                onChange={handleDurationValueChange} // Uses updated handler
                 startContent={<Clock size={18} />}
                 labelPlacement="outside"
                 min={1}
@@ -238,7 +255,6 @@ export default function CourseOutlineForm() {
                 <Send size={18} />
               )
             }
-            onSubmit={handleSubmit}
           >
             {isSubmitting
               ? "Creating Course Outline..."
