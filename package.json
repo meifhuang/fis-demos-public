@@ -16,6 +16,7 @@
     "test": "vitest --reporter=html --coverage",
     "test:cli": "vitest --coverage",
     "test:integration": "vitest test",
+    "test:serial": "vitest --coverage --no-file-parallelism",
     "test:unit": "vitest spec",
     "e2e": "playwright test",
     "e2e:report": "playwright show-report",

@@ -51,7 +51,7 @@ jobs:
         run: npm run db:reset:test
 
       - name: Run unit tests
-        run: npm run test:unit
+        run: npm run test:serial
 
       - name: Run integration tests
         run: npm run test:integration
