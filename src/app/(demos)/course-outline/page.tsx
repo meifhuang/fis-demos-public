@@ -1,6 +1,6 @@
 "use client";
 
-import { CourseOutlineRecord } from "@/types/demos/course-outline";
+import { CourseOutline } from "./_models";
 import ListView from "../_components/List";
 import CourseOutlineListRecord from "./_components/CourseOutlineListRecord";
 import { useCourseOutlinesList } from "./_store";
@@ -13,7 +13,7 @@ export default function CourseOutlineDemoPage() {
   }
 
   return (
-    <ListView<CourseOutlineRecord>
+    <ListView<CourseOutline>
       records={outlines ?? []}
       title="Course Outlines"
       createNewRoute="/course-outline/create"

@@ -25,6 +25,7 @@ const factories = {
   learnerProfile(overrides = {}) {
     return {
       age: faker.number.int({ min: 8, max: 120 }),
+      experience: faker.lorem.sentence(),
       interests: faker.lorem.words().split(" "),
       label: faker.person.firstName(),
       reading_level: faker.number.int({ min: 0, max: 12 }),

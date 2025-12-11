@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
 // Mock the LearnerProfileChip component as it's an external dependency
 vi.mock("@/components/learner-profile/LearnerProfileChip", () => {
   return {
-    default: ({ learnerProfileId, className, ...props }: any) => (
+    default: ({ learnerProfileId,...props }: { learnerProfileId: string }) => (
       <div data-testid="mock-learner-chip" {...props}>
         Learner Profile: {learnerProfileId}
       </div>

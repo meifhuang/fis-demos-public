@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { CourseOutlineRecord } from "@/types";
+import { CourseOutline } from "../_models";
 import { courseKeys } from "./keys";
-import { fetchCourseOutlinesList } from "@/app/api/course-outlines/courseOutlineApi";
+import { getCourseOutlines } from "../_fetchers";
+import { useQuery } from "@tanstack/react-query";
 
 /**
- * Hook to fetch the list of CourseOutlineRecord summaries.
+ * Hook to fetch the list of CourseOutlines
  */
 export const useCourseOutlinesList = () => {
-  const query = useQuery<CourseOutlineRecord[], Error>({
+  const query = useQuery<CourseOutline[], Error>({
     queryKey: courseKeys.list(),
-    queryFn: fetchCourseOutlinesList,
+    queryFn: getCourseOutlines,
   });
 
   return query;

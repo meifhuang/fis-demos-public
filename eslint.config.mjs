@@ -30,8 +30,7 @@ const eslintConfig = defineConfig([
     "coverage/**",
     "html/**",
     "next-env.d.ts",
-    "out/**",
-    "**/*.spec.tsx",
+    "out/**"
   ]),
 ]);
 

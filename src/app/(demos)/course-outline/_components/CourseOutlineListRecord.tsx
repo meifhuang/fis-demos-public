@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-import LearnerProfileChip from "@/components/learner-profile/LearnerProfileChip";
-import { CourseOutlineRecord } from "@/types/demos/course-outline";
+import { LearnerProfileChip } from "@/lib/learner-profiles";
+import { CourseOutline } from "../_models";
 import { Button, addToast, useDisclosure } from "@heroui/react";
 import { Edit2, Eye, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ import { useDeleteCourseOutline } from "../_store/useDeleteCourseOutline";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 interface CourseOutlineListRecordProps {
-  record: CourseOutlineRecord;
+  record: CourseOutline;
 }
 
 export default function CourseOutlineListRecord({
@@ -89,22 +89,18 @@ export default function CourseOutlineListRecord({
               data-testid="course-outline-list-time-per-lesson"
               className="flex items-center text-gray-600"
             >
-              {record.durationValue}{" "}
-              {record.durationValue === 1
-                ? record.durationUnit.slice(0, -1)
-                : record.durationUnit}{" "}
-              per lesson
+              {`${record.totalMinutes} minute${record.totalMinutes === 1 ? "" : "s"}`} total
             </p>
             <p
               data-testid="course-outline-list-total-lessons"
               className="flex items-center gap-2 text-gray-600"
             >
-              {record.numberOfLessons} total lessons
+              {`${record.lessonOutlineCount} lesson${record.lessonOutlineCount === 1 ? "" : "s"}`}
             </p>
           </div>
           <LearnerProfileChip
             data-testid="course-outline-list-learner-chip"
-            learnerProfileId={record.learnerProfileId}
+            learnerProfile={record.learnerProfile}
             className="mt-2"
           />
         </div>

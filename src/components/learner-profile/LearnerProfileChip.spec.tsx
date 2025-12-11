@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import LearnerProfileChip from "./LearnerProfileChip";
 import { LearnerProfile } from "@/types";
 import { useLearnerProfiles } from "@demos/_store/useLearnerProfiles";
@@ -65,7 +65,7 @@ vi.mock("@heroui/react", async (importOriginal) => {
     PopoverContent: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="popover-content">{children}</div>
     ),
-    Spinner: (props: any) => <div data-testid="mock-spinner" {...props} />,
+    Spinner: (props) => <div data-testid="mock-spinner" {...props} />,
   };
 });
 

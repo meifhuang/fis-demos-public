@@ -1,47 +1,21 @@
+import * as Sentry from "@sentry/nextjs";
 import { NextResponse } from "next/server";
-import { CourseOutlineRecord } from "@/types"; // Adjust path as needed
-
-// --- MOCK COURSE OUTLINE DATA ---
-
-const mockCourseOutlines: CourseOutlineRecord[] = [
-  {
-    id: "1",
-    title: "JavaScript Fundamentals for the Web",
-    description:
-      "A beginner-friendly course covering variables, control flow, DOM manipulation, and modern ES6 features.",
-    numberOfLessons: 12,
-    durationValue: 45,
-    durationUnit: "minutes",
-    learnerProfileId: "1", // Assigned Liam
-  },
-  {
-    id: "2",
-    title: "Python & Pandas for Data Storytelling",
-    description:
-      "Learn to use Python (Pandas and Matplotlib) to analyze educational data and create compelling visualizations.",
-    numberOfLessons: 8,
-    durationValue: 75,
-    durationUnit: "minutes",
-    learnerProfileId: "2", // Assigned Maya,
-  },
-  {
-    id: "3",
-    title: "Building Secure APIs with Node.js",
-    description:
-      "Intermediate course focusing on server-side security, authentication (JWT), and protecting web applications from common attacks.",
-    numberOfLessons: 10,
-    durationValue: 1,
-    durationUnit: "hours",
-    learnerProfileId: "3", // Assigned Chloe
-  },
-];
+import { getClient } from "@/lib/supabase";
 
 /**
- * Handles GET requests for the course outline records.
+ * Index course outlines
  */
 export async function GET() {
-  // Simulate a network delay (optional)
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const supabase = getClient();
 
-  return NextResponse.json(mockCourseOutlines, { status: 200 });
+  const { data, error } = await supabase
+    .from("course_outlines")
+    .select("*");
+
+  if (error) {
+    Sentry.captureException(error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data, { status: 200 });
 }

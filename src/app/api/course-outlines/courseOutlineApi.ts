@@ -1,16 +1,4 @@
-import { CourseOutlineDetail, CourseOutlineRecord } from "@/types";
-
-/**
- * Fetches the list of course outlines (CourseOutlineRecord array).
- * Corresponds to: GET /course-outlines
- */
-const fetchCourseOutlinesList = async (): Promise<CourseOutlineRecord[]> => {
-  const response = await fetch("/api/course-outlines");
-  if (!response.ok) {
-    throw new Error("Failed to fetch course list.");
-  }
-  return response.json();
-};
+import { CourseOutlineDetail } from "@/types";
 
 /**
  * Fetches the detailed course outline object (CourseOutlineDetail).
@@ -26,4 +14,4 @@ const fetchCourseOutlineDetail = async (
   return response.json();
 };
 
-export { fetchCourseOutlinesList, fetchCourseOutlineDetail };
+export { fetchCourseOutlineDetail };
