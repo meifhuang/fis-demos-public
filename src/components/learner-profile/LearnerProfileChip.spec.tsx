@@ -65,7 +65,7 @@ vi.mock("@heroui/react", async (importOriginal) => {
     PopoverContent: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="popover-content">{children}</div>
     ),
-    Spinner: (props) => <div data-testid="mock-spinner" {...props} />,
+    Spinner: (props: any) => <div data-testid="mock-spinner" {...props} />, // eslint-disable-line @typescript-eslint/no-explicit-any
   };
 });
 

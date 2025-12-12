@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import CourseOutlineListRecord from "./CourseOutlineListRecord";
 import { CourseOutline } from "../_models";
+import { LearnerProfile } from "@/lib/learner-profiles";
 import { describe, test, expect, vi, beforeEach, Mock } from "vitest";
 import { factory } from "@/test";
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -13,10 +14,10 @@ vi.mock("next/navigation", () => ({
 
 // Mock the LearnerProfileChip component as it's an external dependency
 vi.mock("@/lib/learner-profiles", async (importOriginal) => {
-  const actual = await importOriginal()
+  const actual = (await importOriginal()) as Partial<typeof import("@/lib/learner-profiles")>
   return {
     ...actual,
-    LearnerProfileChip: ({ learnerProfile, ...props }) => (
+    LearnerProfileChip: ({ learnerProfile, ...props }: { learnerProfile: LearnerProfile }) => (
       <div data-testid="mock-learner-chip" {...props}>
         Learner Profile: {learnerProfile.label}
       </div>
@@ -75,7 +76,7 @@ describe("CourseOutlineListRecord", () => {
     // Learner chip
     expect(
       screen.getByTestId("course-outline-list-learner-chip")
-    ).toHaveTextContent(`Learner Profile: ${record.learnerProfile.label}`);
+    ).toHaveTextContent(`Learner Profile: ${record.learnerProfile?.label}`);
   });
 
   test("should avoid impromper pluralization", () => {

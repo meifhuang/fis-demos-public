@@ -26,6 +26,9 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Run type check
+        run: npm run types:check
+
       - name: Run YAMLLint
         uses: karancode/yamllint-github-action@master
 

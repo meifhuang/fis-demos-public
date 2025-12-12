@@ -14,6 +14,7 @@ describe("factory", async () => {
     });
 
     it("throws for unknown factory", () => {
+      // @ts-expect-error Ensure unknown factories fail at run time
       expect(() => factory.build("unknownFactory"))
         .toThrow(/Unknown factory 'unknownFactory'/);
     });

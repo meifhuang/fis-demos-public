@@ -40,7 +40,7 @@ vi.mock("@heroui/react", async (importOriginal) => {
     PopoverContent: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="popover-content">{children}</div>
     ),
-    Spinner: (props) => <div data-testid="mock-spinner" {...props} />,
+    Spinner: (props: any) => <div data-testid="mock-spinner" {...props} />, // eslint-disable-line @typescript-eslint/no-explicit-any
   };
 });
 
@@ -99,12 +99,12 @@ describe("LearnerProfileChip", () => {
 
   describe("Snapshot Tests", () => {
     it("should match snapshot in Loading state", () => {
-      const { container } = render(<LearnerProfileChip isLoading />);
+      const { container } = render(<LearnerProfileChip learnerProfile={null} isLoading />);
       expect(container).toMatchSnapshot();
     });
 
     it("should match snapshot in Unknown Learner state", () => {
-      const { container } = render(<LearnerProfileChip data-testid="mock-chip"/>);
+      const { container } = render(<LearnerProfileChip learnerProfile={null} data-testid="mock-chip"/>);
       expect(container).toMatchSnapshot();
     });
 

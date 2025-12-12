@@ -41,12 +41,14 @@ describe("getClient", () => {
 
   it("uses the public schema by default", () => {
     const client = getClient();
+    // @ts-expect-error Using protected `rest` property to verify schema
     expect(client.rest.schemaName).toBe("public");
   });
 
   it("respects SUPABASE_DB_SCHEMA if set", () => {
     process.env.SUPABASE_DB_SCHEMA = "test_schema";
     const client = getClient();
+    // @ts-expect-error Using protected `rest` property to verify schema
     expect(client.rest.schemaName).toBe("test_schema");
   });
 });

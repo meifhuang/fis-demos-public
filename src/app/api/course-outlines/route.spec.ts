@@ -1,7 +1,10 @@
 import * as supabaseLib from "@/lib/supabase";
+import type { Database } from "@/types/database";
 import { GET } from "./route";
 import { describe, expect, it } from "vitest";
 import { prepareTestSchema } from "@/test";
+
+type CourseOutlineRow = keyof Database["public"]["Tables"]["course_outlines"]["Row"];
 
 describe("GET", async () => {
   const { factory } = await prepareTestSchema();
@@ -21,10 +24,10 @@ describe("GET", async () => {
   });
 
   describe("with records", async () => {
-    let courseOutline;
+    let courseOutline: CourseOutlineRow;
 
     beforeEach(async () => {
-      courseOutline = await factory.create("courseOutline");
+      courseOutline = await factory.create("courseOutline") as unknown as CourseOutlineRow;
     });
 
     it("responds with a 200 status", async () => {
@@ -45,6 +48,7 @@ describe("GET", async () => {
     beforeEach(() => {
       spy = vi.spyOn(supabaseLib, "getClient").mockReturnValue({
         from: () => ({
+          // @ts-expect-error Irrelevant type mismatch in mock
           select: async () => ({
             data: null,
             error: { message: "Simulated Supabase error" },

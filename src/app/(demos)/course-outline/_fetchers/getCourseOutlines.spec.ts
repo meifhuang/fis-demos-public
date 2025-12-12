@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach, Mock } from "vitest";
 import { getCourseOutlines } from "./getCourseOutlines";
 import { CourseOutlineRow, CourseOutline } from "../_models";
 import { factory } from "@/test"
@@ -18,7 +18,7 @@ describe("getCourseOutlines", () => {
   });
 
   it("fetches course outlines and returns CourseOutline instances", async () => {
-    (fetch as unknown as vi.Mock).mockResolvedValueOnce({
+    (fetch as unknown as Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => mockRows,
     });
@@ -34,7 +34,7 @@ describe("getCourseOutlines", () => {
   });
 
   it("throws an error when the fetch response is not ok", async () => {
-    (fetch as unknown as vi.Mock).mockResolvedValueOnce({
+    (fetch as unknown as Mock).mockResolvedValueOnce({
       ok: false,
     });
 

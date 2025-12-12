@@ -1,45 +1,51 @@
-import type { Database } from "@/types/database";
+import type { Database, Json } from "@/types/database";
+import { LessonOutline } from "@demos/course-outline/_models"
 import { faker } from '@faker-js/faker';
 import { getClient } from "@/lib/supabase";
 import { tableize, titleize, underscore } from 'inflection';
 
 type Table = keyof Database["public"]["Tables"];
-type TableInsert<T extends Table> = Database["public"]["Tables"][T]["Insert"];
+type TableRow<T extends Table> = Database["public"]["Tables"][T]["Row"];
 
-type CourseOutlineRow =
-  Database["public"]["Tables"]["course_outlines"]["Row"];
+type Factory = keyof typeof factories;
+type FactoryOutput<F extends Factory> = ReturnType<typeof factories[F]>;
 
 const factories = {
-  courseOutline(overrides = {}): Partial<CourseOutlineRow> {
+  courseOutline(): TableRow<"course_outlines"> {
+    const now = new Date().toISOString();
     return {
+      id: crypto.randomUUID(),
+      created_at: now,
+      updated_at: now,
       creation_meta: {
         learner_profile: build("learnerProfile"),
       },
       description: faker.lorem.sentence(),
-      lesson_outlines: buildList("lessonOutline", 2),
+      lesson_outlines: buildList("lessonOutline", 2) as unknown as Json,
       title: titleize(faker.lorem.words(3)),
-      ...overrides
     };
   },
 
-  learnerProfile(overrides = {}) {
+  learnerProfile(): TableRow<"learner_profiles"> {
+    const now = new Date().toISOString();
     return {
+      id: crypto.randomUUID(),
+      created_at: now,
+      updated_at: now,
       age: faker.number.int({ min: 8, max: 120 }),
       experience: faker.lorem.sentence(),
       interests: faker.lorem.words().split(" "),
       label: faker.person.firstName(),
       reading_level: faker.number.int({ min: 0, max: 12 }),
-      ...overrides
     };
   },
 
-  lessonOutline(overrides = {}) {
+  lessonOutline(): LessonOutline {
     return {
       title: faker.lorem.word(),
       outcome: faker.lorem.sentence(),
       description: faker.lorem.sentence(),
       minutes: faker.number.int({ min: 5, max: 90, multipleOf: 15 }),
-      ...overrides
     };
   }
 };
@@ -54,29 +60,30 @@ function snakeCaseKeys(input: any): any { // eslint-disable-line @typescript-esl
   return input;
 }
 
-export function build(
-  name: keyof typeof factories,
+export function build<F extends Factory> (
+  name: F,
   overrides = {}
-) {
-  if (!factories[name]) throw new Error(`Unknown factory '${name}'`);
+): FactoryOutput<F> {
+  const factory = factories[name];
+  if (!factory) throw new Error(`Unknown factory '${name}'`);
 
-  return factories[name](snakeCaseKeys(overrides));
+  return { ...factory(), ...(snakeCaseKeys(overrides)) } as FactoryOutput<F>
 }
 
-export function buildList(
-  name: keyof typeof factories,
+export function buildList<F extends Factory> (
+  name: F,
   length: number,
   overrides = {}
-) {
-  return Array.from({ length }, () => build(name, overrides));
+): FactoryOutput<F>[] {
+  return Array.from({ length }, () => build(name, overrides)) as FactoryOutput<F>[];
 }
 
-export async function create(
-  name: keyof typeof factories,
+export async function create<F extends Factory> (
+  name: F,
   overrides = {}
-) {
+): Promise<FactoryOutput<F>> {
   const table = tableize(name) as Table;
-  const entity = build(name, overrides) as TableInsert<typeof table>;
+  const entity = build(name, overrides) as TableRow<typeof table>;
 
   const supabase = getClient();
 
@@ -87,13 +94,16 @@ export async function create(
     .single();
 
   if (error) throw error;
-  return data;
+
+  return data as FactoryOutput<F>;
 }
 
-export async function createList(
-  name: keyof typeof factories,
+export async function createList<F extends Factory> (
+  name: F,
   length: number,
   overrides = {}
-) {
-  return Promise.all(Array.from({ length }, () => create(name, overrides)));
+): Promise<FactoryOutput<F>[]> {
+  return Promise.all(
+    Array.from({ length }, () => create(name, overrides)) as FactoryOutput<F>[]
+  );
 }

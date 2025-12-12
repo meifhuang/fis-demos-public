@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { LearnerProfile, LearnerProfileRow } from "./LearnerProfile";
+import { LearnerProfile } from "./LearnerProfile";
 import { factory } from "@/test"
 
 describe("LearnerProfile", () => {
-  const data: LearnerProfileRow = factory.build("learnerProfile");
+  const data = factory.build("learnerProfile");
   const profile = new LearnerProfile(data);
 
   it("returns the correct id", () => {
