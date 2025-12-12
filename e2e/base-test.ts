@@ -11,6 +11,7 @@ import { PersonalizedContentPage } from "./pages/demos/personalizedContent.pom";
 import { ProfilePage } from "./pages/profile.pom";
 import { MobileNavigationPage } from "./pages/mobileNavigation.pom";
 import { CourseOutlineCreatePage } from "./pages/demos/course-outline/courseOutlineCreate.pom";
+import { LessonPlanPage } from "./pages/demos/lesson-plan/lessonPlan.pom";
 
 type CustomFixtures = {
   // Dashboard
@@ -25,6 +26,7 @@ type CustomFixtures = {
   // Demos
   quizGeneratorPage: QuizGeneratorPage;
   personalizedContentPage: PersonalizedContentPage;
+  lessonPlanPage: LessonPlanPage;
 
   // Course Outline Generator
   courseOutlineListPage: CourseOutlineListPage;
@@ -65,6 +67,10 @@ export const test = base.extend<CustomFixtures>({
   personalizedContentPage: async ({ page }, use) => {
     const personalizedContentPage = new PersonalizedContentPage(page);
     await use(personalizedContentPage);
+  },
+  lessonPlanPage: async ({ page }, use) => {
+    const lessonPlanPage = new LessonPlanPage(page);
+    await use(lessonPlanPage);
   },
 
   // Course Outline Generator

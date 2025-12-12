@@ -11,7 +11,7 @@ test("1. Renders the main Adaptive Learning headline and intro text", async ({
   await expect(dashboardPage.introText).toBeVisible();
 });
 
-test("2. Renders all three Demo Cards with correct titles and links", async ({
+test("2. Renders all four Demo Cards with correct titles and links", async ({
   page,
   dashboardPage,
 }) => {
@@ -19,6 +19,7 @@ test("2. Renders all three Demo Cards with correct titles and links", async ({
   await expect(dashboardPage.quizGeneratorCardButton).toBeVisible();
   await expect(dashboardPage.courseOutlineCardButton).toBeVisible();
   await expect(dashboardPage.personalizedContentCardButton).toBeVisible();
+  await expect(dashboardPage.lessonPlanCardButton).toBeVisible();
 
   // Test 2: Verify the Quiz Generator card is linked correctly and has the description
   const quizCardButton = dashboardPage.quizGeneratorCardButton;
@@ -44,6 +45,10 @@ test("3. Shows the correct description for each tool", async ({ page }) => {
     page.getByText(
       /Instantly rewrite any text or document into a format, tone/i
     )
+  ).toBeVisible();
+
+  await expect(
+    page.getByText(/Plan your lessons perfectly based around/i)
   ).toBeVisible();
 });
 
@@ -101,4 +106,22 @@ test("6. Personalized Content card navigates to /personalized-content and verifi
   await expect(
     page.getByRole("heading", { name: "Personalized Content Demo" })
   ).toBeVisible();
+});
+
+test("7. Lesson Plan card navigates to /lesson-plan and verifies the heading", async ({
+  page,
+  lessonPlanPage,
+}) => {
+  // Find the button inside the Personalized Content card (third button on the page)
+  const lessonPlanButton = page
+    .getByRole("button", { name: "View Demo" })
+    .nth(3);
+
+  await lessonPlanButton.click();
+
+  // ASSERTION: Verify URL change
+  await expect(page).toHaveURL(ROUTES.lessonPlan);
+
+  // ASSERTION: Verify the content on the new page
+  await expect(lessonPlanPage.heading).toBeVisible();
 });
