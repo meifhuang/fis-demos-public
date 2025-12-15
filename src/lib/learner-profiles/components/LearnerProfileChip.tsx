@@ -2,6 +2,7 @@
 
 import {
   Chip,
+  ChipProps,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -11,25 +12,30 @@ import LearnerProfileCard from "./LearnerProfileCard";
 import { CircleUserRound } from "lucide-react";
 import { LearnerProfile } from "@/lib/learner-profiles"
 
-interface LearnerProfileChipProps {
+interface LearnerProfileChipProps extends ChipProps {
   learnerProfile: LearnerProfile | null;
-  className?: string;
+  addClassName?: string;
   isLoading?: boolean;
-  "data-testid"?: string;
 }
 
+const TEST_ID = "learner-profile-chip";
+
 export default function LearnerProfileChip({
+  children = null,
   learnerProfile,
-  className,
+  addClassName = "",
   isLoading = false,
-  "data-testid": dataTestID = "learner-profile-chip",
+  ...chipProps
 }: LearnerProfileChipProps) {
+  const { "data-testid": dataTestId, ...restChipProps } = chipProps as {
+    "data-testid"?: string;
+  };
+
   if (isLoading) {
     return (
       <Chip
-        data-testid={dataTestID}
+        data-testid={dataTestId ?? TEST_ID}
         size="md"
-        className={className}
         startContent={
           <Spinner
             size="sm"
@@ -40,6 +46,7 @@ export default function LearnerProfileChip({
             className="px-2"
           />
         }
+        {...restChipProps}
       >
         Loading
       </Chip>
@@ -48,7 +55,7 @@ export default function LearnerProfileChip({
 
   if (!learnerProfile) {
     return (
-      <Chip data-testid={dataTestID} size="md" className={className}>
+      <Chip size="md" data-testid={dataTestId ?? TEST_ID} {...restChipProps} >
         Unknown Learner
       </Chip>
     );
@@ -59,14 +66,15 @@ export default function LearnerProfileChip({
     <Popover placement="right" showArrow>
       <PopoverTrigger>
         <Chip
+          data-testid={dataTestId ?? TEST_ID}
           size="md"
           color="primary"
           startContent={<CircleUserRound size={18} />}
-          className={`cursor-pointer transition-transform hover:scale-[1.03] gap-2 px-2 ${className}`}
+          className={`cursor-pointer transition-transform hover:scale-[1.03] gap-2 px-2 ${addClassName}`.trim()}
           classNames={{ content: "p-0" }}
-          data-testid={dataTestID}
+          {...restChipProps}
         >
-          {learnerProfile.label}
+          { children ? children : learnerProfile.label}
         </Chip>
       </PopoverTrigger>
       <PopoverContent className="p-0 border-none">

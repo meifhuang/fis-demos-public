@@ -7,14 +7,14 @@ export type CourseOutlineRow =
 interface CreationMeta {
   learner_profile?: LearnerProfileRow;
   [key: string]: unknown;
-}
+};
 
 export interface LessonOutline {
   title: string;
   minutes: number;
   outcome: string;
   description: string;
-}
+};
 
 export class CourseOutline {
   constructor(private data: CourseOutlineRow) {}
@@ -54,5 +54,20 @@ export class CourseOutline {
     return this.lessonOutlines.reduce(
       (sum, lesson) => sum + lesson.minutes, 0
     );
+  }
+
+  get totalMinutesInWords(): string {
+    if (this.totalMinutes <= 0) return "0 min";
+
+    const hours = Math.floor(this.totalMinutes / 60);
+    const minutes = this.totalMinutes % 60;
+
+    const hrLabel = hours === 1 ? "hr" : "hrs";
+    const minLabel = minutes === 1 ? "min" : "mins";
+
+    if (hours && minutes) return `${hours} ${hrLabel} ${minutes} ${minLabel}`;
+    if (hours) return `${hours} ${hrLabel}`;
+
+    return `${minutes} ${minLabel}`;
   }
 }

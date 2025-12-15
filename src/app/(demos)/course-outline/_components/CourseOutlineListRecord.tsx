@@ -101,7 +101,7 @@ export default function CourseOutlineListRecord({
           <LearnerProfileChip
             data-testid="course-outline-list-learner-chip"
             learnerProfile={record.learnerProfile}
-            className="mt-2"
+            addClassName="mt-2"
           />
         </div>
 

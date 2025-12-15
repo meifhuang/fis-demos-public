@@ -55,4 +55,50 @@ describe("CourseOutline", () => {
       expect(courseOutline.learnerProfile).toBeNull();
     });
   });
+
+  describe("totalMinutesInWords", () => {
+    it("returns '0 min' when totalMinutes is 0", () => {
+      const data = factory.build("courseOutline", { lessonOutlines: [] });
+      const courseOutline = new CourseOutline(data);
+      expect(courseOutline.totalMinutesInWords).toBe("0 min");
+    });
+
+    it("returns only minutes when less than 60", () => {
+      const lessonOutlines = [
+        factory.build("lessonOutline", { minutes: 1 }),
+        factory.build("lessonOutline", { minutes: 14 }),
+      ];
+      const data = factory.build("courseOutline", { lessonOutlines });
+      const courseOutline = new CourseOutline(data);
+      expect(courseOutline.totalMinutesInWords).toBe("15 mins");
+    });
+
+    it("returns only hours when totalMinutes is an exact multiple of 60", () => {
+      const lessonOutlines = [
+        factory.build("lessonOutline", { minutes: 60 }),
+        factory.build("lessonOutline", { minutes: 120 }),
+      ];
+      const data = factory.build("courseOutline", { lessonOutlines });
+      const courseOutline = new CourseOutline(data);
+      expect(courseOutline.totalMinutesInWords).toBe("3 hrs");
+    });
+
+    it("returns hours and minutes when totalMinutes has both", () => {
+      const lessonOutlines = [
+        factory.build("lessonOutline", { minutes: 70 }), // 1 hr 10 min
+      ];
+      const data = factory.build("courseOutline", { lessonOutlines });
+      const courseOutline = new CourseOutline(data);
+      expect(courseOutline.totalMinutesInWords).toBe("1 hr 10 mins");
+    });
+
+    it("uses singular labels for 1 hour or 1 minute", () => {
+      const lessonOutlines = [
+        factory.build("lessonOutline", { minutes: 61 }), // 1 hr 1 min
+      ];
+      const data = factory.build("courseOutline", { lessonOutlines });
+      const courseOutline = new CourseOutline(data);
+      expect(courseOutline.totalMinutesInWords).toBe("1 hr 1 min");
+    });
+  });
 });

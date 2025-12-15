@@ -1,10 +1,7 @@
 import * as supabaseLib from "@/lib/supabase";
-import type { Database } from "@/types/database";
 import { GET } from "./route";
 import { describe, expect, it } from "vitest";
 import { prepareTestSchema } from "@/test";
-
-type CourseOutlineRow = keyof Database["public"]["Tables"]["course_outlines"]["Row"];
 
 describe("GET", async () => {
   const { factory } = await prepareTestSchema();
@@ -23,19 +20,15 @@ describe("GET", async () => {
     });
   });
 
-  describe("with records", async () => {
-    let courseOutline: CourseOutlineRow;
-
-    beforeEach(async () => {
-      courseOutline = await factory.create("courseOutline") as unknown as CourseOutlineRow;
-    });
-
+  describe("with records", () => {
     it("responds with a 200 status", async () => {
+      await factory.create("courseOutline");
       const response = await GET();
       expect(response.status).toEqual(200);
     });
 
     it("responds with an array of records", async () => {
+      const courseOutline = await factory.create("courseOutline");
       const response = await GET();
       const body = await response.json();
       expect(body).toEqual([courseOutline]);

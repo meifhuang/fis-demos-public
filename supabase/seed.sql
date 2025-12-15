@@ -103,25 +103,25 @@ $creation_meta$,
     $lesson_outlines$
 [
   {
-    "title": "Lesson 1: What Is Matter Made Of?",
+    "title": "What Is Matter Made Of?",
     "outcome": "Students understand that atoms are the basic building blocks of all matter and can identify everyday examples that rely on atoms.",
     "description": "Introduce the concept of matter and explain that everything is made of atoms. Establish scale and smallness, preparing students to explore atomic structure in detail.",
     "minutes": 15
   },
   {
-    "title": "Lesson 2: Inside the Atom",
+    "title": "Inside the Atom",
     "outcome": "Students can describe the three main subatomic particles and their roles: protons, neutrons, and electrons.",
     "description": "Break down the structure of an atom, focusing on the nucleus (protons and neutrons) and electron orbits. Highlight charges and placement of each particle.",
     "minutes": 15
   },
   {
-    "title": "Lesson 3: Why Structure Matters",
+    "title": "Why Structure Matters",
     "outcome": "Students understand how the arrangement and charges of subatomic particles influence atomic behavior.",
     "description": "Connect particle properties to atomic stability, bonding, and interactions. Use conceptual models to show why electrons orbit and how charge affects behavior.",
     "minutes": 15
   },
   {
-    "title": "Lesson 4: Atoms in the Real World",
+    "title": "Atoms in the Real World",
     "outcome": "Students can explain how atoms relate to real scientific phenomena such as molecules, reactions, and material differences.",
     "description": "Apply atomic concepts to chemistry and everyday examples. Introduce molecules, chemical reactions, and why different materials behave differently based on atomic structure.",
     "minutes": 15

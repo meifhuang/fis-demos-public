@@ -1,71 +1,10 @@
-import { Card, Skeleton, Chip, CardBody, CardHeader } from "@heroui/react";
-import { Lightbulb, CheckCircle } from "lucide-react";
+import { Card, Skeleton, CardBody, CardHeader } from "@heroui/react";
+import { BookOpen, CheckCircle } from "lucide-react";
 
 /**
  * Renders a skeleton loading state for a single lesson item, mimicking
- * the Lesson Header and the internal Rationale/Assessment block structure.
+ * the Lesson Header and the internal details.
  */
-
-// Helper component to mock the Rationale/Assessment block
-const SectionBlockSkeleton = () => {
-  return (
-    <Card className="shadow-sm h-full">
-      <CardHeader className="flex flex-col items-start pb-2">
-        {/* Block Title Skeleton (e.g., "Introduction" or "Activity") */}
-        <Skeleton className="w-1/3 rounded-md">
-          <div className="h-5 bg-default-300 flex items-center">
-            <span className="w-full"></span>
-          </div>
-        </Skeleton>
-      </CardHeader>
-
-      <CardBody className="space-y-3 pt-2 border-t border-gray-100">
-        <div>
-          <Chip
-            size="sm"
-            color="primary"
-            variant="flat"
-            startContent={<Lightbulb className="w-3 h-3" />}
-            className="mb-1 opacity-50"
-          >
-            Rationale
-          </Chip>
-        </div>
-
-        <div className="space-y-2">
-          <Skeleton className="w-full rounded-full">
-            <div className="h-3 bg-default-200" />
-          </Skeleton>
-          <Skeleton className="w-11/12 rounded-full">
-            <div className="h-3 bg-default-300" />
-          </Skeleton>
-        </div>
-
-        <div>
-          <Chip
-            size="sm"
-            color="success"
-            variant="flat"
-            startContent={<CheckCircle className="w-3 h-3" />}
-            className="mb-1 opacity-50"
-          >
-            Assessment
-          </Chip>
-        </div>
-
-        {/* Content Lines */}
-        <div className="space-y-2">
-          <Skeleton className="w-full rounded-full">
-            <div className="h-3 bg-default-200" />
-          </Skeleton>
-          <Skeleton className="w-11/12 rounded-full">
-            <div className="h-3 bg-default-300" />
-          </Skeleton>
-        </div>
-      </CardBody>
-    </Card>
-  );
-};
 
 export default function LessonItemSkeleton() {
   return (
@@ -89,14 +28,48 @@ export default function LessonItemSkeleton() {
         </div>
       </CardHeader>
 
-      {/* 2. Content Body Mock (Rationale/Assessment Blocks) */}
+      {/* 2. Content Body Mock */}
       <CardBody className="p-4 pt-0">
         <div className="p-2 grid grid-cols-1 lg:grid-cols-2 gap-4 border-t pt-4">
-          {/* Mock 4 Section Blocks (Introduction Rationale/Assessment, Context Rationale/Assessment) */}
-          <SectionBlockSkeleton />
-          <SectionBlockSkeleton />
-          <SectionBlockSkeleton />
-          <SectionBlockSkeleton />
+          <Card className="shadow-sm h-full">
+            <CardHeader className="flex flex-col items-start pb-2">
+              <h4 className="flex items-center text-base font-semibold text-gray-800">
+                <BookOpen className="w-5 h-5 text-indigo-500 mr-2" />
+                Description
+              </h4>
+            </CardHeader>
+
+            <CardBody className="space-y-3 pt-2 border-t border-gray-100">
+              <div className="space-y-2">
+                <Skeleton className="w-full rounded-full">
+                  <div className="h-3 bg-default-200" />
+                </Skeleton>
+                <Skeleton className="w-11/12 rounded-full">
+                  <div className="h-3 bg-default-300" />
+                </Skeleton>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card className="shadow-sm h-full">
+            <CardHeader className="flex flex-col items-start pb-2">
+              <h4 className="flex items-center text-base font-semibold text-gray-800">
+                <CheckCircle className="w-5 h-5 text-indigo-500 mr-2" />
+                Outcome
+              </h4>
+            </CardHeader>
+
+            <CardBody className="space-y-3 pt-2 border-t border-gray-100">
+              <div className="space-y-2">
+                <Skeleton className="w-full rounded-full">
+                  <div className="h-3 bg-default-200" />
+                </Skeleton>
+                <Skeleton className="w-11/12 rounded-full">
+                  <div className="h-3 bg-default-300" />
+                </Skeleton>
+              </div>
+            </CardBody>
+          </Card>
         </div>
       </CardBody>
     </Card>

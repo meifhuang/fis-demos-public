@@ -24,7 +24,7 @@ exports[`LearnerProfileChip > Snapshot Tests > should match snapshot in Success 
       data-testid="popover-trigger"
     >
       <div
-        class="cursor-pointer transition-transform hover:scale-[1.03] gap-2 px-2 undefined"
+        class="cursor-pointer transition-transform hover:scale-[1.03] gap-2 px-2"
         classnames="[object Object]"
         color="primary"
         data-testid="mock-chip"
