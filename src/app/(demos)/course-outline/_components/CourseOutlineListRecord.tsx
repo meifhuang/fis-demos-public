@@ -20,7 +20,7 @@ export default function CourseOutlineListRecord({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // 1. Integrate the deletion hook
-  const { mutate: deleteCourse, isPending: isDeleting } =
+  const { mutate: deleteCourseOutline, isPending: isDeleting } =
     useDeleteCourseOutline();
 
   const gotoView = useCallback(
@@ -43,12 +43,12 @@ export default function CourseOutlineListRecord({
     if (isDeleting) return;
 
     // Call the mutation hook with the record ID
-    deleteCourse(record.id, {
-      onSuccess: (deletedId) => {
+    deleteCourseOutline(record, {
+      onSuccess: (deleted) => {
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
-          description: `Course ID ${deletedId} has been removed.`,
+          description: `'${deleted.title}' has been removed.`,
           color: "success",
           shouldShowTimeoutProgress: true,
         });
@@ -64,7 +64,7 @@ export default function CourseOutlineListRecord({
         onClose(); // Close the modal even on error
       },
     });
-  }, [isDeleting, record.id, deleteCourse, onClose]);
+  }, [isDeleting, record, deleteCourseOutline, onClose]);
 
   return (
     <>

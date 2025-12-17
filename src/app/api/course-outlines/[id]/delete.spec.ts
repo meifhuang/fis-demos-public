@@ -1,31 +1,34 @@
 import * as supabaseLib from "@/lib/supabase";
-import type { Database } from "@/types/database";
-import { GET } from "./route";
+import { DELETE } from "./route";
 import { describe, expect, it } from "vitest";
 import { prepareTestSchema } from "@/test";
 
-type CourseOutlineRow = keyof Database["public"]["Tables"]["course_outlines"]["Row"];
-
-describe("GET", async () => {
-  const { factory } = await prepareTestSchema();
+describe("DELETE", async () => {
+  const { factory, pgClient } = await prepareTestSchema();
   const mockRequest = {} as Request;
 
   describe("with an existing record", () => {
-    it("responds with a 200 status", async () => {
+    it("responds with a 204 status", async () => {
       const courseOutline = await factory.create("courseOutline");
-      const response = await GET(mockRequest, {
+      const response = await DELETE(mockRequest, {
         params: Promise.resolve({ id: courseOutline.id })
       });
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(204);
     });
 
-    it("responds with the record", async () => {
-      const courseOutline = await factory.create("courseOutline");
-      const response = await GET(mockRequest, {
-        params: Promise.resolve({ id: courseOutline.id })
+    it("destroys the record", async () => {
+      const { id } = await factory.create("courseOutline");
+
+      await DELETE(mockRequest, {
+        params: Promise.resolve({ id }),
       });
-      const body: CourseOutlineRow = await response.json();
-      expect(body).toEqual(courseOutline);
+
+      const result = await pgClient.query(
+        `select 1 from course_outlines where id = $1`,
+        [id]
+      );
+
+      expect(result.rows).toHaveLength(0);
     });
   });
 
@@ -33,7 +36,7 @@ describe("GET", async () => {
     let response: Response;
 
     beforeEach(async () => {
-      response = await GET(mockRequest, {
+      response = await DELETE(mockRequest, {
         params: Promise.resolve({ id: crypto.randomUUID() })
       });
     });
@@ -54,19 +57,17 @@ describe("GET", async () => {
     beforeEach(async () => {
       spy = vi.spyOn(supabaseLib, "getClient").mockReturnValue({
         from: () => ({
-          select: () => ({
+          delete: () => ({
+            // @ts-expect-error Irrelevant type mismatch in mock
             eq: () => ({
-              // @ts-expect-error Irrelevant type mismatch in mock
-              maybeSingle: async () => ({
-                data: null,
-                error: { message: "Simulated Supabase error" },
-              })
+              count: null,
+              error: { message: "Simulated Supabase error" },
             })
           })
         }),
       });
 
-      response = await GET(mockRequest, {
+      response = await DELETE(mockRequest, {
         params: Promise.resolve({ id: crypto.randomUUID() })
       });
     });
