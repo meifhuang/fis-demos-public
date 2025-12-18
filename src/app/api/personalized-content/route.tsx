@@ -1,58 +1,63 @@
-import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
+import { NextRequest, NextResponse } from "next/server";
+import { getClient } from "@/lib/supabase";
+import z from "zod";
+import { Database, Json } from "@/types";
 
-const mockPersonalizedContent = {
-  id: "12",
-  title: "Introduction to Algorithmic Thinking for Career Changers",
-  description:
-    "A customized lesson designed to help transitioning professionals understand core algorithmic problem-solving skills.",
-  durationValue: 60,
-  durationUnit: "minutes",
-  learnerProfileId: "1",
-  customization:
-    "Adjusted examples and problem sets for learners with non-technical backgrounds.",
-  lesson: [
-    { name: "Warm-up Activity", content: "Identify steps in a familiar task." },
-  ],
-  introduction: {
-    rationale:
-      "Introduce algorithmic thinking using relatable real-world workflows.",
-    assessment_format:
-      "Quick verbal check-in: have students describe a daily task as a sequence of steps.",
-  },
-  context: {
-    rationale:
-      "Connect algorithmic thinking to common workplace tasks such as prioritization and troubleshooting.",
-    assessment_format:
-      "Small-group activity evaluating inefficient workflows and suggesting improvements.",
-  },
-  example: {
-    rationale:
-      "Demonstrate algorithmic problem-solving using pseudocode for step-by-step clarity.",
-    assessment_format:
-      "Students rewrite a messy set of instructions into clean pseudocode.",
-  },
-  activity: {
-    rationale:
-      "Engage learners in solving a small logic puzzle using structured reasoning.",
-    assessment_format:
-      "Completion of a guided worksheet walking through branching decisions.",
-  },
-  assessment: {
-    rationale:
-      "Measure the learner’s ability to break down unfamiliar problems.",
-    assessment_format:
-      "Mini-quiz: convert a simple scenario (e.g., scheduling) into algorithmic steps.",
-  },
-  reflection: {
-    rationale:
-      "Encourage learners to connect structured thinking to their own career backgrounds.",
-    assessment_format:
-      "One-paragraph reflection on how algorithmic thinking applies to their previous job roles.",
-  },
-};
+const supabase = getClient();
 
-export async function POST() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+/**
+ * Index personalized content 
+ */
+export async function GET() {
+  const { data, error } = await supabase.from("personalized_content").select("*");
 
-  return NextResponse.json(mockPersonalizedContent, { status: 200 });
+  if (error) {
+    Sentry.captureException(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data, { status: 200 });
+}
+
+type PersonalizedContentInsert =
+  Database["public"]["Tables"]["personalized_content"]["Insert"];
+
+const PersonalizedContentInsertSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  creation_meta: z.record(z.string(), z.unknown()).default({}),
+  content: z.string().min(1),
+});
+
+/**
+ * Add personalized content to database
+ */
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+
+  if (!body) {
+    return NextResponse.json(null, { status: 400, statusText: "Empty body" });
+  }
+
+  const parsed = PersonalizedContentInsertSchema.parse(body);
+
+  const payload: PersonalizedContentInsert = {
+    ...parsed,
+    creation_meta: parsed.creation_meta as Json,
+    content: parsed.content as string,
+  };
+
+  const { data, error } = await supabase
+    .from("personalized_content")
+    .insert(payload)
+    .select()
+    .single();
+
+  if (error) {
+    Sentry.captureException(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data);
 }

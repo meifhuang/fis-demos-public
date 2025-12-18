@@ -1,15 +1,16 @@
 "use client";
 
 import { useCallback } from "react";
-import LearnerProfileChip from "@/components/learner-profile/LearnerProfileChip";
-import { PersonalizedContentRecord } from "@/types";
-import { Button, useDisclosure } from "@heroui/react";
+import { LearnerProfileChip } from "@/lib/learner-profiles";
+import { Button, addToast, useDisclosure } from "@heroui/react";
 import { Edit2, Eye, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { PersonalizedContent } from "../_models";
+import { useDeletePersonalizedContent } from "../_store";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 interface PersonalizedContentListRecordProps {
-  record: PersonalizedContentRecord;
+  record: PersonalizedContent;
 }
 
 export default function PersonalizedContentListRecord({
@@ -17,6 +18,10 @@ export default function PersonalizedContentListRecord({
 }: PersonalizedContentListRecordProps) {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // 1. Integrate the deletion hook
+  const { mutate: deletePersonalizedContent, isPending: isDeleting } =
+    useDeletePersonalizedContent();
 
   const gotoView = useCallback(
     (id: string) => {
@@ -32,12 +37,34 @@ export default function PersonalizedContentListRecord({
     [router]
   );
 
-  // 2. Handler for confirming and initiating deletion, will be implemented later
+  // 2. Handler for confirming and initiating deletion
   const handleDelete = useCallback(() => {
-    alert(`Delete functionality for ID ${record.id} is not implemented yet.`);
-    onClose(); // Close the confirmation modal
-  }, [record.id, onClose]);
-   
+    // Check if mutation is running
+    if (isDeleting) return;
+
+    // Call the mutation hook with the record ID
+    deletePersonalizedContent(record, {
+      onSuccess: (deleted) => {
+        // Show success notification
+        addToast({
+          title: <p className="text-xl font-bold">Deleted!</p>,
+          description: `'${deleted.title}' has been removed.`,
+          color: "success",
+          shouldShowTimeoutProgress: true,
+        });
+        onClose(); // Close the confirmation modal
+      },
+      onError: (error) => {
+        addToast({
+          title: <p className="text-xl font-bold">Error</p>,
+          description: `Failed to delete personalized content: ${error.message}`,
+          color: "danger",
+          shouldShowTimeoutProgress: true,
+        });
+        onClose(); // Close the modal even on error
+      },
+    });
+  }, [isDeleting, record, deletePersonalizedContent, onClose]);
 
   return (
     <>
@@ -57,23 +84,9 @@ export default function PersonalizedContentListRecord({
             {record.description}
           </p>
 
-          <div className="flex justify-between items-center mb-4 text-xs">
-            <p
-              data-testid="personalized-content-list-lesson-time"
-              className="flex items-center text-gray-600"
-            >
-              This lesson is
-              {" "}
-              {record.durationValue}{" "}
-              {record.durationValue === 1
-                ? record.durationUnit.slice(0, -1)
-                : record.durationUnit}{" "}
-              long
-            </p>
-          </div>
           <LearnerProfileChip
             data-testid="personalized-content-list-learner-chip"
-            learnerProfileId={record.learnerProfileId}
+            learnerProfile={record.learnerProfile}
             className="mt-2"
           />
         </div>

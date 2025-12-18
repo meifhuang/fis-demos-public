@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getClient } from "@/lib/supabase";
 
 /**
- * Delete course outline
+ * Delete personalized content
  */
 export async function DELETE(
   req: Request,
@@ -13,7 +13,7 @@ export async function DELETE(
   const supabase = getClient();
 
   const { error, count } = await supabase
-    .from("course_outlines")
+    .from("personalized_content")
     .delete({ count: "exact" })
     .eq("id", id);
 

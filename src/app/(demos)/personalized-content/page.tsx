@@ -1,19 +1,19 @@
 "use client";
 
-import { PersonalizedContentRecord } from "@/types/demos/personalized-content";
+import { PersonalizedContent } from "./_models";
 import ListView from "../_components/List";
 import PersonalizedContentListRecord from "./_components/PersonalizedContentListRecord";
-import { useMockPersonalizedContentList } from "./_store/useMockPersonalizedContentList";
+import { usePersonalizedContentList } from "./_store";
 
 export default function PersonalizedContentDemoPage() {
-  const { data: content, isLoading, error } = useMockPersonalizedContentList();
+  const { data: content, isLoading, error } = usePersonalizedContentList();
 
   if (error) {
     return <p>Error loading content</p>;
   }
 
   return (
-    <ListView<PersonalizedContentRecord>
+    <ListView<PersonalizedContent>
       records={content ?? []}
       title="Personalized Content Demo"
       createNewRoute="/personalized-content/create"
