@@ -4,19 +4,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 
-// This provider component initializes and provides the QueryClient
-export default function QueryProvider({
+export function QueryProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Use state to ensure the QueryClient is only created once per component lifecycle
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            // Simple default settings: data is considered fresh for 5 minutes
             staleTime: 1000 * 60 * 5,
             gcTime: 1000 * 60 * 60 * 24,
           },
@@ -26,8 +23,10 @@ export default function QueryProvider({
 
   return (
     <QueryClientProvider client={queryClient}>
+      {process.env.NODE_ENV === "development" && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
       {children}
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
