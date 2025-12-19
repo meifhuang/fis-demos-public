@@ -97,6 +97,45 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_plans: {
+        Row: {
+          assessment: string
+          context: string
+          created_at: string
+          creation_meta: Json
+          example: string
+          id: string
+          introduction: string
+          practice: string
+          reflection: string
+          updated_at: string
+        }
+        Insert: {
+          assessment: string
+          context: string
+          created_at?: string
+          creation_meta?: Json
+          example: string
+          id?: string
+          introduction: string
+          practice: string
+          reflection: string
+          updated_at?: string
+        }
+        Update: {
+          assessment?: string
+          context?: string
+          created_at?: string
+          creation_meta?: Json
+          example?: string
+          id?: string
+          introduction?: string
+          practice?: string
+          reflection?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       personalized_content: {
         Row: {
           content: string
@@ -153,45 +192,6 @@ export type Database = {
           id?: string
           questions?: Json
           title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      lesson_plans: {
-        Row: {
-          assessment_markdown: string
-          context_markdown: string
-          created_at: string
-          creation_meta: Json
-          example_markdown: string
-          id: string
-          introduction_markdown: string
-          practice_markdown: string
-          reflection_markdown: string
-          updated_at: string
-        }
-        Insert: {
-          assessment_markdown: string
-          context_markdown: string
-          created_at?: string
-          creation_meta?: Json
-          example_markdown: string
-          id?: string
-          introduction_markdown: string
-          practice_markdown: string
-          reflection_markdown: string
-          updated_at?: string
-        }
-        Update: {
-          assessment_markdown?: string
-          context_markdown?: string
-          created_at?: string
-          creation_meta?: Json
-          example_markdown?: string
-          id?: string
-          introduction_markdown?: string
-          practice_markdown?: string
-          reflection_markdown?: string
           updated_at?: string
         }
         Relationships: []

@@ -227,12 +227,12 @@ $questions$
 insert into lesson_plans
 (
     creation_meta,
-    introduction_markdown,
-    context_markdown,
-    example_markdown,
-    practice_markdown,
-    assessment_markdown,
-    reflection_markdown
+    introduction,
+    context,
+    example,
+    practice,
+    assessment,
+    reflection
 )
 values
 (
