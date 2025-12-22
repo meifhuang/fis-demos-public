@@ -1,18 +1,15 @@
-import type { Database, Json } from "@/types/database";
+import type { Database, Json, Tables } from "@/types";
 import { LessonOutline } from "@demos/course-outline/_models"
 import { faker } from '@faker-js/faker';
 import { getClient } from "@/lib/supabase";
 import { tableize, titleize, underscore } from 'inflection';
 import { Answer, Question } from "@/types";
 
-type Table = keyof Database["public"]["Tables"];
-type TableRow<T extends Table> = Database["public"]["Tables"][T]["Row"];
-
 type Factory = keyof typeof factories;
 type FactoryOutput<F extends Factory> = ReturnType<typeof factories[F]>;
 
 const factories = {
-  courseOutline(): TableRow<"course_outlines"> {
+  courseOutline(): Tables<"course_outlines"> {
     const now = new Date().toISOString();
     return {
       id: crypto.randomUUID(),
@@ -27,7 +24,7 @@ const factories = {
     };
   },
 
-  quiz(): TableRow<"quizzes"> {
+  quiz(): Tables<"quizzes"> {
     const now = new Date().toISOString();
     return {
       id: crypto.randomUUID(),
@@ -42,14 +39,14 @@ const factories = {
     };
   },
 
-  learnerProfile(): TableRow<"learner_profiles"> {
+  learnerProfile(): Tables<"learner_profiles"> {
     const now = new Date().toISOString();
     return {
       id: crypto.randomUUID(),
       created_at: now,
       updated_at: now,
       age: faker.number.int({ min: 8, max: 120 }),
-      experience: faker.lorem.sentence(),
+      experience: faker.person.bio(),
       interests: faker.lorem.words().split(" "),
       label: faker.person.firstName(),
       reading_level: faker.number.int({ min: 0, max: 12 }),
@@ -65,7 +62,7 @@ const factories = {
     };
   },
 
-  personalizedContent(): TableRow<"personalized_content"> {
+  personalizedContent(): Tables<"personalized_content"> {
     const now = new Date().toISOString();
     return {
       id: crypto.randomUUID(),
@@ -80,7 +77,6 @@ const factories = {
     };
   },
 
-
   question(): Question {
     return {
       question: faker.lorem.sentence(),
@@ -94,6 +90,17 @@ const factories = {
       text: faker.lorem.sentence(),
       feedback: faker.lorem.sentence(),
     }
+  },
+
+  sourceMaterial(): Tables<"source_materials"> {
+    const now = new Date().toISOString();
+    return {
+      id: crypto.randomUUID(),
+      created_at: now,
+      updated_at: now,
+      title: titleize(faker.lorem.words(3)),
+      markdown: `# ${faker.lorem.word()}\n${faker.lorem.paragraph()}`,
+    };
   }
 };
 
@@ -129,8 +136,8 @@ export async function create<F extends Factory> (
   name: F,
   overrides = {}
 ): Promise<FactoryOutput<F>> {
-  const table = tableize(name) as Table;
-  const entity = build(name, overrides) as TableRow<typeof table>;
+  const table = tableize(name) as keyof Database["public"]["Tables"];
+  const entity = build(name, overrides) as Tables<typeof table>;
 
   const supabase = getClient();
 
@@ -140,9 +147,8 @@ export async function create<F extends Factory> (
     .select()
     .single();
 
-  console.log(data, error);
-  
   if (error) throw error;
+
   if (!data) throw new Error(`
     Factory failed to *create* record: ${name} with overrides ${JSON.stringify(overrides)}.
     Is the Supabase module being mocked elsewhere in your tests? If so, use

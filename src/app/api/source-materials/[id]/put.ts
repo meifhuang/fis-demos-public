@@ -6,17 +6,11 @@ import { z } from "zod";
 
 const schema = z.object({
   title: z.string().min(1).optional(),
-  description: z.string().optional(),
-  lesson_outlines: z.array(z.object({
-    title: z.string().min(1),
-    minutes: z.number(),
-    outcome: z.string(),
-    description: z.string(),
-  })).optional(),
+  markdown: z.string().optional(),
 }).strict();
 
 /**
- * Update course outline
+ * Update source material
  */
 export async function PUT(
   req: Request,
@@ -32,8 +26,8 @@ export async function PUT(
 
   const supabase = getClient();
   const { data: record, error: dbError } = await supabase
-    .from("course_outlines")
-    .update(input satisfies TablesUpdate<"course_outlines">)
+    .from("source_materials")
+    .update(input satisfies TablesUpdate<"source_materials">)
     .eq("id", id)
     .select("*")
     .maybeSingle();

@@ -3,40 +3,34 @@ import { PUT } from "./route";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { prepareTestSchema } from "@/test";
 
+const buildRequest = (body: { [key: string]: string }) => {
+  return new Request("http://localhost", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 describe("PUT", async () => {
   const { factory, pgClient } = await prepareTestSchema();
 
   describe("with a valid update", () => {
     it("responds with a 200 status", async () => {
-      const courseOutline = await factory.create("courseOutline");
-
-      const request = new Request("http://localhost", {
-        method: "PUT",
-        body: JSON.stringify({ title: "Updated Title" }),
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const sourceMaterial = await factory.create("sourceMaterial");
+      const request = buildRequest({ title: "Updated Title" })
       const response = await PUT(request, {
-        params: Promise.resolve({ id: courseOutline.id }),
+        params: Promise.resolve({ id: sourceMaterial.id }),
       });
-
       expect(response.status).toEqual(200);
     });
 
     it("updates the record", async () => {
-      const { id } = await factory.create("courseOutline");
+      const { id } = await factory.create("sourceMaterial");
       const title = `New Title ${crypto.randomUUID()}`
-
-      const request = new Request("http://localhost", {
-        method: "PUT",
-        body: JSON.stringify({ title }),
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const request = buildRequest({ title })
       await PUT(request, { params: Promise.resolve({ id }) });
-
       const result = await pgClient.query(
-        `select title from course_outlines where id = $1`,
+        `select title from source_materials where id = $1`,
         [id]
       );
 
@@ -45,41 +39,27 @@ describe("PUT", async () => {
     });
 
     it("responds with the updated record", async () => {
-      const courseOutline = await factory.create("courseOutline");
-
-      const request = new Request("http://localhost", {
-        method: "PUT",
-        body: JSON.stringify({ title: "Updated Title" }),
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const sourceMaterial = await factory.create("sourceMaterial");
+      const request = buildRequest({ title: "Updated Title" })
       const response = await PUT(request, {
-        params: Promise.resolve({ id: courseOutline.id }),
+        params: Promise.resolve({ id: sourceMaterial.id }),
       });
 
-      const body: Tables<"course_outlines"> = await response.json();
-
+      const body: Tables<"source_materials"> = await response.json();
       expect(body.title).toEqual("Updated Title");
-      expect(body.id).toEqual(courseOutline.id);
+      expect(body.id).toEqual(sourceMaterial.id);
     });
   });
 
   describe("with invalid input", () => {
     it("responds with a 422 status and validation error", async () => {
-      const courseOutline = await factory.create("courseOutline");
-
-      const request = new Request("http://localhost", {
-        method: "PUT",
-        body: JSON.stringify({ title: "" }),
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const sourceMaterial = await factory.create("sourceMaterial");
+      const request = buildRequest({ title: "" })
       const response = await PUT(request, {
-        params: Promise.resolve({ id: courseOutline.id }),
+        params: Promise.resolve({ id: sourceMaterial.id }),
       });
 
       expect(response.status).toEqual(422);
-
       const body = await response.json();
       expect(body.error).toMatch(/Too small/);
     });
@@ -87,12 +67,7 @@ describe("PUT", async () => {
 
   describe("when the record does not exist", () => {
     it("responds with a 404 status", async () => {
-      const request = new Request("http://localhost", {
-        method: "PUT",
-        body: JSON.stringify({ title: "New Title" }),
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const request = buildRequest({ title: "Updated Title" })
       const response = await PUT(request, {
         params: Promise.resolve({ id: crypto.randomUUID() }),
       });
@@ -126,20 +101,13 @@ describe("PUT", async () => {
     });
 
     it("responds with a 500 status and the error message", async () => {
-      const courseOutline = await factory.build("courseOutline");
-
-      const request = new Request("http://localhost", {
-        method: "PUT",
-        body: JSON.stringify({ title: "Updated Title" }),
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const sourceMaterial = await factory.build("sourceMaterial");
+      const request = buildRequest({ title: "Updated Title" })
       const response = await PUT(request, {
-        params: Promise.resolve({ id: courseOutline.id }),
+        params: Promise.resolve({ id: sourceMaterial.id }),
       });
 
       expect(response.status).toEqual(500);
-
       const body = await response.json();
       expect(body.error).toEqual("Simulated Supabase error");
     });
