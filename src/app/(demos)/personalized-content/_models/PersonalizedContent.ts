@@ -4,6 +4,9 @@ import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles"
 export type PersonalizedContentRow =
   Database["public"]["Tables"]["personalized_content"]["Row"];
 
+export type PersonalizedContentUpdate =
+  Database["public"]["Tables"]["personalized_content"]["Update"];
+
 interface CreationMeta {
   learner_profile?: LearnerProfileRow;
   [key: string]: unknown;
@@ -11,6 +14,20 @@ interface CreationMeta {
 
 export class PersonalizedContent {
   constructor(private data: PersonalizedContentRow) {}
+
+  asUpdate(): PersonalizedContentUpdate {
+      return {
+        title: this.data.title,
+        description: this.data.description,
+        content: this.data.content,
+      };
+    }
+
+  // NOTE: if this ever accepts any camelCase `name`, this will need to
+  // be adjusted to handle the transformation
+  with(name: "title" | "description" | "content", value: string): PersonalizedContent {
+    return new PersonalizedContent({ ...this.data, [name]: value });
+  }
 
   get id() {
     return this.data.id;

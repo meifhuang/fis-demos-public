@@ -53,7 +53,12 @@ export default function PersonalizedContentForm() {
   };
 
   const isFormValid = useMemo(() => {
-    const { title, description, learnerProfileId, sourceLesson } = formData;
+    const {
+      title,
+      description,
+      learnerProfileId,
+      sourceLesson,
+    } = formData;
     return (
       title.trim().length > 0 &&
       description.trim().length > 0 &&
@@ -76,8 +81,7 @@ export default function PersonalizedContentForm() {
         learnerProfile,
       };
 
-      const createdPersonalizedContent =
-        await createPersonalizedContent(submissionData);
+      const createdPersonalizedContent = await createPersonalizedContent(submissionData);
 
       const savedPersonalizedContent = await savePersonalizedContent({
         ...createdPersonalizedContent,
@@ -126,28 +130,30 @@ export default function PersonalizedContentForm() {
           <div className="flex gap-4 mb-12">
             {/* 3. Source Lesson Selection */}
             <Select
-              data-testid="personalized-content-create-lesson"
-              label="Source Lesson"
-              name="sourceLesson"
-              placeholder={
-                lessonsLoading ? "Loading lessons..." : "Select existing lesson"
-              }
-              labelPlacement="outside"
-              onSelectionChange={(key) =>
-                handleSelectChange("sourceLesson", key.currentKey)
-              }
-              isDisabled={lessonsLoading}
-              fullWidth
-              required
-            >
-              <>
-                {lessons?.map((lesson) => (
-                  <SelectItem key={lesson.id.toString()}>
-                    {lesson.title}
-                  </SelectItem>
-                ))}
-              </>
-            </Select>
+            data-testid="personalized-content-create-lesson"
+            label="Source Lesson"
+            name="sourceLesson"
+            placeholder={
+              lessonsLoading
+                ? "Loading lessons..."
+                : "Select existing lesson"
+            }
+            labelPlacement="outside"
+            onSelectionChange={(key) =>
+              handleSelectChange("sourceLesson", key.currentKey)
+            }
+            isDisabled={lessonsLoading}
+            fullWidth
+            required
+          >
+            <>
+              {lessons?.map((lesson) => (
+                <SelectItem key={lesson.id.toString()}>
+                  {lesson.title}
+                </SelectItem>
+              ))}
+            </>
+          </Select>
           </div>
 
           {/* 4. LEARNER PROFILE SELECTION */}
