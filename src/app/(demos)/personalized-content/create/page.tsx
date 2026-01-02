@@ -70,25 +70,33 @@ export default function PersonalizedContentForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Find the full name for context in the mock
+    // Find the full profile and lesson objects based on selected IDs
     const learnerProfile = profiles?.find(
       (p) => p.id === formData.learnerProfileId
     );
+
+    const lesson = lessons?.find(
+      (l) => l.id.toString() === formData.sourceLesson
+    );
+
     if (isFormValid && !isSubmitting) {
       // Structure data for API submission
       const submissionData = {
         ...formData,
         learnerProfile,
+        markdown: lesson?.markdown ?? "",
       };
 
       const createdPersonalizedContent = await createPersonalizedContent(submissionData);
 
+      // save the title and description from the form
       const savedPersonalizedContent = await savePersonalizedContent({
-        ...createdPersonalizedContent,
-        creation_meta: { learner_profile: learnerProfile },
+        content: createdPersonalizedContent.content,
+        title: formData.title,
+        description: formData.description,
+        creation_meta: { learner_profile: learnerProfile, source_lesson_id: formData.sourceLesson },
       });
 
-      // Edit page to be implemented later
       router.push(`/personalized-content/${savedPersonalizedContent.id}/edit`);
     }
   };
