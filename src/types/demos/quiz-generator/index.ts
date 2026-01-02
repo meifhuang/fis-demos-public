@@ -1,4 +1,4 @@
-import { BaseListRecord, Database } from "@/types";
+import { BaseListRecord, Database, SourceMaterialForm } from "@/types";
 
 export interface QuizRecord extends BaseListRecord {
   title: string;
@@ -8,12 +8,19 @@ export interface QuizRecord extends BaseListRecord {
   sourceLessonId: string
 }
 
-export interface QuizDetail extends QuizRecord {
-  questions: Question[];
+export interface QuizFormState {
+  title: string;
+  description: string;
+  customization: string;
+  numberOfQuestions: string;
+  learnerProfileId: string;
+  sourceMaterial: SourceMaterialForm
 }
 
-export interface QuizFormState extends QuizRecord {
-  customization: string;
+export type QuizInsert = Database["public"]["Tables"]["quizzes"]["Insert"]
+
+export type QuizFormSubmission = Omit<QuizInsert, "creation_meta"> & {
+  creation_meta: Record<string, unknown>
 }
 
 export type QuizRow = Database["public"]["Tables"]["quizzes"]["Row"]

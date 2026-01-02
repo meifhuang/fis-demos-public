@@ -68,7 +68,7 @@ export default function LearnerProfileChip({
           className={`cursor-pointer transition-transform hover:scale-[1.03] gap-2 px-2 ${className}`}
           classNames={{ content: "p-0" }}
         >
-          {learnerProfile.name}
+          {learnerProfile.label}
         </Chip>
       </PopoverTrigger>
       <PopoverContent className="p-0 border-none">

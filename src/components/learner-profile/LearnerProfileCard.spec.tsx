@@ -6,10 +6,10 @@ import { LearnerProfile } from "@/types";
 // --- MOCK DATA ---
 const MOCK_PROFILE: LearnerProfile = {
   id: "42",
-  name: "Advanced Pythonista",
+  label: "Advanced Pythonista",
   // Age is a string in the provided type context
-  age: "35",
-  readingLevel: "Professional",
+  age: 35,
+  reading_level: 16,
   experience:
     "10+ years in development, focusing on backend systems and machine learning.",
   interests: ["Python", "Algorithms", "AI", "Testing"],
@@ -17,9 +17,9 @@ const MOCK_PROFILE: LearnerProfile = {
 
 const EMPTY_PROFILE: LearnerProfile = {
   id: "0",
-  name: "Minimal Learner",
-  age: "",
-  readingLevel: "",
+  label: "Minimal Learner",
+  age: 0,
+  reading_level: 0,
   experience: "No formal experience.",
   interests: [],
 };

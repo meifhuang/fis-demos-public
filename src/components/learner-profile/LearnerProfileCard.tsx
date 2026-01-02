@@ -13,7 +13,7 @@ export default function LearnerProfileCard({
     <Card className="p-4 w-[300px] shadow-2xl bg-white border border-gray-100 rounded-xl">
       <div className="flex justify-center space-x-3">
         <h3 className="text-xl font-bold text-foreground">
-          {learnerProfile.name}
+          {learnerProfile.label}
         </h3>
       </div>
       <Divider className="my-2" />
@@ -32,7 +32,7 @@ export default function LearnerProfileCard({
           <BookOpen size={16} className="text-gray-500 mr-3 mt-0.5 min-w-4" />
           <div>
             <span className="font-semibold text-gray-800">Reading Level:</span>{" "}
-            <span className="text-gray-600">{learnerProfile.readingLevel}</span>
+            <span className="text-gray-600">{learnerProfile.reading_level}</span>
           </div>
         </div>
 
@@ -53,7 +53,7 @@ export default function LearnerProfileCard({
             <Heart size={16} className="text-gray-500 mr-3" /> Interests:
           </span>
           <div className="flex flex-wrap gap-1 pl-6">
-            {learnerProfile.interests.map((interest, index) => (
+            {learnerProfile.interests?.map((interest, index) => (
               <Chip key={index} size="sm" color="secondary" variant="flat">
                 {interest}
               </Chip>

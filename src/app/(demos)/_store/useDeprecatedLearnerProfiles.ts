@@ -13,18 +13,18 @@ const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
   return [
     {
       id: "1",
-      name: "Liam Chen",
-      age: "25",
-      readingLevel: "Intermediate",
+      label: "Liam Chen",
+      age: 25,
+      reading_level: 6,
       experience:
         "Has basic understanding of HTML/CSS but no JavaScript experience.",
       interests: ["Game Development", "Web Design", "AI Art"],
     },
     {
       id: "2",
-      name: "Maya Singh",
-      age: "40",
-      readingLevel: "Advanced",
+      label: "Maya Singh",
+      age: 40,
+      reading_level: 15,
       experience:
         "Expert in education/training; proficient in tools like Excel, but new to coding/data analysis.",
       interests: [
@@ -35,9 +35,9 @@ const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
     },
     {
       id: "3",
-      name: "Chloe Davis",
-      age: "17",
-      readingLevel: "Fluent",
+      label: "Chloe Davis",
+      age: 17,
+      reading_level: 10,
       experience:
         "Has participated in a few coding camps; understands basic Python syntax and logic.",
       interests: ["Robotics", "Space Exploration", "Cybersecurity"],

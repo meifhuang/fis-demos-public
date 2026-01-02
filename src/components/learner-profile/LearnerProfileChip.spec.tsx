@@ -17,9 +17,9 @@ interface MockHeroChipProps {
 
 const MOCK_PROFILE: LearnerProfile = {
   id: "42",
-  name: "Advanced Pythonista",
-  age: "35",
-  readingLevel: "Professional",
+  label: "Advanced Pythonista",
+  age: 35,
+  reading_level: 16,
   experience: "10+ years in development.",
   interests: ["AI", "Algorithms", "Testing"],
 };
@@ -28,9 +28,9 @@ const MOCK_PROFILES_ARRAY: LearnerProfile[] = [
   MOCK_PROFILE,
   {
     id: "101",
-    name: "Beginner Frontend",
-    age: "22",
-    readingLevel: "Intermediate",
+    label: "Beginner Frontend",
+    age: 22,
+    reading_level: 8,
     experience: "Just started learning React.",
     interests: ["React", "CSS"],
   },
@@ -42,7 +42,7 @@ vi.mock("@demos/_store/useDeprecatedLearnerProfiles", () => ({
 
 vi.mock("./LearnerProfileCard", () => ({
   default: ({ learnerProfile }: MockLearnerProfileCardProps) => (
-    <div data-testid="mock-profile-card">Card for: {learnerProfile.name}</div>
+    <div data-testid="mock-profile-card">Card for: {learnerProfile.label}</div>
   ),
 }));
 
@@ -122,7 +122,7 @@ describe("LearnerProfileChip", () => {
       // Check that the Popover structure and profile name are rendered
       expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
       expect(screen.getByTestId("popover-trigger")).toHaveTextContent(
-        MOCK_PROFILE.name
+        MOCK_PROFILE.label
       );
     });
 
@@ -138,7 +138,7 @@ describe("LearnerProfileChip", () => {
       expect(mockCard).toBeInTheDocument();
 
       // Check that the mock card received the correct profile data
-      expect(mockCard).toHaveTextContent(`Card for: ${MOCK_PROFILE.name}`);
+      expect(mockCard).toHaveTextContent(`Card for: ${MOCK_PROFILE.label}`);
     });
 
     it("uses the provided custom data-testid", () => {

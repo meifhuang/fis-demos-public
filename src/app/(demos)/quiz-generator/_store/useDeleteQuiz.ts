@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { quizKeys } from "./keys";
 import { QuizRow } from "@/types/demos/quiz-generator";
-import { deleteQuiz } from "../_fetchers";
+import { deleteQuiz } from "../_services";
 
 /**
  * Hook for deleting an existing Quiz.

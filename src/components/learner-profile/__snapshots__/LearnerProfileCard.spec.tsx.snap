@@ -56,7 +56,9 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot when profile data
            
           <span
             class="text-gray-600"
-          />
+          >
+            0
+          </span>
         </div>
       </div>
       <div
@@ -91,7 +93,9 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot when profile data
            
           <span
             class="text-gray-600"
-          />
+          >
+            0
+          </span>
         </div>
       </div>
       <hr
@@ -278,7 +282,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot with a fully popu
           <span
             class="text-gray-600"
           >
-            Professional
+            16
           </span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "./keys";
-import { getQuizzes } from "../_fetchers";
+import { getQuizzes } from "../_services";
 import { Quiz } from "../_models";
 
 /**

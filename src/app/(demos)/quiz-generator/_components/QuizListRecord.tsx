@@ -83,7 +83,7 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
 
           <div className="flex justify-between items-center mb-4 text-xs">
             <p
-              data-testid="quiz-list-total-lessons"
+              data-testid="quiz-list-total-questions"
               className="flex items-center gap-2 text-gray-600"
             >
               `{record.questionCount} question
@@ -93,7 +93,7 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
           <LearnerProfileChip
             data-testid="quiz-list-learner-chip"
             learnerProfile={record.learnerProfile}
-            className="mt-2"
+            addClassName="mt-2"
           />
         </div>
 
