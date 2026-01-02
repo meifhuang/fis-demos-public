@@ -26,6 +26,16 @@ export interface LessonPlanRecord extends BaseListRecord {
   updated_at: string;
 }
 
+export type LessonPlanPreSave = {
+  creation_meta: LessonPlanRecord["creation_meta"];
+  introduction: string;
+  context: string;
+  example: string;
+  practice: string;
+  assessment: string;
+  reflection: string;
+};
+
 export type LessonPlanUpdate = Omit<
   LessonPlanRecord,
   "created_at" | "updated_at"

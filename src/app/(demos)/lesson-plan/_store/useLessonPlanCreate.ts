@@ -6,7 +6,7 @@ import { lessonKeys } from "./keys";
 /**
  * Hook for creating a new Lesson Plan record, invalidating the list cache upon success.
  */
-export const useCreateLessonPlan = () => {
+export const useLessonPlanCreate = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: lessonKeys.create(),

@@ -1,8 +1,8 @@
 "use client";
 
 import { useLearnerProfiles } from "@demos/_store/useLearnerProfiles";
-import { LessonPlanRecord } from "@/types/demos/lesson-plan";
-import { useCreateLessonPlan } from "../_store/useLessonPlanCreate";
+import { LessonPlanPreSave, LessonPlanRecord } from "@/types/demos/lesson-plan";
+// import { useLessonPlanCreate } from "../_store/useLessonPlanCreate";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -15,18 +15,14 @@ import {
   Spinner,
 } from "@heroui/react";
 import { BookOpen, User, Send } from "lucide-react";
+import { useLessonPlanGenerate } from "../_store/useLessonPlanGenerate";
+import { useLessonPlanSave } from "../_store/useLessonPlanSave";
 
 interface FormData {
   id: string;
   sourceMaterialTitle: string;
   sourceMaterialContent: string;
   learnerProfileId: string;
-  introductionMarkdown: string;
-  contextMarkdown: string;
-  exampleMarkdown: string;
-  practiceMarkdown: string;
-  assessmentMarkdown: string;
-  reflectionMarkdown: string;
 }
 
 export default function LessonPlanForm() {
@@ -37,17 +33,13 @@ export default function LessonPlanForm() {
     sourceMaterialTitle: "",
     sourceMaterialContent: "",
     learnerProfileId: "",
-    introductionMarkdown: "",
-    contextMarkdown: "",
-    exampleMarkdown: "",
-    practiceMarkdown: "",
-    assessmentMarkdown: "",
-    reflectionMarkdown: "",
   });
 
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
-  const { mutate: createLesson, isPending: isSubmitting } =
-    useCreateLessonPlan();
+
+  const { mutateAsync: generateLessonPlan, isPending: isSubmitting } =
+    useLessonPlanGenerate();
+  const { mutateAsync: saveLessonPlan } = useLessonPlanSave();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -65,31 +57,16 @@ export default function LessonPlanForm() {
   };
 
   const isFormValid = useMemo(() => {
-    const {
-      sourceMaterialTitle,
-      sourceMaterialContent,
-      learnerProfileId,
-      introductionMarkdown,
-      contextMarkdown,
-      exampleMarkdown,
-      practiceMarkdown,
-      assessmentMarkdown,
-      reflectionMarkdown,
-    } = formData;
+    const { sourceMaterialTitle, sourceMaterialContent, learnerProfileId } =
+      formData;
     return (
       sourceMaterialTitle.trim().length > 0 &&
       sourceMaterialContent.trim().length > 0 &&
-      learnerProfileId !== "" &&
-      introductionMarkdown.trim().length > 0 &&
-      contextMarkdown.trim().length > 0 &&
-      exampleMarkdown.trim().length > 0 &&
-      practiceMarkdown.trim().length > 0 &&
-      assessmentMarkdown.trim().length > 0 &&
-      reflectionMarkdown.trim().length > 0
+      learnerProfileId !== ""
     );
   }, [formData]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const learnerProfile = profiles?.find(
       (p) => p.id === formData.learnerProfileId
@@ -106,8 +83,7 @@ export default function LessonPlanForm() {
           interests: learnerProfile.interests,
         };
 
-      const submissionData: Partial<LessonPlanRecord> = {
-        id: formData.id,
+      const submissionData = {
         creation_meta: {
           learner_profile: learnerProfileData,
           source_material: {
@@ -115,20 +91,19 @@ export default function LessonPlanForm() {
             content: formData.sourceMaterialContent,
           },
         },
-        introduction: formData.introductionMarkdown,
-        context: formData.contextMarkdown,
-        example: formData.exampleMarkdown,
-        practice: formData.practiceMarkdown,
-        assessment: formData.assessmentMarkdown,
-        reflection: formData.reflectionMarkdown,
       };
 
-      // createLesson(submissionData as LessonPlanRecord);
-      createLesson(submissionData as LessonPlanRecord, {
-        onSuccess: (createdLesson) => {
-          router.push(`/lesson-plan/${createdLesson.id}/edit`);
-        },
-      });
+      // generate instead of creating course manually
+      const generatedLessonPlan = await generateLessonPlan(submissionData);
+
+      const payload: LessonPlanPreSave = {
+        ...generatedLessonPlan,
+        creation_meta: submissionData.creation_meta,
+      };
+
+      const savedLessonPlan = await saveLessonPlan(payload);
+
+      router.push(`/lesson-plan/${savedLessonPlan.id}/edit`);
     }
   };
 
@@ -206,98 +181,6 @@ export default function LessonPlanForm() {
               </>
             </Select>
           </div>
-
-          {/* DIVIDER */}
-          <div className="border-t border-gray-200"></div>
-
-          {/* LESSON CONTENT SECTION */}
-          <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
-              Lesson Content
-            </h2>
-            <div className="space-y-5">
-              <Textarea
-                data-testid="lesson-plan-create-introduction"
-                label="Introduction"
-                name="introductionMarkdown"
-                placeholder="Enter the introduction content in markdown format."
-                value={formData.introductionMarkdown}
-                onChange={handleChange}
-                labelPlacement="outside"
-                fullWidth
-                required
-                rows={4}
-              />
-
-              <Textarea
-                data-testid="lesson-plan-create-context"
-                label="Context"
-                name="contextMarkdown"
-                placeholder="Enter the context content in markdown format."
-                value={formData.contextMarkdown}
-                onChange={handleChange}
-                labelPlacement="outside"
-                fullWidth
-                required
-                rows={4}
-              />
-
-              <Textarea
-                data-testid="lesson-plan-create-example"
-                label="Example"
-                name="exampleMarkdown"
-                placeholder="Enter the example content in markdown format."
-                value={formData.exampleMarkdown}
-                onChange={handleChange}
-                labelPlacement="outside"
-                fullWidth
-                required
-                rows={4}
-              />
-
-              <Textarea
-                data-testid="lesson-plan-create-practice"
-                label="Practice"
-                name="practiceMarkdown"
-                placeholder="Enter the practice content in markdown format."
-                value={formData.practiceMarkdown}
-                onChange={handleChange}
-                labelPlacement="outside"
-                fullWidth
-                required
-                rows={4}
-              />
-
-              <Textarea
-                data-testid="lesson-plan-create-assessment"
-                label="Assessment"
-                name="assessmentMarkdown"
-                placeholder="Enter the assessment content in markdown format."
-                value={formData.assessmentMarkdown}
-                onChange={handleChange}
-                labelPlacement="outside"
-                fullWidth
-                required
-                rows={4}
-              />
-
-              <Textarea
-                data-testid="lesson-plan-create-reflection"
-                label="Reflection"
-                name="reflectionMarkdown"
-                placeholder="Enter the reflection content in markdown format."
-                value={formData.reflectionMarkdown}
-                onChange={handleChange}
-                labelPlacement="outside"
-                fullWidth
-                required
-                rows={4}
-              />
-            </div>
-          </div>
-
-          {/* DIVIDER */}
-          <div className="border-t border-gray-200 pt-2"></div>
 
           {/* SUBMIT BUTTON */}
           <div className="pt-2">

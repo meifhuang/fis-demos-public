@@ -9,13 +9,6 @@ export class LessonPlanCreatePage {
   readonly sourceMaterialContentField: Locator;
   readonly learnerProfileSelect: Locator;
 
-  readonly introductionField: Locator;
-  readonly contextField: Locator;
-  readonly exampleField: Locator;
-  readonly practiceField: Locator;
-  readonly assessmentField: Locator;
-  readonly reflectionField: Locator;
-
   // Buttons
   readonly submitButton: Locator;
 
@@ -35,15 +28,6 @@ export class LessonPlanCreatePage {
     this.learnerProfileSelect = page.getByTestId(
       "lesson-plan-create-learner-profile"
     );
-
-    this.introductionField = page.getByTestId(
-      "lesson-plan-create-introduction"
-    );
-    this.contextField = page.getByTestId("lesson-plan-create-context");
-    this.exampleField = page.getByTestId("lesson-plan-create-example");
-    this.practiceField = page.getByTestId("lesson-plan-create-practice");
-    this.assessmentField = page.getByTestId("lesson-plan-create-assessment");
-    this.reflectionField = page.getByTestId("lesson-plan-create-reflection");
 
     // --- Locator for Submit Button ---
     this.submitButton = page.getByTestId("lesson-plan-create-submit");
@@ -81,19 +65,5 @@ export class LessonPlanCreatePage {
     await this.sourceMaterialContentField.fill(
       "Atoms are the basic building blocks of matter..."
     );
-
-    // 2. Lesson content
-    await this.introductionField.fill("This lesson introduces atoms.");
-    await this.contextField.fill(
-      "Atoms are essential to understanding chemistry and physics."
-    );
-    await this.exampleField.fill(
-      "For example, water is made of hydrogen and oxygen atoms."
-    );
-    await this.practiceField.fill(
-      "Have students identify atoms in common substances."
-    );
-    await this.assessmentField.fill("Quiz students on atomic structure.");
-    await this.reflectionField.fill("Students reflect on why atoms matter.");
   }
 }
