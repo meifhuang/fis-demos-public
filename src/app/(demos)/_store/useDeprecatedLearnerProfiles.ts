@@ -24,7 +24,7 @@ const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
       id: "2",
       label: "Maya Singh",
       age: 40,
-      reading_level: 15,
+      reading_level: 14,
       experience:
         "Expert in education/training; proficient in tools like Excel, but new to coding/data analysis.",
       interests: [
@@ -37,7 +37,7 @@ const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
       id: "3",
       label: "Chloe Davis",
       age: 17,
-      reading_level: 10,
+      reading_level: 9,
       experience:
         "Has participated in a few coding camps; understands basic Python syntax and logic.",
       interests: ["Robotics", "Space Exploration", "Cybersecurity"],

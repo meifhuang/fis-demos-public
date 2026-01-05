@@ -65,17 +65,17 @@ export class QuizCreatePage {
     // 2. Select Source Lesson (Selects the first available option)
     await this.sourceLessonSelector.click();
 
-    const firstSourceOption = await this.page.getByRole("option").first();
+    const sourceList = this.page.getByRole("listbox").first();
+    await expect(sourceList).toBeVisible();
+
+    const firstSourceOption = sourceList.getByRole("option").first();
     await expect(firstSourceOption).toBeVisible();
     await firstSourceOption.click();
 
     // 3. Select Learner Profile (Selects the first available option)
     await this.learnerProfileSelect.click();
 
-    const profileList = this.page.getByRole("listbox").first();
-    await expect(profileList).toBeVisible();
-
-    const firstProfileOption = profileList.getByRole("option").first();
+    const firstProfileOption = this.page.getByTestId("quiz-create-profile-0");
     await expect(firstProfileOption).toBeVisible();
     await firstProfileOption.click();
   }

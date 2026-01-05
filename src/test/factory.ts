@@ -162,14 +162,14 @@ export async function create<F extends Factory>(
 ): Promise<FactoryOutput<F>> {
   const table = tableize(name) as keyof Database["public"]["Tables"];
   const entity = build(name, overrides) as Tables<typeof table>;
-
+  
   const supabase = getClient();
-
+  
   const { data, error } = await supabase
-    .from(table)
-    .insert([entity])
-    .select()
-    .single();
+  .from(table)
+  .insert(entity)
+  .select()
+  .single();
 
   if (error) throw error;
 
@@ -187,7 +187,7 @@ export async function createList<F extends Factory>(
   length: number,
   overrides = {}
 ): Promise<FactoryOutput<F>[]> {
-  return Promise.all(
+  return await Promise.all(
     Array.from({ length }, () => create(name, overrides)) as FactoryOutput<F>[]
   );
 }

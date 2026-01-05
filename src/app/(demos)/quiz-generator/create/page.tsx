@@ -199,8 +199,11 @@ export default function QuizForm() {
               required
             >
               <>
-                {profiles?.map((profile) => (
-                  <SelectItem key={profile.id.toString()}>
+                {profiles?.map((profile, i) => (
+                  <SelectItem 
+                    data-testid={`quiz-create-profile-${i}`}
+                    key={profile.id.toString()}
+                    >
                     {profile.label}
                   </SelectItem>
                 ))}

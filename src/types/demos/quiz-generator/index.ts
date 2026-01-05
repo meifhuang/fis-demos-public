@@ -1,12 +1,9 @@
-import { BaseListRecord, Database, SourceMaterialForm } from "@/types";
+import { Database, SourceMaterialForm } from "@/types";
 
-export interface QuizRecord extends BaseListRecord {
-  title: string;
-  description: string;
-  numberOfQuestions: number;
-  learnerProfileId: string;
-  sourceLessonId: string
-}
+export type QuizDB = Database["public"]["Tables"]["quizzes"]
+export type QuizRow = QuizDB["Row"]
+export type QuizInsert = QuizDB["Insert"]
+export type QuizUpdate = QuizDB["Update"]
 
 export interface QuizFormState {
   title: string;
@@ -17,13 +14,10 @@ export interface QuizFormState {
   sourceMaterial: SourceMaterialForm
 }
 
-export type QuizInsert = Database["public"]["Tables"]["quizzes"]["Insert"]
-
 export type QuizFormSubmission = Omit<QuizInsert, "creation_meta"> & {
   creation_meta: Record<string, unknown>
 }
 
-export type QuizRow = Database["public"]["Tables"]["quizzes"]["Row"]
 
 export interface Answer {
   text: string;
