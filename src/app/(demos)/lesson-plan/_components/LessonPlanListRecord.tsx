@@ -5,6 +5,8 @@ import { useCallback } from "react";
 import { Button, addToast, useDisclosure } from "@heroui/react";
 import { Edit2, Eye, Trash2 } from "lucide-react";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import {
   LearnerProfileChip,
@@ -104,7 +106,10 @@ export default function LessonPlanListRecord({ record }: LessonPlanListProps) {
             data-testid="lesson-plan-list-record-description"
             className="text-sm text-gray-600 mb-4 text-justify line-clamp-2"
           >
-            {record.introduction}
+            {/* TODO change this to some other field later ? */}
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {record.introduction}
+            </ReactMarkdown>
           </p>
 
           <div className="flex justify-between items-center mb-4 text-xs">

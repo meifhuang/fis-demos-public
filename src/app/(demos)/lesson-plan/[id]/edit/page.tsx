@@ -16,6 +16,7 @@ import { useParams, useRouter } from "next/navigation";
 import LessonPlanSkeleton from "../_components/LessonPlanSkeleton";
 import LessonSkeleton from "../_components/LessonSkeleton";
 import { useEditLessonPlanHook } from "../_hooks/useEditLessonPlanHook";
+import MarkdownPreview from "@/app/(demos)/_components/MarkdownPreview";
 
 export default function LessonPlanEditPage() {
   const router = useRouter();
@@ -151,16 +152,19 @@ export default function LessonPlanEditPage() {
                 <h3 className="text-lg font-semibold">{section.label}</h3>
               </CardHeader>
               <CardBody>
-                <Textarea
-                  label={`${section.label} Content`}
-                  labelPlacement="outside"
-                  fullWidth
-                  rows={4}
-                  value={lessonPlan?.[section.key] ?? ""}
-                  onChange={(e) =>
-                    handleLessonSectionChange(section.key, e.target.value)
-                  }
-                />
+                <Card className="shadow-sm h-full">
+                  <CardBody className="space-y-3 pt-2 border-t border-gray-100">
+                    <div>
+                      <MarkdownPreview
+                        label={`${section.label} Content`}
+                        value={lessonPlan?.[section.key] ?? ""}
+                        onChange={(value) =>
+                          handleLessonSectionChange(section.key, value)
+                        }
+                      />
+                    </div>
+                  </CardBody>
+                </Card>
               </CardBody>
             </Card>
           ))}

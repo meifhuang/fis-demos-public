@@ -11,8 +11,9 @@ import {
 import { LearnerProfile, LearnerProfileChip } from "@/lib/learner-profiles";
 import { useLessonPlan } from "../_store/useLessonPlan";
 import { useParams } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-// convert these over
 import LessonPlanSkeleton from "./_components/LessonPlanSkeleton";
 import LessonSkeleton from "./_components/LessonSkeleton";
 
@@ -71,7 +72,11 @@ export default function LessonPlanTeacherView() {
           {/* Find a better thing to put here? */}
           <CardBody className="pt-0">
             <p className="text-lg text-gray-600 border-b pb-4 mb-4">
-              {lessonPlan?.creation_meta.source_material.content}
+              <div className="prose prose-base max-w-none prose-headings:font-bold prose-h2:mt-6 prose-h3:mt-4">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {lessonPlan?.creation_meta.source_material.content}
+                </ReactMarkdown>
+              </div>
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -147,9 +152,10 @@ export default function LessonPlanTeacherView() {
                 base: "border-t-4 border-indigo-200",
               }}
             >
-              {/* Make this prettier? */}
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm prose prose-sm">
-                <p className="text-gray-700 text-sm">{section.content}</p>
+              <div className="prose prose-base max-w-none prose-headings:font-bold prose-h2:mt-6 prose-h3:mt-4">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {section.content}
+                </ReactMarkdown>
               </div>
             </AccordionItem>
           ))}
