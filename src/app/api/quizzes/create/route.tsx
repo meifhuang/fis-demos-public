@@ -6,13 +6,13 @@ import { Json, QuizInsert } from "@/types";
 
 const answer = z.object({
   text: z.string().min(1),
-  feedback: z.string()
+  feedback: z.string(),
+  correct: z.boolean()
 })
 
 const question = z.object({
   question: z.string().min(1),
-  answer: answer,
-  distractors: z.array(answer).min(1)
+  answers: z.array(answer).min(1)
 })
 
 const quiz = z.object({

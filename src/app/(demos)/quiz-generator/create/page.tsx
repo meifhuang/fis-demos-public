@@ -15,6 +15,7 @@ import { ListOrdered, User, Send } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import { useCreateQuiz } from "../_store/useCreateQuiz";
 import SourceLessonSelector from "./_components/SourceLessonSelector";
+import { useRouter } from "next/navigation";
 
 const genericSourceMaterial = [{
   id: "0",
@@ -25,22 +26,26 @@ const genericSourceMaterial = [{
 const genericQuestions = [
   {
     "question": "Which statement best describes the structure of an atom?",
-    "answer": {
-      "text": "An atom has protons and neutrons in the nucleus, with electrons orbiting around it.",
-      "feedback": "Correct! The nucleus contains protons and neutrons, while electrons move around the nucleus."
-    },
-    "distractors": [
+    "answers": [
+      {
+        "text": "An atom has protons and neutrons in the nucleus, with electrons orbiting around it.",
+        "feedback": "Correct! The nucleus contains protons and neutrons, while electrons move around the nucleus.",
+        "correct": true,
+      },
       {
         "text": "An atom is made only of protons and electrons, which are both in the nucleus.",
-        "feedback": "Not quite. Neutrons are also in the nucleus, and electrons orbit around it."
+        "feedback": "Not quite. Neutrons are also in the nucleus, and electrons orbit around it.",
+        "correct": false,
       },
       {
         "text": "An atom is a large solid sphere made entirely of electrons.",
-        "feedback": "Incorrect. Atoms are mostly empty space and have a nucleus with protons and neutrons."
+        "feedback": "Incorrect. Atoms are mostly empty space and have a nucleus with protons and neutrons.",
+        "correct": false,
       },
       {
         "text": "An atom has neutrons orbiting the nucleus while protons and electrons stay in the center.",
-        "feedback": "Nope. Only electrons orbit the nucleus; protons and neutrons are in the center."
+        "feedback": "Nope. Only electrons orbit the nucleus; protons and neutrons are in the center.",
+        "correct": false,
       }
     ]
   }
@@ -57,8 +62,10 @@ export default function QuizForm() {
   });
 
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
-  const { mutate: createQuiz, isPending: isSubmitting } =
+  const { mutateAsync: createQuiz, isPending: isSubmitting } =
     useCreateQuiz();
+
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -94,7 +101,7 @@ export default function QuizForm() {
     );
   }, [formData]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isFormValid && !isSubmitting) {
       const learnerProfile = profiles?.find(
@@ -132,7 +139,9 @@ export default function QuizForm() {
         questions: genericQuestions
       }
 
-      createQuiz(submissionData);
+      const savedQuiz = await createQuiz(submissionData);
+
+      router.push(`/quiz-generator/${savedQuiz.id}/edit`);
     }
   };
 

@@ -22,10 +22,10 @@ export type QuizFormSubmission = Omit<QuizInsert, "creation_meta"> & {
 export interface Answer {
   text: string;
   feedback: string; 
+  correct: boolean;
 }
 
 export interface Question {
   question:  string;
-  answer: Answer;
-  distractors: Answer[];
+  answers: Answer[];
 }

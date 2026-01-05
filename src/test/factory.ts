@@ -102,16 +102,16 @@ const factories = {
   question(): Question {
     return {
       question: faker.lorem.sentence(),
-      answer: build("answer"),
-      distractors: buildList("answer", 3),
-    };
+      answers: buildList("answer", 4)
+    }
   },
 
   answer(): Answer {
     return {
       text: faker.lorem.sentence(),
       feedback: faker.lorem.sentence(),
-    };
+      correct: Math.random() < 0.5
+    }
   },
 
   sourceMaterial(): Tables<"source_materials"> {

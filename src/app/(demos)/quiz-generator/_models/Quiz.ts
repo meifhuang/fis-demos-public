@@ -1,5 +1,5 @@
 import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles"
-import { Json, Question, QuizRow, QuizUpdate } from "@/types";
+import { Answer, Json, Question, QuizRow, QuizUpdate } from "@/types";
 
 interface CreationMeta {
   learner_profile?: LearnerProfileRow;
@@ -32,6 +32,21 @@ export class Quiz {
       i === index ? { ...existing, ...question } : { ...existing }
     );
     return new Quiz({ ...this.data, questions: questions as unknown as Json });
+  }
+
+  withAnswer(
+    questionIndex: number,
+    answerIndex: number,
+    answer: Partial<Answer>
+  ): Quiz {
+    const question = this.questions[questionIndex];
+    
+    const updatedQuestion = {
+      ...question,
+      answers: question.answers.map((existing, i) => i === answerIndex ? {...existing, ...answer} : existing)
+    }
+
+    return this.withQuestion(questionIndex, updatedQuestion)
   }
 
   get id() {
