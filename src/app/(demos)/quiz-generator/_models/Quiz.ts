@@ -1,5 +1,5 @@
-import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles";
-import { Question, QuizRow } from "@/types";
+import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles"
+import { Json, Question, QuizRow, QuizUpdate } from "@/types";
 
 interface CreationMeta {
   learner_profile?: LearnerProfileRow;
@@ -8,6 +8,31 @@ interface CreationMeta {
 
 export class Quiz {
   constructor(private data: QuizRow) {}
+
+  asUpdate(): QuizUpdate {
+    return {
+      title: this.data.title,
+      description: this.data.description,
+      questions: this.data.questions
+    }
+  }
+
+  // NOTE: if this ever accepts any camelCase `name`, this will need to
+  // be adjusted to handle the transformation
+  with(name: "title" | "description", value: string): Quiz {
+    return new Quiz({ ...this.data, [name]: value });
+  }
+
+  // NOTE: if Question gains any camelCase properties, this will need to
+  // be adjusted to handle the transformation
+  withQuestion(
+    index: number, question: Partial<Question>
+  ): Quiz {
+    const questions = this.questions.map((existing, i) =>
+      i === index ? { ...existing, ...question } : { ...existing }
+    );
+    return new Quiz({ ...this.data, questions: questions as unknown as Json });
+  }
 
   get id() {
     return this.data.id;
