@@ -8,11 +8,19 @@ test.describe("Creation of a new Lesson Plan", () => {
     await expect(lessonPlanCreatePage.heading).toBeVisible();
   });
 
-  test("Submit button is enabled when all required fields are filled", async ({
+  test("Submit button is enabled when custom source material selected and filled", async ({
     lessonPlanCreatePage,
   }) => {
-    // Fill all required fields using the helper function
-    await lessonPlanCreatePage.fillRequiredFields();
+    await lessonPlanCreatePage.customSourceMaterialFillAll();
+
+    // The submit button should now be enabled
+    await expect(lessonPlanCreatePage.submitButton).toBeEnabled();
+  });
+
+  test("Submit button is enabled when preset source material selected", async ({
+    lessonPlanCreatePage,
+  }) => {
+    await lessonPlanCreatePage.presetSourceMaterialFillAll();
 
     // The submit button should now be enabled
     await expect(lessonPlanCreatePage.submitButton).toBeEnabled();

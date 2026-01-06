@@ -5,6 +5,7 @@ export class LessonPlanCreatePage {
   readonly heading: Locator;
 
   // Form Fields
+  readonly sourceMaterialSelect: Locator;
   readonly sourceMaterialTitleField: Locator;
   readonly sourceMaterialContentField: Locator;
   readonly learnerProfileSelect: Locator;
@@ -17,7 +18,10 @@ export class LessonPlanCreatePage {
       name: "Create New Lesson Plan",
     });
 
-    // --- Locators for Form Fields ---
+    this.sourceMaterialSelect = page.getByTestId(
+      "lesson-plan-select-source-material"
+    );
+
     this.sourceMaterialTitleField = page.getByTestId(
       "lesson-plan-create-source-material-title"
     );
@@ -45,25 +49,68 @@ export class LessonPlanCreatePage {
    * Fills the form with valid data necessary for submission.
    * NOTE: Assumes Learner Profiles are loaded, selects the first one.
    */
-  async fillRequiredFields() {
+  async fillRequiredFields() {}
+
+  async customSourceMaterialFillAll() {
     await expect(this.learnerProfileSelect).toBeEnabled();
 
     await expect(this.learnerProfileSelect).toHaveText(
       "Select existing profile"
     );
-    // await expect(this.learnerProfileSelect).not.toBeDisabled();
 
-    // Select Learner Profile (Selects the first available option)
     await this.learnerProfileSelect.click();
-    const firstOption = this.page.getByRole("option").first();
+    const firstOption = this.page
+      .getByRole("listbox")
+      .getByRole("option")
+      .first();
     await firstOption.click();
 
-    // 1. Source material
+    await this.sourceMaterialSelect.click();
+    await this.page
+      .getByRole("listbox")
+      .getByRole("option", { name: "Custom" })
+      .click();
+
+    await expect(this.sourceMaterialTitleField).toBeVisible();
+    await expect(this.sourceMaterialContentField).toBeVisible();
+
+    // Fill required fields
     await this.sourceMaterialTitleField.fill(
       "Introduction to Atomic Structure"
     );
     await this.sourceMaterialContentField.fill(
       "Atoms are the basic building blocks of matter..."
     );
+  }
+
+  async presetSourceMaterialFillAll() {
+    await expect(this.learnerProfileSelect).toBeEnabled();
+
+    await expect(this.learnerProfileSelect).toHaveText(
+      "Select existing profile"
+    );
+
+    // Select Learner Profile (Selects the first available option)
+    await this.learnerProfileSelect.click();
+    const firstOption = this.page
+      .getByRole("listbox")
+      .getByRole("option")
+      .first();
+    await firstOption.click();
+
+    // Source material
+    await this.sourceMaterialSelect.click();
+
+    // Select first non-custom option
+    const firstExistingMaterial = this.page
+      .getByRole("option")
+      .filter({ hasText: /^(?!Custom$).+/ })
+      .first();
+
+    await firstExistingMaterial.click();
+
+    // Ensure textboxes are NOT visible
+    await expect(this.sourceMaterialTitleField).toBeHidden();
+    await expect(this.sourceMaterialContentField).toBeHidden();
   }
 }

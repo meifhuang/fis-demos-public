@@ -17,9 +17,11 @@ import {
 import { BookOpen, User, Send } from "lucide-react";
 import { useLessonPlanGenerate } from "../_store/useLessonPlanGenerate";
 import { useLessonPlanSave } from "../_store/useLessonPlanSave";
+import { useSourceMaterials } from "@/features/source-materials";
 
 interface FormData {
   id: string;
+  sourceMaterialId: string;
   sourceMaterialTitle: string;
   sourceMaterialContent: string;
   learnerProfileId: string;
@@ -30,12 +32,15 @@ export default function LessonPlanForm() {
 
   const [formData, setFormData] = useState<FormData>({
     id: "3",
+    sourceMaterialId: "",
     sourceMaterialTitle: "",
     sourceMaterialContent: "",
     learnerProfileId: "",
   });
 
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
+  const { data: sourceMaterials, isLoading: sourcesLoading } =
+    useSourceMaterials();
 
   const { mutateAsync: generateLessonPlan, isPending: isSubmitting } =
     useLessonPlanGenerate();
@@ -48,11 +53,41 @@ export default function LessonPlanForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Simplified handler for select (used for learnerProfileId)
+  // Handler for both learnerprofile and sourcematerials
   const handleSelectChange = (name: string, value: string | undefined) => {
+    const selectedValue = value?.toString() ?? "";
+
+    // if custom, allow user to put in their own source material
+    if (name === "sourceMaterialId") {
+      if (selectedValue === "custom") {
+        setFormData((prev) => ({
+          ...prev,
+          sourceMaterialId: "custom",
+          sourceMaterialTitle: "",
+          sourceMaterialContent: "",
+        }));
+        return;
+      }
+
+      const selectedMaterial = sourceMaterials?.find(
+        (m) => m.id.toString() === selectedValue
+      );
+
+      if (selectedMaterial) {
+        setFormData((prev) => ({
+          ...prev,
+          sourceMaterialId: selectedValue,
+          sourceMaterialTitle: selectedMaterial.title,
+          sourceMaterialContent: selectedMaterial.markdown.trim(),
+        }));
+        return;
+      }
+    }
+
+    // Default behavior (learnerProfileId and future selects)
     setFormData((prev) => ({
       ...prev,
-      [name]: value?.toString() ?? "",
+      [name]: selectedValue,
     }));
   };
 
@@ -120,30 +155,60 @@ export default function LessonPlanForm() {
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               Source Material
             </h2>
-            <Input
-              data-testid="lesson-plan-create-source-material-title"
-              label="Source Material Title"
-              name="sourceMaterialTitle"
-              placeholder="e.g., Python Programming Basics Chapter 3"
-              value={formData.sourceMaterialTitle}
-              onChange={handleChange}
+            <Select
+              data-testid="lesson-plan-select-source-material"
+              label="Source Material"
               labelPlacement="outside"
-              startContent={<BookOpen size={18} />}
+              selectedKeys={[formData.sourceMaterialId]}
+              placeholder={
+                sourcesLoading
+                  ? "Loading source materials..."
+                  : "Select source material"
+              }
+              onSelectionChange={(key) =>
+                handleSelectChange("sourceMaterialId", key.currentKey)
+              }
+              isDisabled={sourcesLoading}
               fullWidth
-              required
-            />
-            <Textarea
-              data-testid="lesson-plan-create-source-material-content"
-              label="Source Material Content"
-              name="sourceMaterialContent"
-              placeholder="Paste or type the source material content that will be used to generate the lesson plan."
-              value={formData.sourceMaterialContent}
-              onChange={handleChange}
-              labelPlacement="outside"
-              fullWidth
-              required
-              rows={6}
-            />
+            >
+              <>
+                <SelectItem key="custom">Custom</SelectItem>
+
+                {sourceMaterials?.map((material) => (
+                  <SelectItem key={material.id.toString()}>
+                    {material.title}
+                  </SelectItem>
+                ))}
+              </>
+            </Select>
+            {formData.sourceMaterialId === "custom" && (
+              <>
+                <Input
+                  data-testid="lesson-plan-create-source-material-title"
+                  label="Source Material Title"
+                  name="sourceMaterialTitle"
+                  placeholder="e.g., Python Programming Basics Chapter 3"
+                  value={formData.sourceMaterialTitle}
+                  onChange={handleChange}
+                  labelPlacement="outside"
+                  startContent={<BookOpen size={18} />}
+                  fullWidth
+                  required
+                />
+                <Textarea
+                  data-testid="lesson-plan-create-source-material-content"
+                  label="Source Material Content"
+                  name="sourceMaterialContent"
+                  placeholder="Paste or type the source material content that will be used to generate the lesson plan."
+                  value={formData.sourceMaterialContent}
+                  onChange={handleChange}
+                  labelPlacement="outside"
+                  fullWidth
+                  required
+                  rows={6}
+                />
+              </>
+            )}
           </div>
 
           {/* DIVIDER */}
