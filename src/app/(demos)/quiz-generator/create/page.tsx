@@ -14,14 +14,9 @@ import {
 import { ListOrdered, User, Send } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import { useSaveQuiz, useGenerateQuizQuestions } from "../_store";
-import SourceLessonSelector from "./_components/SourceLessonSelector";
+import SourceMaterialSelector from "./_components/SourceMaterialSelector";
 import { useRouter } from "next/navigation";
-
-const genericSourceMaterial = [{
-  id: "0",
-  title: "What is an atom?",
-  content: "Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.\n- **Protons** have a positive charge and sit in the center, called the **nucleus**.\n- **Neutrons** have no charge and are also in the nucleus.\n- **Electrons** have a negative charge and orbit around the nucleus.\nLearning about atoms helps us understand chemistry, biology, and physics.\nFor example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms."
-}]
+import { useSourceMaterials } from "@/features/source-materials";
 
 export default function QuizForm() {
   const [formData, setFormData] = useState<QuizFormState>({
@@ -33,6 +28,7 @@ export default function QuizForm() {
     customization: "",
   });
 
+  const { data: sources, isLoading: sourcesLoading } = useSourceMaterials();
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
   const { mutateAsync: saveQuiz, isPending: isSubmitting } =
     useSaveQuiz();
@@ -85,17 +81,25 @@ export default function QuizForm() {
       let sourceMaterial: SourceMaterial | undefined
 
       if (formData.sourceMaterial) {
-        sourceMaterial = genericSourceMaterial.find(
+        const selected = sources?.find(
           (source) => source.id === formData.sourceMaterial?.id
         )
 
-        if (sourceMaterial === undefined) {
+        if (selected) {
+          sourceMaterial = {
+            id: selected.id,
+            title: selected.title,
+            content: selected.markdown
+          }
+        }
+      }
+
+      if (sourceMaterial === undefined) {
           sourceMaterial = {
             id: "custom",
             title: "Custom Lesson", 
             content: formData.sourceMaterial?.content ?? ""
           }
-        }
       }
 
       if (learnerProfile === undefined) return;
@@ -162,8 +166,9 @@ export default function QuizForm() {
             rows={4}
           />
 
-          <SourceLessonSelector 
-            sources={genericSourceMaterial}
+          <SourceMaterialSelector 
+            sources={sources}
+            loading={sourcesLoading}
             value={formData.sourceMaterial}
             onChange={(source) =>
               handleSelectChange("sourceMaterial", source)

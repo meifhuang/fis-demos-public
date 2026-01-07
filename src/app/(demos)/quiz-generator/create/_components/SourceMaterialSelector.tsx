@@ -1,14 +1,16 @@
-import { SourceMaterial, SourceMaterialForm } from "@/types"
+import { SourceMaterial } from "@/features/source-materials"
+import { SourceMaterialForm } from "@/types"
 import { Select, SelectItem, Textarea } from "@heroui/react"
 import { Book } from "lucide-react"
 
 type props = {
-  sources: SourceMaterial[]
+  sources: SourceMaterial[] | undefined
+  loading: boolean
   value: SourceMaterialForm
   onChange: (update: SourceMaterialForm) => void
 }
 
-export default function SourceLessonSelector({sources, value, onChange}: props) {
+export default function SourceMaterialSelector({sources, loading, value, onChange}: props) {
   const selected = 
     value?.type === "custom"
       ? ["custom"] 
@@ -20,9 +22,13 @@ export default function SourceLessonSelector({sources, value, onChange}: props) 
     <div className="flex gap-4">
       <Select
         data-testid="quiz-create-lesson-selector"
-        label="Source Lesson"
+        label="Source Material"
         name="sourceLessonId"
-        placeholder="Select Source Lesson"
+        placeholder={
+          loading
+            ? "Loading Source Materials..."
+            : "Select Source Material"
+        }
         labelPlacement="outside"
         selectedKeys={selected}
         onSelectionChange={(key) =>{
@@ -34,13 +40,13 @@ export default function SourceLessonSelector({sources, value, onChange}: props) 
           }
         }
         startContent={<Book size={18} />}
-        // isDisabled={profilesLoading}
+        isDisabled={loading}
         fullWidth
         required
       >
         <>
-          {sources.map((source, i) => (
-            <SelectItem key={i}>
+          {sources?.map((source) => (
+            <SelectItem key={source.id}>
               {source.title}
             </SelectItem>
           ))}
@@ -54,7 +60,7 @@ export default function SourceLessonSelector({sources, value, onChange}: props) 
       && <Textarea
             data-testid="source-lesson-material"
             label="Custom Source"
-            name="customer-source"
+            name="custom-source"
             placeholder="Content used to build the quiz"
             value={value.content}
             onChange={(e) => {
