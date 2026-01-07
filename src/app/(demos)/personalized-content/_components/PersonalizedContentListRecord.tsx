@@ -48,7 +48,11 @@ export default function PersonalizedContentListRecord({
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
-          description: `'${deleted.title}' has been removed.`,
+          description: (
+            <p>
+              <span className="font-bold">{deleted.title}</span> has been removed.
+            </p>
+          ),
           color: "success",
           shouldShowTimeoutProgress: true,
         });
@@ -131,9 +135,9 @@ export default function PersonalizedContentListRecord({
         title={"Confirm Deletion"}
         message={
           <p className="text-gray-700">
-            Are you sure you want to permanently delete this lesson:
+            Are you sure you want to permanently delete this personalized content?
             <span className="font-semibold block mt-1">
-              &quot;{record.title}&quot; (ID: {record.id})?
+              {record.title}
             </span>
             This action cannot be undone.
           </p>

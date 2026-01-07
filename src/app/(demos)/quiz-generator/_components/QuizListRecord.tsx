@@ -45,7 +45,11 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
-          description: `Quiz ID ${deletedId} has been removed.`,
+          description:  (
+            <p>
+              Quiz ID <span className="font-bold">{deletedId}</span> has been removed.
+            </p>
+          ),
           color: "success",
           shouldShowTimeoutProgress: true,
         });
@@ -139,9 +143,9 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
         title={"Confirm Deletion"}
         message={
           <p className="text-gray-700">
-            Are you sure you want to permanently delete the quiz:
+            Are you sure you want to permanently delete this quiz?
             <span className="font-semibold block mt-1">
-              &quot;{record.title}&quot; (ID: {record.id})?
+              {record.title}
             </span>
             This action cannot be undone.
           </p>

@@ -73,7 +73,11 @@ export default function LessonPlanListRecord({ record }: LessonPlanListProps) {
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
-          description: `Lesson ID ${deletedId} has been removed.`,
+          description: (
+            <p>
+              Lesson ID <span className="font-bold">{deletedId}</span> has been removed.
+            </p>
+          ),
           color: "success",
           shouldShowTimeoutProgress: true,
         });
@@ -172,10 +176,9 @@ export default function LessonPlanListRecord({ record }: LessonPlanListProps) {
         title={"Confirm Deletion"}
         message={
           <p className="text-gray-700">
-            Are you sure you want to permanently delete the lesson:
+            Are you sure you want to permanently delete this lesson plan?
             <span className="font-semibold block mt-1">
-              &quot;{record.creation_meta.source_material.title}&quot; (ID:{" "}
-              {record.id})?
+              {record.creation_meta.source_material.title}
             </span>
             This action cannot be undone.
           </p>
