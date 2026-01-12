@@ -1,7 +1,14 @@
 import { heroui } from "@heroui/react";
 
 module.exports = {
-  // ... other Tailwind CSS configurations
+  theme: {
+    extend: {
+      fontFamily: {
+        "fira-sans": ["var(--font-fira-sans)", "sans-serif"],
+        "open-sans": ["var(--font-open-sans)", "sans-serif"],
+      },
+    },
+  },
   plugins: [
     heroui({
       themes: {

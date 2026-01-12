@@ -155,21 +155,14 @@ $description$,
 }
 $creation_meta$,
     $content$
-    $md$
-Atoms are the building blocks of matter. Everything around you — the air,
-water, your body — is made of atoms. Scientists discovered that atoms are
-incredibly small and consist of even smaller parts: **protons**, **neutrons**,
-and **electrons**.
+Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.
 
 - **Protons** have a positive charge and sit in the center, called the **nucleus**.
 - **Neutrons** have no charge and are also in the nucleus.
 - **Electrons** have a negative charge and orbit around the nucleus.
 
-Learning about atoms helps us understand chemistry, biology, and physics.
-For example, how water molecules form, how chemical reactions occur, and why
-different materials behave differently all depend on atoms.
-$md$
-    $content$
+Learning about atoms helps us understand chemistry, biology, and physics.  For example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms.
+$content$
 );
 
 -- Seed quizzes

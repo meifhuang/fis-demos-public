@@ -5,3 +5,27 @@
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 @config '../../tailwind.config.js';
+
+/*
+ * NOTE: This typography scheme is based on 2023 brand guidelines. While
+ * not widely used anymore, they represent the most recent designer-led
+ * guidance and serve as a reasonable starting point:
+ * https://drive.google.com/file/d/1UlIYoE9kKNQ1YdTR_hkRpIdHB7TZU-l9/view
+ */
+@layer base {
+  body {
+    @apply font-open-sans;
+  }
+
+  h1 {
+    @apply font-fira-sans font-extrabold;
+  }
+
+  h2 {
+    @apply font-fira-sans font-normal;
+  }
+
+  h3 {
+    @apply font-bold;
+  }
+}

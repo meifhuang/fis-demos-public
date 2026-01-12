@@ -7,7 +7,9 @@ import { useRouter } from "next/navigation";
 describe("NavigationPanel (Unit Test)", () => {
   it("renders the brand name", () => {
     render(<NavigationPanel />);
-    expect(screen.getByText("Flatiron School")).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /flatiron school/i })
+    ).toBeInTheDocument();
   });
 
   it("renders navigation links with correct hrefs", () => {
