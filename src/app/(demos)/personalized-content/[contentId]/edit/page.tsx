@@ -13,7 +13,7 @@ import {
 } from "@heroui/react";
 import PersonalizedContentSkeleton from "../_components/PersonalizedContentSkeleton";
 import { LearnerProfileChip } from "@/lib/learner-profiles";
-import { useEditPersonalizedContent } from "../_hooks/useEditPersonalizedContent";
+import { useEditPersonalizedContent } from "../hooks/useEditPersonalizedContent";
 import { useParams, useRouter } from "next/navigation";
 import MarkdownPreview from "@/app/(demos)/_components/MarkdownPreview";
 
