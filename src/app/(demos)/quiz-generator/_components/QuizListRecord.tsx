@@ -90,8 +90,7 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
               data-testid="quiz-list-total-questions"
               className="flex items-center gap-2 text-gray-600"
             >
-              `{record.questionCount} question
-              {record.questionCount === 1 ? "" : "s"}
+              {record.questionCount} question{record.questionCount === 1 ? "" : "s"}
             </p>
           </div>
           <LearnerProfileChip

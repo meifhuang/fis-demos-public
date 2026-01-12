@@ -78,18 +78,34 @@ describe("QuizListRecord", () => {
   });
 
   test("should avoid impromper pluralization", () => {
-    const newData = factory.build("quiz", {
+    const singleData = factory.build("quiz", {
       questions: [
         factory.build("question")
       ]
     });
-    const newRecord = new Quiz(newData);
 
-    render(<QuizListRecord record={newRecord} />);
+    const singleRecord = new Quiz(singleData);
+    render(<QuizListRecord record={singleRecord} />);
     expect(
       screen.getByTestId("quiz-list-total-questions")
-    ).toHaveTextContent("1 question");
+    ).toHaveTextContent(/^1 question$/);
   });
+
+  test("should correctly pluralize", () => {
+    const pluralData = factory.build("quiz", {
+      questions: [
+        factory.build("question"),
+        factory.build("question")
+      ]
+    });
+
+    const pluralRecord = new Quiz(pluralData);
+
+    render(<QuizListRecord record={pluralRecord} />);
+    expect(
+      screen.getByTestId("quiz-list-total-questions")
+    ).toHaveTextContent(/^2 questions$/);
+  })
 
   test("should navigate to view route when View button is clicked", () => {
     render(<QuizListRecord record={record} />);
