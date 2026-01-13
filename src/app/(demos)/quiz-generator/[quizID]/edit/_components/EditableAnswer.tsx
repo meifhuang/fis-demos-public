@@ -20,7 +20,7 @@ export default function EditableAnswer({
   handleAnswerChange
 }: EditableAnswerProps) {
   return (
-  <Card className={`flex flex-row ${answer.correct ? "border-green-300 bg-green-50": "border-gray-200 bg-white"}`}>
+  <Card className={`flex flex-row border-gray-200 bg-white`}>
     <CardHeader className="w-min">
       <Checkbox
         isSelected={answer.correct}

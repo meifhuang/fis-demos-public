@@ -41,6 +41,7 @@ export default function EditableQuestion({
 
     {/* Answers */}
     <CardBody className="p-6 space-y-6 bg-gray-50">
+      <p className="w-full text-left text-small text-default-800">Select the correct answer</p>
       {question.answers.map((answer, index) =>
         <EditableAnswer key={index} answer={answer} handleAnswerChange={handleAnswerChange(index)} />
       )}
