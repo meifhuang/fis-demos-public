@@ -50,7 +50,8 @@ export default function PersonalizedContentListRecord({
           title: <p className="text-xl font-bold">Deleted!</p>,
           description: (
             <p>
-              <span className="font-bold">{deleted.title}</span> has been removed.
+              <span className="font-bold">{deleted.title}</span> has been
+              removed.
             </p>
           ),
           color: "success",
@@ -91,6 +92,8 @@ export default function PersonalizedContentListRecord({
             data-testid="personalized-content-list-learner-chip"
             learnerProfile={record.learnerProfile}
             className="mt-2"
+            color="default"
+            variant="faded"
           />
         </div>
 
@@ -135,10 +138,9 @@ export default function PersonalizedContentListRecord({
         title={"Confirm Deletion"}
         message={
           <p className="text-gray-700">
-            Are you sure you want to permanently delete this personalized content?
-            <span className="font-semibold block mt-1">
-              {record.title}
-            </span>
+            Are you sure you want to permanently delete this personalized
+            content?
+            <span className="font-semibold block mt-1">{record.title}</span>
             This action cannot be undone.
           </p>
         }

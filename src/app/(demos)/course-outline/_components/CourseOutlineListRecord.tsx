@@ -39,9 +39,10 @@ export default function CourseOutlineListRecord({
       onSuccess: (deleted) => {
         addToast({
           title: <span className="text-xl font-bold">Deleted!</span>,
-          description:  (
+          description: (
             <p>
-              <span className="font-bold">{deleted.title}</span> has been removed.
+              <span className="font-bold">{deleted.title}</span> has been
+              removed.
             </p>
           ),
           color: "success",
@@ -95,6 +96,8 @@ export default function CourseOutlineListRecord({
             data-testid="course-outline-list-learner-chip"
             learnerProfile={record.learnerProfile}
             addClassName="mt-2"
+            color="default"
+            variant="faded"
           />
         </div>
 
@@ -142,9 +145,7 @@ export default function CourseOutlineListRecord({
         message={
           <p className="text-gray-700">
             Are you sure you want to permanently delete this course?
-            <span className="block mt-1 font-semibold">
-              {record.title}
-            </span>
+            <span className="block mt-1 font-semibold">{record.title}</span>
             This action cannot be undone.
           </p>
         }

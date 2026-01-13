@@ -45,9 +45,10 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
-          description:  (
+          description: (
             <p>
-              Quiz ID <span className="font-bold">{deletedId}</span> has been removed.
+              Quiz ID <span className="font-bold">{deletedId}</span> has been
+              removed.
             </p>
           ),
           color: "success",
@@ -97,6 +98,8 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
             data-testid="quiz-list-learner-chip"
             learnerProfile={record.learnerProfile}
             addClassName="mt-2"
+            color="default"
+            variant="faded"
           />
         </div>
 
@@ -143,9 +146,7 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
         message={
           <p className="text-gray-700">
             Are you sure you want to permanently delete this quiz?
-            <span className="font-semibold block mt-1">
-              {record.title}
-            </span>
+            <span className="font-semibold block mt-1">{record.title}</span>
             This action cannot be undone.
           </p>
         }

@@ -75,7 +75,8 @@ export default function LessonPlanListRecord({ record }: LessonPlanListProps) {
           title: <p className="text-xl font-bold">Deleted!</p>,
           description: (
             <p>
-              Lesson ID <span className="font-bold">{deletedId}</span> has been removed.
+              Lesson ID <span className="font-bold">{deletedId}</span> has been
+              removed.
             </p>
           ),
           color: "success",
@@ -131,6 +132,8 @@ export default function LessonPlanListRecord({ record }: LessonPlanListProps) {
               record.creation_meta.learner_profile
             )}
             className="mt-2"
+            color="default"
+            variant="faded"
           />
         </div>
 
