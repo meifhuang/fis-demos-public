@@ -7,7 +7,27 @@
 npm install
 ```
 
-### 2. Run the Development Server
+### 2. Start the Local Database (Supabase)
+> **Requires Docker Engine**
+
+```bash
+npm run db:start
+```
+
+On success, this will output your local Supabase URL and Supabase Secret Key.
+
+### 3. Environment Variables
+
+Copy `.env.example` to `.env` and fill in required values.
+
+At minimum:
+- `SUPABASE_URL`
+- `SUPABASE_SECRET_KEY`
+
+Optionally:
+- `OPENAI_API_KEY` (required for generating new content)
+
+### 4. Run the Development Server
 ```bash
 npm run dev
 ```
@@ -23,6 +43,14 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 [Supabase](https://supabase.com/docs) is a Postgres-based backend as a service. The backend for this project is in the [fis-demos-backend project](https://supabase.com/dashboard/project/xinjcpftgvjwpiunyixq).
 
 While the `./supabase` directory in this repo could be elsewhere (e.g. it's own repo), we've opted to keep it together until we have a case for moving it.
+
+Common commands:
+```bash
+npm run db:start      # starts Supabase locally (Docker required)
+npm run db:status     # shows status and connection info
+npm run db:reset      # resets DB, runs migrations, syncs types
+npm run db:types      # generates src/types/database.ts
+```
 
 ### Migrations
 
@@ -51,6 +79,7 @@ The Supabase CLI includes [tools to test and lint the DB](https://supabase.com/d
 ### Prerequisites
 
 - [Node](https://nodejs.org/en) with [NPM](https://www.npmjs.com/)
+- Docker Engine ([Docker Desktop](https://docs.docker.com/desktop/) is the easiest way to install Docker Engine)
 
 #### Recommended
 
