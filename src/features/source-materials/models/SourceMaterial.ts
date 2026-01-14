@@ -1,7 +1,14 @@
 import type { Tables } from "@/types";
 
+export type SourceMaterialRow =
+  Tables<"source_materials">
+
 export class SourceMaterial {
   constructor(private data: Tables<"source_materials">) {}
+
+  toJSON() {
+    return this.data;
+  }
 
   with(name: "title" | "markdown", value: string): SourceMaterial {
     return new SourceMaterial({ ...this.data, [name]: value });

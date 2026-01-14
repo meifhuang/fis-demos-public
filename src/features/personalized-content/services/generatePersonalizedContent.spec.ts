@@ -8,7 +8,7 @@ describe("generatePersonalizedContent", () => {
     id: "1",
     title: "Test Personalized Content",
     learnerProfileId: "learner-1",
-    sourceLesson: "lesson-1",
+    sourceMaterial: "lesson-1",
     customization: "Test customization",
   };
 

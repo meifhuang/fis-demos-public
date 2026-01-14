@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import {
   Users,
   BookOpen,
@@ -18,30 +18,17 @@ import remarkGfm from "remark-gfm";
 import PersonalizedContentSkeleton from "./_components/PersonalizedContentSkeleton";
 import { LearnerProfileChip } from "@/lib/learner-profiles";
 import { usePersonalizedContent } from "@/features/personalized-content";
-import { useSourceMaterials } from "@/features/source-materials";
 import { useParams } from "next/navigation";
 
 export default function PersonalizedContentTeacherView() {
   const { contentId: id } = useParams<{ contentId: string }>();
   const { data: personalizedContent, isFetching, error } = usePersonalizedContent(id);
 
-  const sourceLessonId = personalizedContent?.creationMeta.source_lesson_id;
-
-  const { 
-    data: sourceMaterials,
-    isLoading: isSourceMaterialLoading,
-    error: sourceMaterialError,
-  } = useSourceMaterials();
-
-  const sourceMaterial = useMemo(() => {
-  if (!sourceLessonId || !sourceMaterials) return null;
-
-  return sourceMaterials.find(
-    (lesson) => lesson.id.toString() === sourceLessonId.toString()
-  );
-}, [sourceLessonId, sourceMaterials]); 
+  const sourceMaterial = personalizedContent?.sourceMaterial
 
   const [showSourceMaterial, setShowSourceMaterial] = useState(false);
+
+  const hasSourceMaterial = sourceMaterial !== null;
 
   if (error) {
     return (
@@ -94,7 +81,7 @@ export default function PersonalizedContentTeacherView() {
         <div className="flex flex-col items-end gap-1">
   <Tooltip
     content={
-      sourceLessonId
+      hasSourceMaterial
         ? "Toggle source lesson view"
         : "No source lesson linked to this content"
     }
@@ -103,13 +90,13 @@ export default function PersonalizedContentTeacherView() {
       size="md"
       isSelected={showSourceMaterial}
       onValueChange={setShowSourceMaterial}
-      isDisabled={!sourceLessonId}
+      isDisabled={!hasSourceMaterial}
     >
       View Source Material
     </Switch>
   </Tooltip>
 
-  {!sourceLessonId && (
+  {!hasSourceMaterial && (
     <span className="text-xs text-gray-500">
       No source material was found for this content.
     </span>
@@ -163,15 +150,7 @@ export default function PersonalizedContentTeacherView() {
             </CardHeader>
 
             <CardBody className="bg-gray-50">
-              {isSourceMaterialLoading ? (
-                <p className="text-gray-500 italic">
-                  Loading source material…
-                </p>
-              ) : sourceMaterialError ? (
-                <p className="text-red-600">
-                  Failed to load source material.
-                </p>
-              ) : sourceMaterial?.markdown ? (
+              {sourceMaterial?.markdown ? (
                 <div className="prose max-w-none opacity-90">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {sourceMaterial.markdown}

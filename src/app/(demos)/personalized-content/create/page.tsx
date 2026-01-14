@@ -21,13 +21,13 @@ export default function PersonalizedContentForm() {
   const [formData, setFormData] = useState<PersonalizedContentFormState>({
     id: "1",
     title: "",
-    sourceLesson: "",
+    sourceMaterial: "",
     learnerProfileId: "",
     customization: "",
   });
 
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
-  const { data: lessons, isLoading: lessonsLoading } = useSourceMaterials();
+  const { data: sourceMaterials, isLoading: sourceMaterialsLoading } = useSourceMaterials();
   const { mutateAsync: createPersonalizedContent, isPending: isSubmitting } =
     useGeneratePersonalizedContent();
 
@@ -42,7 +42,7 @@ export default function PersonalizedContentForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Simplified handler for select (used for learnerProfileId and sourceLesson)
+  // Simplified handler for select (used for learnerProfileId and sourceMaterial)
   const handleSelectChange = (name: string, value: string | undefined) => {
     setFormData((prev) => ({
       ...prev,
@@ -54,11 +54,11 @@ export default function PersonalizedContentForm() {
     const {
       title,
       learnerProfileId,
-      sourceLesson,
+      sourceMaterial,
     } = formData;
     return (
       title.trim().length > 0 &&
-      sourceLesson !== "" &&
+      sourceMaterial !== "" &&
       learnerProfileId !== ""
     );
   }, [formData]);
@@ -67,13 +67,13 @@ export default function PersonalizedContentForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Find the full profile and lesson objects based on selected IDs
+    // Find the full profile and sourceMaterial objects based on selected IDs
     const learnerProfile = profiles?.find(
       (p) => p.id === formData.learnerProfileId
     );
 
-    const lesson = lessons?.find(
-      (l) => l.id.toString() === formData.sourceLesson
+    const sourceMaterial = sourceMaterials?.find(
+      (l) => l.id.toString() === formData.sourceMaterial
     );
 
     if (isFormValid && !isSubmitting) {
@@ -81,17 +81,17 @@ export default function PersonalizedContentForm() {
       const submissionData = {
         ...formData,
         learnerProfile,
-        markdown: lesson?.markdown ?? "",
+        sourceMaterial: sourceMaterial?.markdown ?? "",
       };
 
       const createdPersonalizedContent = await createPersonalizedContent(submissionData);
 
-      // save the title, profile, and lessonId from the form
+      // save the title, profile, and source material from the form
       const savedPersonalizedContent = await savePersonalizedContent({
         content: createdPersonalizedContent.content,
         title: formData.title,
         description: createdPersonalizedContent.description,
-        creation_meta: { learner_profile: learnerProfile, source_lesson_id: formData.sourceLesson },
+        creation_meta: { learner_profile: learnerProfile, source_material: sourceMaterial?.toJSON() },
       });
 
       router.push(`/personalized-content/${savedPersonalizedContent.id}/edit`);
@@ -121,26 +121,26 @@ export default function PersonalizedContentForm() {
           <div className="flex mb-12">
             {/* 2. Source Lesson Selection */}
             <Select
-              data-testid="personalized-content-create-lesson"
-              label="Source Lesson"
-              name="sourceLesson"
+              data-testid="personalized-content-create-source-material"
+              label="Source Material"
+              name="sourceMaterial"
               placeholder={
-                lessonsLoading
-                  ? "Loading lessons..."
-                  : "Select existing lesson"
+                sourceMaterialsLoading
+                  ? "Loading source materials..."
+                  : "Select existing source material"
               }
               labelPlacement="outside"
               onSelectionChange={(key) =>
-                handleSelectChange("sourceLesson", key.currentKey)
+                handleSelectChange("sourceMaterial", key.currentKey)
               }
-              isDisabled={lessonsLoading}
+              isDisabled={sourceMaterialsLoading}
               fullWidth
               required
             >
               <>
-                {lessons?.map((lesson) => (
-                  <SelectItem key={lesson.id.toString()}>
-                    {lesson.title}
+                {sourceMaterials?.map((sourceMaterial) => (
+                  <SelectItem key={sourceMaterial.id.toString()}>
+                    {sourceMaterial.title}
                   </SelectItem>
                 ))}
               </>
@@ -179,7 +179,7 @@ export default function PersonalizedContentForm() {
           <Textarea
             label="Customization"
             name="customization"
-            placeholder="How else would you like to modify this lesson?"
+            placeholder="How else would you like to modify this content?"
             value={formData.customization}
             onChange={handleChange}
             labelPlacement="outside"

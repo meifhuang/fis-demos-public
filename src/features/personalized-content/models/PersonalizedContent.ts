@@ -1,5 +1,6 @@
 import type { Database } from "@/types/database";
 import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles";
+import { SourceMaterial, SourceMaterialRow } from "@/features/source-materials";
 
 export type PersonalizedContentRow =
   Database["public"]["Tables"]["personalized_contents"]["Row"];
@@ -9,6 +10,7 @@ export type PersonalizedContentUpdate =
 
 interface CreationMeta {
   learner_profile?: LearnerProfileRow;
+  source_material?: SourceMaterialRow;
   [key: string]: unknown;
 }
 
@@ -42,6 +44,13 @@ export class PersonalizedContent {
     if (!profileData) return null;
 
     return new LearnerProfile(profileData);
+  }
+
+  get sourceMaterial(): SourceMaterial | null {
+    const sourceMaterialData = this.creationMeta.source_material;
+    if (!sourceMaterialData) return null;
+
+    return new SourceMaterial(sourceMaterialData);
   }
 
   get title() {

@@ -23,6 +23,24 @@ export async function GET() {
 type PersonalizedContentInsert =
   Database["public"]["Tables"]["personalized_contents"]["Insert"];
 
+export const LearnerProfileSchema = z.object({
+  age: z.number().int().min(1, "Age must be a positive number"),
+  label: z.string().min(1, "Label is required"),
+  interests: z.array(z.string()),
+  experience: z.string().optional().or(z.literal("")),
+  reading_level: z.number().min(0),
+});
+
+export const SourceMaterialSchema = z.object({
+  title: z.string().min(1, "Source title is required"),
+  markdown: z.string().min(1, "Source markdown is required"),
+});
+
+export const CreationMetaSchema = z.object({
+  learner_profile: LearnerProfileSchema,
+  source_material: SourceMaterialSchema.optional(),
+});
+
 const PersonalizedContentInsertSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
