@@ -137,13 +137,13 @@ values
 (
     'Introduction to Atoms',
     $description$
-This course provides instructors with a structured framework to teach students about the fundamental building blocks of matter: atoms. Instructors will guide students from the broad concept of matter to the detailed structure of atoms, exploring subatomic particles, their properties, and how atomic arrangements influence real-world phenomena. The course emphasizes clear, conceptual explanations and practical examples to help students connect atomic theory to everyday experiences and scientific observations.
+This lesson introduces 7th-grade learners to atoms as the basic building blocks of matter by explaining subatomic particles and atomic structure using clear, age-appropriate language and concrete examples to support foundational understanding in physical science.
 $description$,
     $creation_meta$
 {
   "source_material": {
     "title": "What is an atom?",
-    "content": "Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.\n- **Protons** have a positive charge and sit in the center, called the **nucleus**.\n- **Neutrons** have no charge and are also in the nucleus.\n- **Electrons** have a negative charge and orbit around the nucleus.\nLearning about atoms helps us understand chemistry, biology, and physics.\nFor example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms."
+    "markdown": "Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.\n- **Protons** have a positive charge and sit in the center, called the **nucleus**.\n- **Neutrons** have no charge and are also in the nucleus.\n- **Electrons** have a negative charge and orbit around the nucleus.\nLearning about atoms helps us understand chemistry, biology, and physics.\nFor example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms."
   },
   "learner_profile": {
     "label": "7th grader",
@@ -155,13 +155,16 @@ $description$,
 }
 $creation_meta$,
     $content$
-Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.
+Atoms are the smallest building blocks of matter. Everything around you—air, water, plants, animals, and your own body—is made of atoms. They are extremely small, but they make up everything you can see and touch.
 
-- **Protons** have a positive charge and sit in the center, called the **nucleus**.
-- **Neutrons** have no charge and are also in the nucleus.
-- **Electrons** have a negative charge and orbit around the nucleus.
+Each atom is made of even smaller parts:
+• Protons have a positive (+) charge and are found in the center of the atom, called the nucleus.
+• Neutrons have no charge and are also in the nucleus.
+• Electrons have a negative (–) charge and move around the nucleus.
 
-Learning about atoms helps us understand chemistry, biology, and physics.  For example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms.
+Atoms can join together to form molecules. For example, water is made from atoms of hydrogen and oxygen bonded together. The way atoms are arranged and interact explains why different materials behave differently.
+
+Learning about atoms helps us understand chemistry, biology, and physics—from how chemical reactions happen to how living things are built from tiny parts.
 $content$
 );
 
