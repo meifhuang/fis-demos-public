@@ -4,6 +4,7 @@ import { useGeneratePersonalizedContent, useSavePersonalizedContent } from "@/fe
 import { useLearnerProfiles } from "@demos/_store/useLearnerProfiles";
 import { useSourceMaterials } from "@/features/source-materials";
 import { PersonalizedContentFormState } from "@/types";
+import { ViewSourceModal } from "../../_components/ViewSourceModal";
 import {
   Card,
   Input,
@@ -13,7 +14,7 @@ import {
   Button,
   Spinner,
 } from "@heroui/react";
-import { User, Send } from "lucide-react";
+import { User, Send, Eye } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +26,8 @@ export default function PersonalizedContentForm() {
     learnerProfileId: "",
     customization: "",
   });
+
+  const [isViewSourceModalOpen, setIsViewSourceModalOpen] = useState(false);
 
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
   const { data: sourceMaterials, isLoading: sourceMaterialsLoading } = useSourceMaterials();
@@ -62,6 +65,14 @@ export default function PersonalizedContentForm() {
       learnerProfileId !== ""
     );
   }, [formData]);
+
+  const selectedSourceMaterial = useMemo(() => {
+    if (!formData.sourceMaterial || !sourceMaterials) return null;
+
+    return sourceMaterials.find(
+      (l) => l.id.toString() === formData.sourceMaterial
+    );
+  }, [formData.sourceMaterial, sourceMaterials]);
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,7 +129,7 @@ export default function PersonalizedContentForm() {
             required
           />
 
-          <div className="flex mb-12">
+          <div className="flex flex-col gap-2 mb-12">
             {/* 2. Source Lesson Selection */}
             <Select
               data-testid="personalized-content-create-source-material"
@@ -145,6 +156,20 @@ export default function PersonalizedContentForm() {
                 ))}
               </>
             </Select>
+
+            {/* VIEW SOURCE BUTTON */}
+            {selectedSourceMaterial && (
+              <div className="flex justify-end">
+                <Button
+                  size="sm"
+                  variant="flat"
+                  startContent={<Eye size={16} />}
+                  onClick={() => setIsViewSourceModalOpen(true)}
+                >
+                  View Source
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* 3. LEARNER PROFILE SELECTION */}
@@ -208,6 +233,12 @@ export default function PersonalizedContentForm() {
           </Button>
         </form>
       </Card>
+      <ViewSourceModal
+        isOpen={isViewSourceModalOpen}
+        onClose={() => setIsViewSourceModalOpen(false)}
+        title="Source Material"
+        markdown={selectedSourceMaterial?.markdown ?? ""}
+      />
     </div>
   );
 }

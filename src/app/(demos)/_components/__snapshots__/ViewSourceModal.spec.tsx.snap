@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ViewSourceModal (Snapshot) > should match snapshot when closed 1`] = `<div />`;
+
+exports[`ViewSourceModal (Snapshot) > should match snapshot when open with markdown content 1`] = `
+<div
+  aria-hidden="true"
+/>
+`;
