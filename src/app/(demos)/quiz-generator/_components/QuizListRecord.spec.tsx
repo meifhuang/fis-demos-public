@@ -107,11 +107,11 @@ describe("QuizListRecord", () => {
     ).toHaveTextContent(/^2 questions$/);
   })
 
-  test("should navigate to view route when View button is clicked", () => {
+  test("should navigate to take route when Take button is clicked", () => {
     render(<QuizListRecord record={record} />);
 
-    const viewButton = screen.getByTestId("quiz-list-button-view");
-    fireEvent.click(viewButton);
+    const takeButton = screen.getByTestId("quiz-list-button-take");
+    fireEvent.click(takeButton);
 
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(`/quiz-generator/${record.id}`);

@@ -50,8 +50,8 @@ test.describe("List of generated quizzes", () => {
 
     // --- Button Verification ---
 
-    // View Button
-    await expect(quizListPage.exampleRecordViewButton).toBeVisible();
+    // Take Button
+    await expect(quizListPage.exampleRecordTakeButton).toBeVisible();
 
     // Edit Button
     await expect(quizListPage.exampleRecordEditButton).toBeVisible();

@@ -1,30 +1,32 @@
-"use client";
+'use client';
 
-import React from "react";
 import {
   Users,
   LayoutList,
-  ChevronDown,
-  ChevronUp,
 } from "lucide-react";
 import {
   Chip,
   Card,
   CardHeader,
   CardBody,
-  Accordion,
-  AccordionItem,
 } from "@heroui/react";
 import { LearnerProfileChip } from "@/lib/learner-profiles";
-import { useQuiz } from "../_store";
 import { useParams } from "next/navigation";
 import QuizOverviewSkeleton from "./_components/QuizSkeleton";
 import QuestionSkeleton from "./_components/QuestionSkeleton";
-import AnswerView from "./_components/Answer";
+import { useTakeQuiz } from "./_hooks/useTakeQuiz";
+import QuizPage from "./_components/QuizPage";
+import { useState } from "react";
+import QuizReview from "./_components/QuizReview";
 
-export default function CourseOutlineTeacherView() {
+export default function QuizTeacherView() {
   const { quizID: id } = useParams<{ quizID: string }>();
-  const { data: quiz, isFetching, error } = useQuiz(id);
+  const { quiz, correctQuiz, isFetching, error, handleCorrectAnswerChange, getScore} = useTakeQuiz(id)
+  const [state, setState] = useState<"Take" | "Review">("Take")
+  const [questionIndex, setQuestionIndex] = useState(0);
+
+  const startQuiz = () => setState("Take")
+  const completeQuiz = () => setState("Review")
 
   if (error) {
     return (
@@ -56,7 +58,7 @@ export default function CourseOutlineTeacherView() {
                 variant="faded"
                 startContent={<LayoutList className="w-4 h-4" />}
               >
-                Total Lessons:{" "}
+                Total Questions:{" "}
                 <span className="font-semibold ml-1">
                   {quiz?.questionCount}
                 </span>
@@ -78,53 +80,17 @@ export default function CourseOutlineTeacherView() {
         </Card>
       )}
 
-      {/* Detailed Lesson Breakdown */}
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        Questions
-      </h2>
-
-      {isFetching ? (
+      {isFetching || !quiz || !correctQuiz ? (
         <QuestionSkeleton />
       ) : (
-        <Accordion
-          selectionMode="multiple"
-          className="space-y-4"
-          variant="splitted"
-          defaultExpandedKeys={["0"]}
-        >
-          {quiz
-            ? quiz.questions.map((question, index) => (
-                <AccordionItem
-                  key={index.toString()}
-                  aria-label={question.question}
-                  title={
-                    <div className="flex items-center justify-between w-full">
-                      <span className="text-xl font-bold text-gray-800">
-                        {question.question}
-                      </span>
-                    </div>
-                  }
-                  indicator={({ isOpen }) =>
-                    isOpen ? (
-                      <ChevronUp className="w-5 h-5 text-indigo-600" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-500" />
-                    )
-                  }
-                  classNames={{
-                    trigger: "py-5 cursor-pointer",
-                    heading: "text-xl",
-                    content: "p-4 pt-0",
-                    title: "text-lg font-semibold",
-                    subtitle: "text-xs",
-                    base: "border-t-4 border-indigo-200",
-                  }}
-                >
-                    {question.answers.map((answer, i) => <AnswerView key={i} answer={answer} />)}
-                </AccordionItem>
-              ))
-            : null}
-        </Accordion>
+        state === "Take" 
+        ? <QuizPage 
+          quiz={quiz} 
+          questionIndex={questionIndex}
+          setQuestionIndex={setQuestionIndex}
+          handleCorrectAnswerChange={handleCorrectAnswerChange} 
+          complete={completeQuiz} />
+        : <QuizReview quiz={quiz} correctQuiz={correctQuiz} score={getScore} restart={startQuiz} />
       )}
     </div>
   );

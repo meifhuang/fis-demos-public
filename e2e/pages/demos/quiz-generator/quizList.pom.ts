@@ -12,7 +12,7 @@ export class QuizListPage {
   readonly exampleRecordDescription: Locator;
   readonly exampleRecordTotalQuestions: Locator;
   readonly exampleRecordLearnerChip: Locator;
-  readonly exampleRecordViewButton: Locator;
+  readonly exampleRecordTakeButton: Locator;
   readonly exampleRecordEditButton: Locator;
 
   constructor(readonly page: Page) {
@@ -35,8 +35,8 @@ export class QuizListPage {
     this.exampleRecordLearnerChip = this.exampleRecordCard.getByTestId(
       "quiz-list-learner-chip"
     );
-    this.exampleRecordViewButton = this.exampleRecordCard.getByTestId(
-      "quiz-list-button-view"
+    this.exampleRecordTakeButton = this.exampleRecordCard.getByTestId(
+      "quiz-list-button-take"
     );
     this.exampleRecordEditButton = this.exampleRecordCard.getByTestId(
       "quiz-list-button-edit"

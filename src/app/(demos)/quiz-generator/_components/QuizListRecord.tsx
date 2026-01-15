@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { Button, addToast, useDisclosure } from "@heroui/react";
-import { Edit2, Eye, Trash2 } from "lucide-react";
+import { Edit2, ListTodo, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { useDeleteQuiz } from "../_store";
@@ -106,12 +106,12 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
         <div className="flex items-center gap-2 col-span-2 justify-self-end">
           {/* View Button */}
           <Button
-            data-testid="quiz-list-button-view"
+            data-testid="quiz-list-button-take"
             color="primary"
-            startContent={<Eye />}
+            startContent={<ListTodo />}
             onPress={() => gotoView(record.id)}
           >
-            View
+            Take
           </Button>
 
           {/* Edit Button */}

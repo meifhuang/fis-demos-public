@@ -6,7 +6,7 @@ import { Answer, Question } from "@/types";
 const isEqual = (
   a?: Quiz,
   b?: Quiz
-): boolean => JSON.stringify(a) !== JSON.stringify(b)
+): boolean => JSON.stringify(a) === JSON.stringify(b)
 
 
 export const useEditQuiz = (id: string) => {
@@ -23,7 +23,7 @@ export const useEditQuiz = (id: string) => {
     lastFetchedData: data,
   });
 
-  if (data !== state.lastFetchedData) {
+  if (!isEqual(data, state.lastFetchedData)) {
     setState({
       quiz: data,
       originalQuiz: state.originalQuiz ?? data,
@@ -31,7 +31,7 @@ export const useEditQuiz = (id: string) => {
     });
   }
 
-  const isModified = isEqual(state.quiz, state.originalQuiz);
+  const isModified = !isEqual(state.quiz, state.originalQuiz);
 
   const setQuiz = (quiz: SetStateAction<Quiz | undefined>) => {
     setState(prev => ({

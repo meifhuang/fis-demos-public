@@ -23,6 +23,10 @@ export class Quiz {
     return new Quiz({ ...this.data, [name]: value });
   }
 
+  withQuestions(updatedQuestions: Question[]) {
+    return new Quiz({...this.data, questions: updatedQuestions as unknown as Json});
+  }
+
   // NOTE: if Question gains any camelCase properties, this will need to
   // be adjusted to handle the transformation
   withQuestion(
