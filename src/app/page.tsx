@@ -36,7 +36,7 @@ export default function Home() {
             imageSource="/lesson-plan-thumbnail.png"
             title="Lesson Planner"
             description={`Plan your lessons perfectly based around the individual's unique profile.`}
-            href="/lesson-plan"
+            href="/lesson-planner"
           ></DemoCard>
         </div>
       </DashboardSection>

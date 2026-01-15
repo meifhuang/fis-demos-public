@@ -38,7 +38,7 @@ export class LessonPlanCreatePage {
   }
 
   async goto() {
-    await this.page.goto("/lesson-plan/create");
+    await this.page.goto("/lesson-planner/create");
   }
 
   async submitCreateForm() {

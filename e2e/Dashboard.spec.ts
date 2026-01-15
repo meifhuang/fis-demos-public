@@ -108,7 +108,7 @@ test("6. Personalized Content card navigates to /personalized-content and verifi
   ).toBeVisible();
 });
 
-test("7. Lesson Plan card navigates to /lesson-plan and verifies the heading", async ({
+test("7. Lesson Plan card navigates to /lesson-planner and verifies the heading", async ({
   page,
   lessonPlanPage,
 }) => {
