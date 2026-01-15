@@ -7,7 +7,7 @@ import { Card, Skeleton, CardBody, CardHeader } from "@heroui/react";
 
 export default function QuestionSkeleton() {
   return (
-    <Card className="shadow-lg overflow-hidden border border-indigo-100 bg-white">
+    <Card className="shadow-lg overflow-hidden border border-indigo-100 bg-white w-full">
       {/* Question Header Skeleton */}
       <CardHeader className="flex flex-col gap-3 bg-indigo-50/60 border-b border-indigo-100">
         <div className="w-full space-y-2">

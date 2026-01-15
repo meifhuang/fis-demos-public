@@ -16,6 +16,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
         data-has-elements="true"
         data-has-label="true"
         data-has-value="true"
+        data-required="true"
         data-slot="base"
       >
         <div
@@ -28,7 +29,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
             style="cursor: text;"
           >
             <label
-              class="absolute pointer-events-none origin-top-left shrink-0 rtl:origin-top-right subpixel-antialiased block will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity,translate,scale] group-data-[filled-within=true]:text-foreground group-data-[filled-within=true]:pointer-events-auto pb-0 z-20 top-1/2 -translate-y-1/2 group-data-[filled-within=true]:start-0 start-3 end-auto group-data-[filled-within=true]:-translate-y-[calc(100%_+_var(--heroui-font-size-small)/2_+_24px)] pe-2 max-w-full text-ellipsis overflow-hidden text-sm font-medium text-gray-600"
+              class="absolute pointer-events-none origin-top-left shrink-0 rtl:origin-top-right subpixel-antialiased block after:content-['*'] after:text-danger after:ms-0.5 will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity,translate,scale] group-data-[filled-within=true]:text-foreground group-data-[filled-within=true]:pointer-events-auto pb-0 z-20 top-1/2 -translate-y-1/2 group-data-[filled-within=true]:start-0 start-3 end-auto group-data-[filled-within=true]:-translate-y-[calc(100%_+_var(--heroui-font-size-small)/2_+_24px)] pe-2 max-w-full text-ellipsis overflow-hidden text-sm font-medium text-gray-600"
               data-slot="label"
               for="react-aria-_r_0_"
               id="react-aria-_r_1_"
@@ -46,6 +47,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                 data-filled-within="true"
                 data-slot="input"
                 id="react-aria-_r_0_"
+                required=""
                 tabindex="0"
                 title=""
                 type="text"
@@ -67,6 +69,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
       <div
         aria-label=" "
         aria-orientation="vertical"
+        aria-required="true"
         class="relative flex flex-col gap-2"
         id="react-aria-_r_5_"
         role="radiogroup"
@@ -84,6 +87,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
               class="flex p-3 z-10 justify-start items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large w-min"
             >
               <label
+                aria-required="true"
                 class="group relative max-w-fit inline-flex items-center justify-start cursor-pointer tap-highlight-transparent p-2 -m-2 select-none"
                 data-selected="true"
               >
@@ -94,6 +98,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                   class="font-inherit text-[100%] leading-[1.15] m-0 p-0 overflow-visible box-border absolute top-0 w-full h-full opacity-[0.0001] z-[1] cursor-pointer disabled:cursor-default"
                   data-react-aria-pressable="true"
                   name="react-aria-_r_a_"
+                  required=""
                   tabindex="0"
                   title=""
                   type="radio"
@@ -122,6 +127,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                 data-has-elements="true"
                 data-has-label="true"
                 data-has-value="true"
+                data-required="true"
                 data-slot="base"
               >
                 <div
@@ -130,7 +136,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                   style="cursor: text;"
                 >
                   <label
-                    class="absolute z-10 pointer-events-none origin-top-left shrink-0 rtl:origin-top-right subpixel-antialiased block text-foreground-500 cursor-text will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity,translate,scale] group-data-[filled-within=true]:text-default-600 group-data-[filled-within=true]:pointer-events-auto group-data-[filled-within=true]:scale-85 text-small group-data-[filled-within=true]:-translate-y-[calc(50%_+_var(--heroui-font-size-small)/2_-_6px)] pe-2 max-w-full text-ellipsis overflow-hidden"
+                    class="absolute z-10 pointer-events-none origin-top-left shrink-0 rtl:origin-top-right subpixel-antialiased block text-foreground-500 cursor-text after:content-['*'] after:text-danger after:ms-0.5 will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity,translate,scale] group-data-[filled-within=true]:text-default-600 group-data-[filled-within=true]:pointer-events-auto group-data-[filled-within=true]:scale-85 text-small group-data-[filled-within=true]:-translate-y-[calc(50%_+_var(--heroui-font-size-small)/2_-_6px)] pe-2 max-w-full text-ellipsis overflow-hidden"
                     data-slot="label"
                     for="react-aria-_r_d_"
                     id="react-aria-_r_e_"
@@ -148,6 +154,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                       data-filled-within="true"
                       data-slot="input"
                       id="react-aria-_r_d_"
+                      required=""
                       tabindex="0"
                       title=""
                       type="text"
@@ -203,6 +210,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
               class="flex p-3 z-10 justify-start items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large w-min"
             >
               <label
+                aria-required="true"
                 class="group relative max-w-fit inline-flex items-center justify-start cursor-pointer tap-highlight-transparent p-2 -m-2 select-none"
               >
                 <input
@@ -211,6 +219,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                   class="font-inherit text-[100%] leading-[1.15] m-0 p-0 overflow-visible box-border absolute top-0 w-full h-full opacity-[0.0001] z-[1] cursor-pointer disabled:cursor-default"
                   data-react-aria-pressable="true"
                   name="react-aria-_r_a_"
+                  required=""
                   tabindex="-1"
                   title=""
                   type="radio"
@@ -239,6 +248,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                 data-has-elements="true"
                 data-has-label="true"
                 data-has-value="true"
+                data-required="true"
                 data-slot="base"
               >
                 <div
@@ -247,7 +257,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                   style="cursor: text;"
                 >
                   <label
-                    class="absolute z-10 pointer-events-none origin-top-left shrink-0 rtl:origin-top-right subpixel-antialiased block text-foreground-500 cursor-text will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity,translate,scale] group-data-[filled-within=true]:text-default-600 group-data-[filled-within=true]:pointer-events-auto group-data-[filled-within=true]:scale-85 text-small group-data-[filled-within=true]:-translate-y-[calc(50%_+_var(--heroui-font-size-small)/2_-_6px)] pe-2 max-w-full text-ellipsis overflow-hidden"
+                    class="absolute z-10 pointer-events-none origin-top-left shrink-0 rtl:origin-top-right subpixel-antialiased block text-foreground-500 cursor-text after:content-['*'] after:text-danger after:ms-0.5 will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity,translate,scale] group-data-[filled-within=true]:text-default-600 group-data-[filled-within=true]:pointer-events-auto group-data-[filled-within=true]:scale-85 text-small group-data-[filled-within=true]:-translate-y-[calc(50%_+_var(--heroui-font-size-small)/2_-_6px)] pe-2 max-w-full text-ellipsis overflow-hidden"
                     data-slot="label"
                     for="react-aria-_r_p_"
                     id="react-aria-_r_q_"
@@ -265,6 +275,7 @@ exports[`LearnerProfileCard (Snapshot) > should match snapshot 1`] = `
                       data-filled-within="true"
                       data-slot="input"
                       id="react-aria-_r_p_"
+                      required=""
                       tabindex="0"
                       title=""
                       type="text"

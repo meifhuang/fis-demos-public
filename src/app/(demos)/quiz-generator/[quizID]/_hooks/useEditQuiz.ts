@@ -10,7 +10,7 @@ const isEqual = (
 
 
 export const useEditQuiz = (id: string) => {
-  const { data, isFetching, error, status, } = useQuiz(id);
+  const { data, isFetching, error, status } = useQuiz(id);
   const { mutate, isPending, isSuccess, } = useUpdateQuiz();
 
   const [state, setState] = useState<{
@@ -73,22 +73,31 @@ export const useEditQuiz = (id: string) => {
     })
   }
 
-  const saveChanges = () => {
-    if (!state.quiz) return;
-
-    mutate(state.quiz, {
+  
+  const saveChanges = () => 
+    new Promise<string>((resolve, reject) => {
+      if (!state.quiz) {
+        reject('No loaded quiz');
+        return;
+      } else if (!state.quiz.valid) {
+        reject("Some fields require your attention.")
+        return;
+      }
+      mutate(state.quiz, {
       onSuccess: (updatedData) => {
         setState({
           quiz: updatedData,
           originalQuiz: updatedData,
           lastFetchedData: updatedData,
         })
+        resolve('Quiz Saved');
       },
       onError: (err) => {
         console.error("Save failed:", err);
+        reject(`Save failed: ${err}`);
       },
     });
-  }
+    })
 
   const cancelChanges = () => {
     if (state.originalQuiz) {

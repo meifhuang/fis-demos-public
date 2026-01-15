@@ -97,4 +97,19 @@ export class Quiz {
   get questions(): Question[] {
     return (this.data.questions ?? []) as unknown as Question[];
   }
+
+  get valid(): boolean {
+    return (this.title !== ""
+    && this.description !== ""
+    && this.questions.every((q) => {
+      const correctIndex = q.answers.findIndex(a => a.correct)
+
+      return (
+        q.question !== ""
+        && correctIndex !== -1
+        && correctIndex === q.answers.findLastIndex(a => a.correct)
+        && q.answers.every((a) => a.text !== "")
+      )
+    }))
+  }
 }

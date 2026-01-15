@@ -29,7 +29,7 @@ export default function EditableAnswer({
       />
     </CardHeader>
     <CardBody className="w-full flex gap-1">
-      <Input label="Answer" value={answer.text} onValueChange={(value) => handleAnswerChange("text", value)} />
+      <Input isRequired label="Answer" value={answer.text} onValueChange={(value) => handleAnswerChange("text", value)} />
       <Input label="Feedback" value={answer.feedback} onValueChange={(value) => handleAnswerChange("feedback", value)} />
     </CardBody>
   </Card>

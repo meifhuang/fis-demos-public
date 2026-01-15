@@ -14,7 +14,10 @@ const builtQuiz = new Quiz(factory.build("quiz", {
   questions: [question]
 }));
 
-const mutateFunc = vi.fn()
+const mutateFunc = vi.fn((_quiz, options) => {
+  options?.onSuccess?.(_quiz);
+});
+
 
 vi.mock("../../_store/", () => ({
   useQuiz: vi.fn(() => ({
@@ -126,9 +129,18 @@ describe("useEditQuiz", () => {
       //This ensures that only the answer at newCorrectIndex is marked correct
   })
 
-  test("calls mutate when asked to save", () => {
+  test("doesn't call mutate and rejects when asked to save invalid data", async () => {
     act(() => {
-      state().saveChanges()
+      state().handleTopLevelChange("title", "")
+    })
+
+    await expect(state().saveChanges()).rejects.toBe("Some fields require your attention.");
+    expect(mutateFunc).not.toHaveBeenCalled();
+  })
+
+  test("calls mutate when asked to save", async () => {
+    await act(async () => {
+      await state().saveChanges()
     })
 
     expect(mutateFunc).toHaveBeenCalledOnce()

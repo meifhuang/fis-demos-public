@@ -22,11 +22,15 @@ export default function EditableQuestion({
     handleAnswerChange,
     handleCorrectAnswerChange
 }: EditableQuestionProps) {
+  const correctAnswer = question.answers.findIndex(a => a.correct);
+  const onlyOneCorrectAnswer = correctAnswer === question.answers.findLastIndex(a => a.correct);
+
   return (
   <Card className="shadow-lg overflow-hidden border border-indigo-100 bg-white">
     {/* Question Header */}
     <CardHeader className="flex flex-col gap-3 bg-indigo-50/60 border-b border-indigo-100">
       <Input
+        isRequired
         label="Question"
         labelPlacement="outside"
         size="lg"
@@ -46,7 +50,8 @@ export default function EditableQuestion({
     <CardBody className="p-6 space-y-6 bg-gray-50">
       <p className="w-full text-left text-small text-default-800">Select the correct answer</p>
       <RadioGroup 
-        value={String(question.answers.findIndex(a => a.correct))}
+        isRequired
+        value={onlyOneCorrectAnswer ? String(correctAnswer): ""}
         onValueChange={idx => handleCorrectAnswerChange(Number(idx))}
       >
         {question.answers.map((answer, index) =>

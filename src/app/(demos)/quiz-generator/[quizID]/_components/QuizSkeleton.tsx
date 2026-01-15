@@ -29,7 +29,7 @@ const SkeletonChip = ({
  */
 export default function QuizOverviewSkeleton() {
   return (
-    <Card className="shadow-xl border-t-4 border-indigo-600 mb-8 rounded-xl opacity-75">
+    <Card className="w-full shadow-xl border-t-4 border-indigo-600 mb-8 rounded-xl opacity-75">
       <CardHeader className="flex flex-col items-start w-full">
         {/* Title Skeleton (3/4 width, large height) */}
         <div className="w-full mb-3">
