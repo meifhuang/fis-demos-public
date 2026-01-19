@@ -69,11 +69,16 @@ export function LessonPlanListRecord({ record }: LessonPlanListProps) {
 
     // Call the mutation hook with the record ID
     deleteCourse(record.id, {
-      onSuccess: (deletedId) => {
+      onSuccess: () => {
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
-          description: <p>Lesson has been removed.</p>,
+          description: (
+            <p>
+              <span className="font-bold">{record.creation_meta.source_material.title}</span> has been
+              removed.
+            </p>
+          ),
           color: "success",
           shouldShowTimeoutProgress: true,
         });
@@ -89,7 +94,7 @@ export function LessonPlanListRecord({ record }: LessonPlanListProps) {
         onClose(); // Close the modal even on error
       },
     });
-  }, [isDeleting, record.id, deleteCourse, onClose]);
+  }, [isDeleting, record, deleteCourse, onClose]);
 
   return (
     <>

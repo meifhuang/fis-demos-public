@@ -41,13 +41,13 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
 
     // Call the mutation hook with the record ID
     deleteQuiz(record.id, {
-      onSuccess: (deletedId) => {
+      onSuccess: () => {
         // Show success notification
         addToast({
           title: <p className="text-xl font-bold">Deleted!</p>,
           description: (
             <p>
-              Quiz ID <span className="font-bold">{deletedId}</span> has been
+              <span className="font-bold">{record.title}</span> has been
               removed.
             </p>
           ),
@@ -66,7 +66,7 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
         onClose(); // Close the modal even on error
       },
     });
-  }, [isDeleting, record.id, deleteQuiz, onClose]);
+  }, [isDeleting, record, deleteQuiz, onClose]);
 
   return (
     <>
