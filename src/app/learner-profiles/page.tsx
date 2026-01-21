@@ -14,7 +14,7 @@ export default function LearnerProfilesPage() {
 
   return (
     <div className="max-w-5xl flex flex-col items-center mx-auto p-6 w-full">
-      <BackButton className="self-start mb-4" />
+      <BackButton route="/" className="self-start mb-4" />
 
       <div className="w-full">
         <div className="flex justify-between items-center mb-6">

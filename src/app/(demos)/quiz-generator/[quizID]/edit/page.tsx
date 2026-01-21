@@ -19,6 +19,7 @@ import { LearnerProfileChip } from "@/lib/learner-profiles";
 import { useEditQuiz } from "../_hooks/useEditQuiz";
 import { useParams, useRouter } from "next/navigation";
 import EditableQuestion from "./_components/EditableQuestion";
+import DemoNavigationPanel from "@/app/(demos)/_components/DemoNavigationPanel";
 
 export default function QuizEditView() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function QuizEditView() {
     handleAnswerChange,
     handleCorrectAnswerChange,
     handleTopLevelChange,
-    isFetching,
+    isLoading,
     isModified,
     isPending,
     saveChanges,
@@ -40,44 +41,55 @@ export default function QuizEditView() {
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveChanges().then((text) => {
-      addToast({
-        title: <p className="text-xl text-bold">Success!</p>,
-        description: text,
-        color: "success",
-        shouldShowTimeoutProgress: true,
+    saveChanges()
+      .then((text) => {
+        addToast({
+          title: <p className="text-xl text-bold">Success!</p>,
+          description: text,
+          color: "success",
+          shouldShowTimeoutProgress: true,
+        });
+        router.push(`/quiz-generator/${id}`);
+      })
+      .catch((errorText) => {
+        addToast({
+          title: <p className="text-xl text-bold">Error!</p>,
+          description: errorText,
+          color: "danger",
+          shouldShowTimeoutProgress: true,
+        });
       });
-      router.push(`/quiz-generator/${id}`);
-    }).catch((errorText) => {
-      addToast({
-        title: <p className="text-xl text-bold">Error!</p>,
-        description: errorText,
-        color: "danger",
-        shouldShowTimeoutProgress: true,
-      });
-    })
-  }
+  };
 
   // --- Conditional Rendering ---
 
   if (error) {
     return (
-      <div className="p-8 max-w-5xl mx-auto text-center text-red-600">
-        <p>Error loading quiz: {error.message}</p>
-      </div>
+      <>
+        <DemoNavigationPanel backRoute={`/quiz-generator`} />
+        <div className="p-8 max-w-5xl mx-auto text-center text-red-600">
+          <p>Error loading quiz: {error.message}</p>
+        </div>
+      </>
     );
   }
 
-  const isFetchingData: boolean = isFetching && !isPending;
+  const backRoute = quiz ? `/quiz-generator/${quiz.id}` : "/quiz-generator";
 
   // --- MAIN RENDER ---
   return (
     <div className="max-w-5xl mx-auto font-inter min-h-screen w-full">
-      <Form className="w-full min-w-full max-w-full" data-testid="quiz-edit-form" onSubmit={save}>
-        {isFetchingData && !quiz?.title ? (
+      <DemoNavigationPanel backRoute={backRoute} />
+
+      <Form
+        className="w-full min-w-full max-w-full"
+        data-testid="quiz-edit-form"
+        onSubmit={save}
+      >
+        {isLoading || !quiz ? (
           <QuizSkeleton />
         ) : (
-          <Card className="w-full shadow-xl border-t-4 border-indigo-600 mb-8 rounded-xl">
+          <Card className="shadow-xl border-t-4 border-indigo-600 mb-8 rounded-xl w-full">
             <CardHeader className="flex flex-col items-start w-full">
               {/* Editable Title - using HeroUI Input */}
               <Input
@@ -118,7 +130,7 @@ export default function QuizEditView() {
                 <Chip
                   size="md"
                   variant="faded"
-                  startContent={<LayoutList className="w-4 h-4" />}
+                  startContent={<LayoutList size={18} />}
                 >
                   Total Questions:{" "}
                   <span className="font-semibold ml-1">
@@ -130,7 +142,7 @@ export default function QuizEditView() {
                   size="md"
                   variant="faded"
                   color="default"
-                  startContent={<Users className="w-4 h-4" />}
+                  startContent={<Users size={18} />}
                 >
                   Target Profile:{" "}
                   <span className="font-semibold ml-1">
@@ -143,25 +155,23 @@ export default function QuizEditView() {
         )}
 
         {/* Quiz Questions */}
-        <h2 className="w-full text-2xl font-bold text-gray-800 mb-6">
-          Questions
-        </h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Questions</h2>
 
-      {isFetchingData ? (
-        <QuestionSkeleton />
-      ) : (
-        <div className="w-full space-y-6">
-          {quiz?.questions.map((question, index) =>
-            <EditableQuestion
-              question={question}
-              handleQuestionChange={handleQuestionChange(index)}
-              handleAnswerChange={handleAnswerChange(index)}
-              handleCorrectAnswerChange={handleCorrectAnswerChange(index)}
-              key={index}
-            />
-          )}
-        </div>
-      )}
+        {isLoading ? (
+          <QuestionSkeleton />
+        ) : (
+          <div className="space-y-6 w-full">
+            {quiz?.questions.map((question, index) => (
+              <EditableQuestion
+                question={question}
+                handleQuestionChange={handleQuestionChange(index)}
+                handleAnswerChange={handleAnswerChange(index)}
+                handleCorrectAnswerChange={handleCorrectAnswerChange(index)}
+                key={index}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Save / Cancel Button Bar */}
         <div className="w-full flex justify-end gap-3 mt-8 p-4 bg-white rounded-xl shadow-lg sticky bottom-4 z-10">

@@ -3,15 +3,12 @@ import { Quiz } from "@demos/quiz-generator/_models";
 import { useQuiz, useUpdateQuiz } from "../../_store";
 import { Answer, Question } from "@/types";
 
-const isEqual = (
-  a?: Quiz,
-  b?: Quiz
-): boolean => JSON.stringify(a) === JSON.stringify(b)
-
+const isEqual = (a?: Quiz, b?: Quiz): boolean =>
+  JSON.stringify(a) === JSON.stringify(b);
 
 export const useEditQuiz = (id: string) => {
-  const { data, isFetching, error, status } = useQuiz(id);
-  const { mutate, isPending, isSuccess, } = useUpdateQuiz();
+  const { data, isFetching, isLoading, error, status } = useQuiz(id);
+  const { mutate, isPending, isSuccess } = useUpdateQuiz();
 
   const [state, setState] = useState<{
     quiz: Quiz | undefined;
@@ -34,70 +31,79 @@ export const useEditQuiz = (id: string) => {
   const isModified = !isEqual(state.quiz, state.originalQuiz);
 
   const setQuiz = (quiz: SetStateAction<Quiz | undefined>) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      quiz: typeof quiz === 'function' ?
-        quiz(prev.quiz) : quiz,
+      quiz: typeof quiz === "function" ? quiz(prev.quiz) : quiz,
     }));
   };
 
-  const handleTopLevelChange = (name: "title" | "description", value: string) => {
+  const handleTopLevelChange = (
+    name: "title" | "description",
+    value: string
+  ) => {
     setQuiz((prev) => {
       if (!prev) return undefined;
 
       return prev.with(name, value);
     });
-  }
+  };
 
-  const handleQuestionChange = (index: number) => 
-    <K extends keyof Question>(field: K, value: Question[K]) => { //May de-partial application this
+  const handleQuestionChange =
+    (index: number) =>
+    <K extends keyof Question>(field: K, value: Question[K]) => {
+      //May de-partial application this
       setQuiz((prev) => {
         if (!prev) return undefined;
 
         return prev.withQuestion(index, { [field]: value });
       });
-  }
+    };
 
-  const handleAnswerChange = (questionIndex: number) => (answerIndex: number) =>
-    <K extends keyof Answer>(field: K, value: Answer[K]) => { //See above
+  const handleAnswerChange =
+    (questionIndex: number) =>
+    (answerIndex: number) =>
+    <K extends keyof Answer>(field: K, value: Answer[K]) => {
+      //See above
       setQuiz((previous) => {
         if (!previous) return undefined;
-        return previous.withAnswer(questionIndex, answerIndex, { [field]: value })
-      })
-  }
+        return previous.withAnswer(questionIndex, answerIndex, {
+          [field]: value,
+        });
+      });
+    };
 
-  const handleCorrectAnswerChange = (questionIndex: number) => (correctAnswerIndex: number) => {
-    setQuiz((previous) => {
-      if (!previous) return undefined;
-      return previous.withCorrectAnswer(questionIndex, correctAnswerIndex)
-    })
-  }
+  const handleCorrectAnswerChange =
+    (questionIndex: number) => (correctAnswerIndex: number) => {
+      setQuiz((previous) => {
+        if (!previous) return undefined;
+        return previous.withCorrectAnswer(questionIndex, correctAnswerIndex);
+      });
+    };
 
-  
-  const saveChanges = () => 
+  const saveChanges = () =>
     new Promise<string>((resolve, reject) => {
       if (!state.quiz) {
-        reject('No loaded quiz');
+        reject("No loaded quiz");
         return;
       } else if (!state.quiz.valid) {
-        reject("Some fields require your attention.")
+        reject("Some fields require your attention.");
         return;
       }
       mutate(state.quiz, {
-      onSuccess: (updatedData) => {
-        setState({
-          quiz: updatedData,
-          originalQuiz: updatedData,
-          lastFetchedData: updatedData,
-        })
-        resolve('Quiz Saved');
-      },
-      onError: (err) => {
-        console.error("Save failed:", err);
-        reject(`Save failed: ${err}`);
-      },
+        onSuccess: (updatedData) => {
+          setState({
+            quiz: updatedData,
+            originalQuiz: updatedData,
+            lastFetchedData: updatedData,
+          });
+          resolve("Quiz Saved");
+        },
+        onError: (err) => {
+          console.error("Save failed:", err);
+          reject(`Save failed: ${err}`);
+        },
+      });
     });
-    })
 
   const cancelChanges = () => {
     if (state.originalQuiz) {
@@ -110,6 +116,7 @@ export const useEditQuiz = (id: string) => {
     isModified,
     isPending,
     isFetching,
+    isLoading,
     error,
     isSuccess,
     status,

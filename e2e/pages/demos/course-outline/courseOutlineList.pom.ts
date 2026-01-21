@@ -14,7 +14,6 @@ export class CourseOutlineListPage {
   readonly exampleRecordTotalLessons: Locator;
   readonly exampleRecordLearnerChip: Locator;
   readonly exampleRecordViewButton: Locator;
-  readonly exampleRecordEditButton: Locator;
 
   constructor(readonly page: Page) {
     this.heading = page.getByRole("heading", { name: "Course Outlines" });
@@ -41,9 +40,6 @@ export class CourseOutlineListPage {
     );
     this.exampleRecordViewButton = this.exampleRecordCard.getByTestId(
       "course-outline-list-button-view"
-    );
-    this.exampleRecordEditButton = this.exampleRecordCard.getByTestId(
-      "course-outline-list-button-edit"
     );
   }
 

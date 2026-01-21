@@ -14,15 +14,22 @@ vi.mock("next/navigation", () => ({
 
 // Mock the LearnerProfileChip component as it's an external dependency
 vi.mock("@/lib/learner-profiles", async (importOriginal) => {
-  const actual = (await importOriginal()) as Partial<typeof import("@/lib/learner-profiles")>
+  const actual = (await importOriginal()) as Partial<
+    typeof import("@/lib/learner-profiles")
+  >;
   return {
     ...actual,
-    LearnerProfileChip: ({ learnerProfile, ...props }: { learnerProfile: LearnerProfile }) => (
+    LearnerProfileChip: ({
+      learnerProfile,
+      ...props
+    }: {
+      learnerProfile: LearnerProfile;
+    }) => (
       <div data-testid="mock-learner-chip" {...props}>
         Learner Profile: {learnerProfile.label}
       </div>
     ),
-  }
+  };
 });
 
 // Mock the delete mutation hook
@@ -58,54 +65,49 @@ describe("QuizListRecord", () => {
     render(<QuizListRecord record={record} />);
 
     // Title and Description
-    expect(
-      screen.getByTestId("quiz-list-record-title")
-    ).toHaveTextContent(record.title);
+    expect(screen.getByTestId("quiz-list-record-title")).toHaveTextContent(
+      record.title
+    );
 
     expect(
       screen.getByTestId("quiz-list-record-description")
     ).toHaveTextContent(record.description);
 
     // Duration/Lesson details
-    expect(
-      screen.getByTestId("quiz-list-total-questions")
-    ).toHaveTextContent(`${record.questionCount} questions`);
+    expect(screen.getByTestId("quiz-list-total-questions")).toHaveTextContent(
+      `${record.questionCount} questions`
+    );
 
     // Learner chip
-    expect(
-      screen.getByTestId("quiz-list-learner-chip")
-    ).toHaveTextContent(`Learner Profile: ${record.learnerProfile?.label}`);
+    expect(screen.getByTestId("quiz-list-learner-chip")).toHaveTextContent(
+      `Learner Profile: ${record.learnerProfile?.label}`
+    );
   });
 
   test("should avoid impromper pluralization", () => {
     const singleData = factory.build("quiz", {
-      questions: [
-        factory.build("question")
-      ]
+      questions: [factory.build("question")],
     });
 
     const singleRecord = new Quiz(singleData);
     render(<QuizListRecord record={singleRecord} />);
-    expect(
-      screen.getByTestId("quiz-list-total-questions")
-    ).toHaveTextContent(/^1 question$/);
+    expect(screen.getByTestId("quiz-list-total-questions")).toHaveTextContent(
+      /^1 question$/
+    );
   });
 
   test("should correctly pluralize", () => {
     const pluralData = factory.build("quiz", {
-      questions: [
-        factory.build("question"),
-        factory.build("question")
-      ]
+      questions: [factory.build("question"), factory.build("question")],
     });
 
     const pluralRecord = new Quiz(pluralData);
 
     render(<QuizListRecord record={pluralRecord} />);
-    expect(
-      screen.getByTestId("quiz-list-total-questions")
-    ).toHaveTextContent(/^2 questions$/);
-  })
+    expect(screen.getByTestId("quiz-list-total-questions")).toHaveTextContent(
+      /^2 questions$/
+    );
+  });
 
   test("should navigate to take route when Take button is clicked", () => {
     render(<QuizListRecord record={record} />);
@@ -115,17 +117,5 @@ describe("QuizListRecord", () => {
 
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(`/quiz-generator/${record.id}`);
-  });
-
-  test("should navigate to edit route when Edit button is clicked", () => {
-    render(<QuizListRecord record={record} />);
-
-    const editButton = screen.getByTestId("quiz-list-button-edit");
-    fireEvent.click(editButton);
-
-    expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith(
-      `/quiz-generator/${record.id}/edit`
-    );
   });
 });

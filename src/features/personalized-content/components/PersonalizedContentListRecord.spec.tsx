@@ -35,14 +35,17 @@ vi.mock("@/lib/learner-profiles", async (importOriginal) => {
 // Mock the delete mutation hook
 const mockDeleteMutation = vi.fn();
 const mockIsDeleting = vi.fn(() => false); // Use a mock function to control state easily
-vi.mock("@/features/personalized-content/hooks/useDeletePersonalizedContent", () => {
-  return {
-    useDeletePersonalizedContent: vi.fn(() => ({
-      mutate: mockDeleteMutation,
-      isPending: mockIsDeleting(),
-    })),
-  };
-});
+vi.mock(
+  "@/features/personalized-content/hooks/useDeletePersonalizedContent",
+  () => {
+    return {
+      useDeletePersonalizedContent: vi.fn(() => ({
+        mutate: mockDeleteMutation,
+        isPending: mockIsDeleting(),
+      })),
+    };
+  }
+);
 
 // Mock the ConfirmationDialog component (Declare globally)
 // const MockConfirmationDialog = vi.fn(() => null);
@@ -90,18 +93,5 @@ describe("PersonalizedContentListRecord", () => {
 
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(`/personalized-content/${record.id}`);
-  });
-
-  test("should navigate to edit route when Edit button is clicked", () => {
-    render(<PersonalizedContentListRecord record={record} />);
-    const editButton = screen.getByTestId(
-      "personalized-content-list-button-edit"
-    );
-    fireEvent.click(editButton);
-
-    expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith(
-      `/personalized-content/${record.id}/edit`
-    );
   });
 });

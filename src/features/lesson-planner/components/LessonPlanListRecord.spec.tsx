@@ -84,16 +84,4 @@ describe("LessonPlanListRecord", () => {
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(`/lesson-planner/${mockRecord.id}`);
   });
-
-  test("Edit button navigates to the edit route", () => {
-    render(<LessonPlanListRecord record={mockRecord} />);
-
-    const editButton = screen.getByTestId("lesson-plan-list-button-edit");
-    fireEvent.click(editButton);
-
-    expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith(
-      `/lesson-planner/${mockRecord.id}/edit`
-    );
-  });
 });

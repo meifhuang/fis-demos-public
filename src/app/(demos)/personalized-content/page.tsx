@@ -1,8 +1,12 @@
 "use client";
 
-import { PersonalizedContent, usePersonalizedContentList } from "@/features/personalized-content";
+import {
+  PersonalizedContent,
+  usePersonalizedContentList,
+} from "@/features/personalized-content";
 import ListView from "../_components/List";
-import PersonalizedContentListRecord from "./_components/PersonalizedContentListRecord";
+import PersonalizedContentListRecord from "@/features/personalized-content";
+import DemoNavigationPanel from "../_components/DemoNavigationPanel";
 
 export default function PersonalizedContentDemoPage() {
   const { data: content, isLoading, error } = usePersonalizedContentList();
@@ -12,12 +16,15 @@ export default function PersonalizedContentDemoPage() {
   }
 
   return (
-    <ListView<PersonalizedContent>
-      records={content ?? []}
-      title="Personalized Content Demo"
-      createNewRoute="/personalized-content/create"
-      RenderItem={PersonalizedContentListRecord}
-      isLoading={isLoading}
-    />
+    <>
+      <DemoNavigationPanel backRoute="/" />
+      <ListView<PersonalizedContent>
+        records={content ?? []}
+        title="Personalized Content Demo"
+        createNewRoute="/personalized-content/create"
+        RenderItem={PersonalizedContentListRecord}
+        isLoading={isLoading}
+      />
+    </>
   );
 }

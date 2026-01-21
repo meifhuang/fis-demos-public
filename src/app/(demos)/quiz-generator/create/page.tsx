@@ -17,6 +17,7 @@ import { useSaveQuiz, useGenerateQuizQuestions } from "../_store";
 import SourceMaterialSelector from "./_components/SourceMaterialSelector";
 import { useRouter } from "next/navigation";
 import { useSourceMaterials } from "@/features/source-materials";
+import DemoNavigationPanel from "../../_components/DemoNavigationPanel";
 
 export default function QuizForm() {
   const [formData, setFormData] = useState<QuizFormState>({
@@ -30,9 +31,8 @@ export default function QuizForm() {
 
   const { data: sources, isLoading: sourcesLoading } = useSourceMaterials();
   const { data: profiles, isLoading: profilesLoading } = useLearnerProfiles();
-  const { mutateAsync: saveQuiz, isPending: isSubmitting } =
-    useSaveQuiz();
-  const {mutateAsync: generateQuizQuestions, isPending: isGenerating } =
+  const { mutateAsync: saveQuiz, isPending: isSubmitting } = useSaveQuiz();
+  const { mutateAsync: generateQuizQuestions, isPending: isGenerating } =
     useGenerateQuizQuestions();
 
   const router = useRouter();
@@ -58,7 +58,7 @@ export default function QuizForm() {
       description,
       numberOfQuestions,
       learnerProfileId,
-      sourceMaterial
+      sourceMaterial,
     } = formData;
     return (
       title.trim().length > 0 &&
@@ -78,28 +78,28 @@ export default function QuizForm() {
         (p) => p.id === formData.learnerProfileId
       );
 
-      let sourceMaterial: SourceMaterial | undefined
+      let sourceMaterial: SourceMaterial | undefined;
 
       if (formData.sourceMaterial) {
         const selected = sources?.find(
           (source) => source.id === formData.sourceMaterial?.id
-        )
+        );
 
         if (selected) {
           sourceMaterial = {
             id: selected.id,
             title: selected.title,
-            content: selected.markdown
-          }
+            content: selected.markdown,
+          };
         }
       }
 
       if (sourceMaterial === undefined) {
-          sourceMaterial = {
-            id: "custom",
-            title: "Custom Lesson", 
-            content: formData.sourceMaterial?.content ?? ""
-          }
+        sourceMaterial = {
+          id: "custom",
+          title: "Custom Lesson",
+          content: formData.sourceMaterial?.content ?? "",
+        };
       }
 
       if (learnerProfile === undefined) return;
@@ -111,8 +111,8 @@ export default function QuizForm() {
         learnerProfile,
         sourceMaterial,
         customization: formData.customization,
-        numberOfQuestions: Number(formData.numberOfQuestions)
-      })
+        numberOfQuestions: Number(formData.numberOfQuestions),
+      });
 
       // Structure data for API submission
       const submissionData: QuizFormSubmission = {
@@ -121,10 +121,10 @@ export default function QuizForm() {
         creation_meta: {
           learner_profile: learnerProfile,
           source_material: sourceMaterial,
-          customization: formData.customization
+          customization: formData.customization,
         } as Record<string, unknown>,
-        questions: questions
-      }
+        questions: questions,
+      };
 
       const savedQuiz = await saveQuiz(submissionData);
 
@@ -133,136 +133,137 @@ export default function QuizForm() {
   };
 
   return (
-    <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">
-        Create New Quiz
-      </h1>
-      <Card className="p-6 space-y-6 min-w-xl">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* 1. TITLE INPUT */}
-          <Input
-            data-testid="quiz-create-title"
-            label="Quiz Title"
-            name="title"
-            placeholder="e.g. Data Analysis using Python"
-            value={formData.title}
-            onChange={handleChange}
-            labelPlacement="outside"
-            fullWidth
-            required
-          />
-
-          {/* 2. DESCRIPTION TEXTAREA */}
-          <Textarea
-            data-testid="quiz-create-description"
-            label="Quiz Description"
-            name="description"
-            placeholder="A brief summary of the quiz and what it'll ask."
-            value={formData.description}
-            onChange={handleChange}
-            labelPlacement="outside"
-            fullWidth
-            required
-            rows={4}
-          />
-
-          <SourceMaterialSelector 
-            sources={sources}
-            loading={sourcesLoading}
-            value={formData.sourceMaterial}
-            onChange={(source) =>
-              handleSelectChange("sourceMaterial", source)
-            }
-          />
-
-          {/* 5. LEARNER PROFILE SELECTION */}
-          <div className="flex gap-4">
-            <Select
-              data-testid="quiz-create-learner-profile"
-              label="Target Learner Profile"
-              name="learnerProfileId"
-              placeholder={
-                profilesLoading
-                  ? "Loading profiles..."
-                  : "Select existing profile"
-              }
-              labelPlacement="outside"
-              onSelectionChange={(key) =>
-                handleSelectChange("learnerProfileId", key.currentKey)
-              }
-              startContent={<User size={18} />}
-              isDisabled={profilesLoading}
-              fullWidth
-              required
-            >
-              <>
-                {profiles?.map((profile, i) => (
-                  <SelectItem 
-                    data-testid={`quiz-create-profile-${i}`}
-                    key={profile.id.toString()}
-                    >
-                    {profile.label}
-                  </SelectItem>
-                ))}
-              </>
-            </Select>
-          </div>
-
-          {/* 3. NUMBER OF QUESTIONS */}
-          <div className="flex gap-4">
+    <>
+      <DemoNavigationPanel backRoute="/quiz-generator" />
+      <div className="p-8 max-w-2xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6 text-gray-900">
+          Create New Quiz
+        </h1>
+        <Card className="p-6 space-y-6 min-w-xl">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* 1. TITLE INPUT */}
             <Input
-              label="Number of Questions"
-              name="numberOfQuestions"
-              type="number"
-              startContent={<ListOrdered size={18} />}
-              placeholder="e.g., 10"
-              value={String(formData.numberOfQuestions)}
+              data-testid="quiz-create-title"
+              label="Quiz Title"
+              name="title"
+              placeholder="e.g. Data Analysis using Python"
+              value={formData.title}
               onChange={handleChange}
               labelPlacement="outside"
-              min={1}
-              max={20}
+              fullWidth
               required
             />
-          </div>
 
-          {/* 5. CUSTOMIZATION TEXTAREA */}
-          <Textarea
-            label="Customization"
-            name="customization"
-            placeholder="What else would you like us to know about what should be on the quiz or about the learner?"
-            value={formData.customization}
-            onChange={handleChange}
-            labelPlacement="outside"
-            fullWidth
-            rows={4}
-          />
+            {/* 2. DESCRIPTION TEXTAREA */}
+            <Textarea
+              data-testid="quiz-create-description"
+              label="Quiz Description"
+              name="description"
+              placeholder="A brief summary of the quiz and what it'll ask."
+              value={formData.description}
+              onChange={handleChange}
+              labelPlacement="outside"
+              fullWidth
+              required
+              rows={4}
+            />
 
-          {/* SUBMIT BUTTON */}
-          <Button
-            data-testid="quiz-create-submit"
-            type="submit"
-            color="primary"
-            fullWidth
-            isDisabled={!isFormValid || isSubmitting}
-            startContent={
-              isSubmitting ? (
-                <Spinner size="sm" color="white" />
-              ) : (
-                <Send size={18} />
-              )
-            }
-            onSubmit={handleSubmit}
-          >
-            {
-            isGenerating
-              ? "Generating Questions..."
-            : isSubmitting
-              ? "Saving Quiz..."
-              : "Create Quiz"
-            }
-          </Button>
-        </form>
-      </Card>
-    </div>
+            <SourceMaterialSelector
+              sources={sources}
+              loading={sourcesLoading}
+              value={formData.sourceMaterial}
+              onChange={(source) =>
+                handleSelectChange("sourceMaterial", source)
+              }
+            />
+
+            {/* 5. LEARNER PROFILE SELECTION */}
+            <div className="flex gap-4">
+              <Select
+                data-testid="quiz-create-learner-profile"
+                label="Target Learner Profile"
+                name="learnerProfileId"
+                placeholder={
+                  profilesLoading
+                    ? "Loading profiles..."
+                    : "Select existing profile"
+                }
+                labelPlacement="outside"
+                onSelectionChange={(key) =>
+                  handleSelectChange("learnerProfileId", key.currentKey)
+                }
+                startContent={<User size={18} />}
+                isDisabled={profilesLoading}
+                fullWidth
+                required
+              >
+                <>
+                  {profiles?.map((profile, i) => (
+                    <SelectItem
+                      data-testid={`quiz-create-profile-${i}`}
+                      key={profile.id.toString()}
+                    >
+                      {profile.label}
+                    </SelectItem>
+                  ))}
+                </>
+              </Select>
+            </div>
+
+            {/* 3. NUMBER OF QUESTIONS */}
+            <div className="flex gap-4">
+              <Input
+                label="Number of Questions"
+                name="numberOfQuestions"
+                type="number"
+                startContent={<ListOrdered size={18} />}
+                placeholder="e.g., 10"
+                value={String(formData.numberOfQuestions)}
+                onChange={handleChange}
+                labelPlacement="outside"
+                min={1}
+                max={20}
+                required
+              />
+            </div>
+
+            {/* 5. CUSTOMIZATION TEXTAREA */}
+            <Textarea
+              label="Customization"
+              name="customization"
+              placeholder="What else would you like us to know about what should be on the quiz or about the learner?"
+              value={formData.customization}
+              onChange={handleChange}
+              labelPlacement="outside"
+              fullWidth
+              rows={4}
+            />
+
+            {/* SUBMIT BUTTON */}
+            <Button
+              data-testid="quiz-create-submit"
+              type="submit"
+              color="primary"
+              fullWidth
+              isDisabled={!isFormValid || isSubmitting}
+              startContent={
+                isSubmitting ? (
+                  <Spinner size="sm" color="white" />
+                ) : (
+                  <Send size={18} />
+                )
+              }
+              onSubmit={handleSubmit}
+            >
+              {isGenerating
+                ? "Generating Questions..."
+                : isSubmitting
+                ? "Saving Quiz..."
+                : "Create Quiz"}
+            </Button>
+          </form>
+        </Card>
+      </div>
+    </>
   );
 }

@@ -2,6 +2,7 @@
 
 import ListView from "../_components/List";
 import { LessonPlanRecord } from "@/types/demos/lesson-plan";
+import DemoNavigationPanel from "../_components/DemoNavigationPanel";
 import { LessonPlanListRecord } from "@/features/lesson-planner";
 import { useListLessonPlan } from "@/features/lesson-planner";
 
@@ -14,12 +15,15 @@ export default function LessonPlanDemoPage() {
   }
 
   return (
-    <ListView<LessonPlanRecord>
-      records={lessons ?? []}
-      title="Lesson Plans"
-      createNewRoute="/lesson-planner/create"
-      RenderItem={LessonPlanListRecord}
-      isLoading={isLoading}
-    />
+    <>
+      <DemoNavigationPanel backRoute="/" />
+      <ListView<LessonPlanRecord>
+        records={lessons ?? []}
+        title="Lesson Plans"
+        createNewRoute="/lesson-planner/create"
+        RenderItem={LessonPlanListRecord}
+        isLoading={isLoading}
+      />
+    </>
   );
 }

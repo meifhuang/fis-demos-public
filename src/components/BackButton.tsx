@@ -4,11 +4,16 @@ import { Button } from "@heroui/react";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function BackButton({ className }: { className: string }) {
+interface BackButtonProps {
+  route: string;
+  className?: string;
+}
+
+export default function BackButton({ route, className }: BackButtonProps) {
   const router = useRouter();
 
   return (
-    <Button onPress={() => router.back()} className={className}>
+    <Button onPress={() => router.push(route)} className={className}>
       <ArrowLeft /> Back
     </Button>
   );

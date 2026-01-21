@@ -13,7 +13,6 @@ export class QuizListPage {
   readonly exampleRecordTotalQuestions: Locator;
   readonly exampleRecordLearnerChip: Locator;
   readonly exampleRecordTakeButton: Locator;
-  readonly exampleRecordEditButton: Locator;
 
   constructor(readonly page: Page) {
     this.heading = page.getByRole("heading", { name: "Quiz Generator" });
@@ -37,9 +36,6 @@ export class QuizListPage {
     );
     this.exampleRecordTakeButton = this.exampleRecordCard.getByTestId(
       "quiz-list-button-take"
-    );
-    this.exampleRecordEditButton = this.exampleRecordCard.getByTestId(
-      "quiz-list-button-edit"
     );
   }
 

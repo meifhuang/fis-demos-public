@@ -7,5 +7,4 @@ export async function getSourceMaterials() {
 
   const rows: Tables<"source_materials">[] = await response.json();
   return rows.map((row) => new SourceMaterial(row));
-};
-
+}

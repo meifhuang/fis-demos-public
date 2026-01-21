@@ -75,7 +75,7 @@ describe("CourseOutlineListRecord", () => {
     // Duration/Lesson details
     expect(
       screen.getByTestId("course-outline-list-time-per-lesson")
-    ).toHaveTextContent(`${record.totalMinutes} minutes total`);
+    ).toHaveTextContent(`${record.totalMinutes} minutes`);
     expect(
       screen.getByTestId("course-outline-list-total-lessons")
     ).toHaveTextContent(`${record.lessonOutlineCount} lessons`);
@@ -95,7 +95,7 @@ describe("CourseOutlineListRecord", () => {
     render(<CourseOutlineListRecord record={newRecord} />);
     expect(
       screen.getByTestId("course-outline-list-time-per-lesson")
-    ).toHaveTextContent("1 minute total");
+    ).toHaveTextContent("1 minute");
     expect(
       screen.getByTestId("course-outline-list-total-lessons")
     ).toHaveTextContent("1 lesson");
@@ -109,15 +109,5 @@ describe("CourseOutlineListRecord", () => {
 
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(`/course-outline/${record.id}`);
-  });
-
-  test("should navigate to edit route when Edit button is clicked", () => {
-    render(<CourseOutlineListRecord record={record} />);
-
-    const editButton = screen.getByTestId("course-outline-list-button-edit");
-    fireEvent.click(editButton);
-
-    expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith(`/course-outline/${record.id}/edit`);
   });
 });

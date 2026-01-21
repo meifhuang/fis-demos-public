@@ -55,9 +55,6 @@ test.describe("List of generated course outlines", () => {
 
     // View Button
     await expect(courseOutlineListPage.exampleRecordViewButton).toBeVisible();
-
-    // Edit Button
-    await expect(courseOutlineListPage.exampleRecordEditButton).toBeVisible();
   });
 
   test("should show loading skeleton initially", async ({

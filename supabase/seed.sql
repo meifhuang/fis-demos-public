@@ -405,34 +405,28 @@ values
 $creation_meta$,
 
     $intro$
-  ## Introduction
   Atoms are the tiny building blocks that make up everything around us.
   $intro$,
 
     $context$
-  ## Context
   Atoms contain protons and neutrons in the nucleus, with electrons moving around it.
   $context$,
 
     $example$
-  ## Example
   Water is made of atoms that combine to form molecules with specific properties.
   $example$,
 
     $practice$
-  ## Practice
   - Name the three subatomic particles  
   - Identify which ones are in the nucleus
   $practice$,
 
     $assessment$
-  ## Assessment
   1. What is an atom?
   2. Which particle has a negative charge?
   $assessment$,
 
     $reflection$
-  ## Reflection
   Why is understanding atoms important for science?
   $reflection$
 );

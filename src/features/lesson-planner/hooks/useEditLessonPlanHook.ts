@@ -17,7 +17,7 @@ const isEqual = (a?: LessonPlanRecord, b?: LessonPlanRecord): boolean =>
   JSON.stringify(a) !== JSON.stringify(b);
 
 export const useEditLessonPlanHook = (id: string) => {
-  const { data, isFetching, error, status } = useLessonPlan(id);
+  const { data, isFetching, isLoading, error, status } = useLessonPlan(id);
   const { mutate, isPending, isSuccess } = useLessonPlanEdit();
 
   const [state, setState] = useState<{
@@ -119,6 +119,7 @@ export const useEditLessonPlanHook = (id: string) => {
     isModified,
     isPending,
     isFetching,
+    isLoading,
     error,
     isSuccess,
     status,

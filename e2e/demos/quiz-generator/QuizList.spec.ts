@@ -52,9 +52,6 @@ test.describe("List of generated quizzes", () => {
 
     // Take Button
     await expect(quizListPage.exampleRecordTakeButton).toBeVisible();
-
-    // Edit Button
-    await expect(quizListPage.exampleRecordEditButton).toBeVisible();
   });
 
   test("should show loading skeleton initially", async ({

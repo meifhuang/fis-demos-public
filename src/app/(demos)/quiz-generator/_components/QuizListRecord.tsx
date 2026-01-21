@@ -1,11 +1,8 @@
 "use client";
 
-import { useCallback } from "react";
-import { Button, addToast, useDisclosure } from "@heroui/react";
-import { Edit2, ListTodo, Trash2 } from "lucide-react";
+import { Button, Chip } from "@heroui/react";
+import { CircleQuestionMark, Eye, ListTodo } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { useDeleteQuiz } from "../_store";
 import { Quiz } from "../_models";
 import { LearnerProfileChip } from "@/lib/learner-profiles";
 
@@ -15,67 +12,19 @@ interface QuizListRecordProps {
 
 export default function QuizListRecord({ record }: QuizListRecordProps) {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // 1. Integrate the deletion hook
-  const { mutate: deleteQuiz, isPending: isDeleting } = useDeleteQuiz();
-
-  const gotoView = useCallback(
-    (id: string) => {
-      router.push(`/quiz-generator/${id}`);
-    },
-    [router]
-  );
-
-  const gotoEdit = useCallback(
-    (id: string) => {
-      router.push(`/quiz-generator/${id}/edit`);
-    },
-    [router]
-  );
-
-  // 2. Handler for confirming and initiating deletion
-  const handleDelete = useCallback(() => {
-    // Check if mutation is running
-    if (isDeleting) return;
-
-    // Call the mutation hook with the record ID
-    deleteQuiz(record.id, {
-      onSuccess: () => {
-        // Show success notification
-        addToast({
-          title: <p className="text-xl font-bold">Deleted!</p>,
-          description: (
-            <p>
-              <span className="font-bold">{record.title}</span> has been
-              removed.
-            </p>
-          ),
-          color: "success",
-          shouldShowTimeoutProgress: true,
-        });
-        onClose(); // Close the confirmation modal
-      },
-      onError: (error) => {
-        addToast({
-          title: <p className="text-xl font-bold">Error</p>,
-          description: `Failed to delete quiz: ${error.message}`,
-          color: "danger",
-          shouldShowTimeoutProgress: true,
-        });
-        onClose(); // Close the modal even on error
-      },
-    });
-  }, [isDeleting, record, deleteQuiz, onClose]);
+  const gotoView = (id: string) => {
+    router.push(`/quiz-generator/${id}`);
+  };
 
   return (
     <>
       {/* Content: Use a plain div for the grid layout */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 items-center w-full">
+      <div className="w-full">
         <div className="col-span-3">
           <h2
             data-testid="quiz-list-record-title"
-            className="text-lg font-semibold"
+            className="text-2xl font-semibold"
           >
             {record.title}
           </h2>
@@ -86,73 +35,36 @@ export default function QuizListRecord({ record }: QuizListRecordProps) {
             {record.description}
           </p>
 
-          <div className="flex justify-between items-center mb-4 text-xs">
-            <p
-              data-testid="quiz-list-total-questions"
-              className="flex items-center gap-2 text-gray-600"
+          <div className="flex justify-between">
+            <div className="flex gap-4 items-center">
+              <LearnerProfileChip
+                data-testid="quiz-list-learner-chip"
+                learnerProfile={record.learnerProfile}
+                color="default"
+                variant="faded"
+              />
+              <Chip
+                data-testid="quiz-list-total-questions"
+                variant="faded"
+                color="default"
+                startContent={<CircleQuestionMark size={18} />}
+              >
+                {record.questionCount} question
+                {record.questionCount === 1 ? "" : "s"}
+              </Chip>
+            </div>
+            {/* Take Button */}
+            <Button
+              data-testid="quiz-list-button-take"
+              color="primary"
+              startContent={<ListTodo />}
+              onPress={() => gotoView(record.id)}
             >
-              {record.questionCount} question{record.questionCount === 1 ? "" : "s"}
-            </p>
+              Take Quiz
+            </Button>
           </div>
-          <LearnerProfileChip
-            data-testid="quiz-list-learner-chip"
-            learnerProfile={record.learnerProfile}
-            addClassName="mt-2"
-            color="default"
-            variant="faded"
-          />
-        </div>
-
-        <div className="flex items-center gap-2 col-span-2 justify-self-end">
-          {/* View Button */}
-          <Button
-            data-testid="quiz-list-button-take"
-            color="primary"
-            startContent={<ListTodo />}
-            onPress={() => gotoView(record.id)}
-          >
-            Take
-          </Button>
-
-          {/* Edit Button */}
-          <Button
-            data-testid="quiz-list-button-edit"
-            variant="flat"
-            startContent={<Edit2 />}
-            onPress={() => gotoEdit(record.id)}
-          >
-            Edit
-          </Button>
-
-          {/* 3. Delete Button (Triggers Modal) */}
-          <Button
-            data-testid="quiz-list-button-delete"
-            color="danger"
-            isIconOnly
-            onPress={onOpen}
-            isDisabled={isDeleting}
-          >
-            <Trash2 size={18} />
-          </Button>
         </div>
       </div>
-
-      <ConfirmationDialog
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={handleDelete}
-        isExecuting={isDeleting}
-        title={"Confirm Deletion"}
-        message={
-          <p className="text-gray-700">
-            Are you sure you want to permanently delete this quiz?
-            <span className="font-semibold block mt-1">{record.title}</span>
-            This action cannot be undone.
-          </p>
-        }
-        confirmButtonColor="danger"
-        confirmButtonText="Delete"
-      />
     </>
   );
 }
