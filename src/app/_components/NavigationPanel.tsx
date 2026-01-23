@@ -32,6 +32,23 @@ export default function NavigationPanel() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const demoNavbarThemes: Record<string, string> = {
+    "/course-outline": "bg-rose-200",
+    "/lesson-planner": "bg-purple-200",
+    "/personalized-content": "bg-green-200",
+    "/quiz-generator": "bg-blue-200",
+  };
+
+  const demoKey = Object.keys(demoNavbarThemes).find((key) =>
+    pathname.startsWith(key)
+  );
+
+  const navbarBgClass = demoKey
+    ? demoNavbarThemes[demoKey]
+    : "bg-background";
+
+
+
   function closeMenu() {
     setIsMenuOpen(false);
   }
@@ -48,7 +65,7 @@ export default function NavigationPanel() {
   ];
 
   return (
-    <Navbar isBordered className="bg-background" isMenuOpen={isMenuOpen}>
+    <Navbar isBordered className={`${navbarBgClass} transition-colors duration-300`} isMenuOpen={isMenuOpen}>
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         className="sm:hidden cursor-pointer"
