@@ -12,3 +12,16 @@ export interface PersonalizedContentFormState extends PersonalizedContentRecord 
     markdown: string;
   };
 }
+
+export interface PersonalizedContentGenerationRequest {
+  title: string;
+  sourceMaterial: string;
+  learnerProfile: {
+    label: string;
+    age: number;
+    reading_level: number;
+    interests: string[];
+    experience: string;
+  };
+  customization?: string;
+}

@@ -1,8 +1,8 @@
-import { PersonalizedContentFormState } from "@/types";
+import { PersonalizedContentGenerationRequest } from "@/types";
 import { PersonalizedContentOutput } from "@/lib/llm-generation/schemas/personalizedContent.zod";
 
 export const generatePersonalizedContent = async (
-  newCourseData: PersonalizedContentFormState
+  newCourseData: PersonalizedContentGenerationRequest
 ): Promise<PersonalizedContentOutput> => {
   const response = await fetch("/api/personalized-content/generate", {
     method: "POST",

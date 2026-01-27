@@ -6,7 +6,7 @@ import {
 } from "@/features/personalized-content";
 import { useLearnerProfiles } from "@demos/_store/useLearnerProfiles";
 import { useSourceMaterials } from "@/features/source-materials";
-import { PersonalizedContentFormState } from "@/types";
+import { PersonalizedContentFormState, PersonalizedContentGenerationRequest } from "@/types";
 import { ViewSourceModal } from "../../_components/ViewSourceModal";
 import { SourceSelector } from "../../_components/SourceSelector";
 import {
@@ -103,6 +103,10 @@ export default function PersonalizedContentForm() {
       (p) => p.id === formData.learnerProfileId
     );
 
+    if (!learnerProfile) {
+      throw new Error("Learner profile is required to generate personalized content.");
+    }
+
     const sourceMaterial =
       formData.sourceMaterial === "custom"
         ? {
@@ -115,10 +119,17 @@ export default function PersonalizedContentForm() {
 
     if (isFormValid && !isSubmitting) {
       // Structure data for API submission
-      const submissionData = {
-        ...formData,
-        learnerProfile,
+      const submissionData: PersonalizedContentGenerationRequest = {
+        title: formData.title,
         sourceMaterial: sourceMaterial?.markdown ?? "",
+        learnerProfile: {
+          label: learnerProfile.label,
+          age: learnerProfile.age,
+          reading_level: learnerProfile.readingLevel ?? 12,
+          interests: learnerProfile.interests,
+          experience: learnerProfile.experience?.trim() || "No prior experience specified.",
+        },
+        customization: formData.customization,
       };
 
       const createdPersonalizedContent = await createPersonalizedContent(

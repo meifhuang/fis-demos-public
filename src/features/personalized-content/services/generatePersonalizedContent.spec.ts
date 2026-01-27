@@ -1,19 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PersonalizedContentFormState } from "@/types";
+import { PersonalizedContentGenerationRequest } from "@/types";
 import { PersonalizedContentRow } from "../models/PersonalizedContent";
 import { generatePersonalizedContent } from "./generatePersonalizedContent";
 
 describe("generatePersonalizedContent", () => {
-  const mockPersonalizedContentData: PersonalizedContentFormState = {
-    id: "1",
-    title: "Test Personalized Content",
-    learnerProfileId: "learner-1",
-    sourceMaterial: "lesson-1",
-    customization: "Test customization",
-    customSource: {
-      title: "",
-      markdown: "",
+  const mockPersonalizedContentData: PersonalizedContentGenerationRequest = {
+    title: "Atoms",
+    sourceMaterial: "Atoms are the building blocks of matter...",
+    learnerProfile: {
+      label: "Adult",
+      age: 29,
+      reading_level: 13,
+      interests: ["3D printing", "Mountain biking", "Pottery"],
+      experience: "Mechanical engineering background with coding experience.",
     },
+    customization: "",
   };
 
   const mockResponseData: PersonalizedContentRow = {

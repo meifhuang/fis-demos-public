@@ -3,13 +3,12 @@ import {
   PersonalizedContentOutput,
   PersonalizedContentSchema,
 } from "@/lib/llm-generation/schemas/personalizedContent.zod";
-import { PersonalizedContentFormState } from "@/types";
+import { PersonalizedContentGenerationRequest } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const body: PersonalizedContentFormState = await req.json();
-    console.log("Received request body:", body);
+    const body: PersonalizedContentGenerationRequest = await req.json();
 
     const prompt = `
       Your job is to adapt a source lesson for a specific persona. 
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
 
       Title: ${body.title}
       Source Lesson Content: ${body.sourceMaterial}
-      Persona Information: ${body.learnerProfileId}
+      Persona Information: ${JSON.stringify(body.learnerProfile, null, 2)}
       Customization notes: ${body.customization}
     `;
 
