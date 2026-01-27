@@ -11,7 +11,12 @@ const isEqual = (a?: PersonalizedContent, b?: PersonalizedContent): boolean =>
 export const useEditPersonalizedContent = (id: string) => {
   const { data, isFetching, isLoading, error, status } =
     usePersonalizedContent(id);
-  const { mutate, isPending, isSuccess } = useUpdatePersonalizedContent();
+  const {
+    mutate,
+    isPending,
+    isSuccess,
+    error: mutationError,
+  } = useUpdatePersonalizedContent();
 
   const [state, setState] = useState<{
     personalizedContent: PersonalizedContent | undefined;
@@ -89,6 +94,7 @@ export const useEditPersonalizedContent = (id: string) => {
     isFetching,
     isLoading,
     error,
+    mutationError,
     isSuccess,
     status,
     handleChange,

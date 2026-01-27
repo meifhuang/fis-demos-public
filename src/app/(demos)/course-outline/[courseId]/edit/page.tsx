@@ -27,6 +27,7 @@ export default function CourseOutlineTeacherView() {
     cancelChanges,
     courseOutline,
     error,
+    mutationError,
     handleLessonOutlineChange,
     handleTopLevelChange,
     isFetching,
@@ -35,6 +36,8 @@ export default function CourseOutlineTeacherView() {
     isSuccess,
     saveChanges,
   } = useEditCourseOutline(id);
+
+  const isEmpty = (value?: string) => !value || !value.trim();
 
   useEffect(() => {
     if (isSuccess && id) {
@@ -47,6 +50,19 @@ export default function CourseOutlineTeacherView() {
       router.push(`/course-outline/${id}`);
     }
   }, [isSuccess, id, router]);
+
+  useEffect(() => {
+    if (mutationError) {
+      addToast({
+        title: <p className="text-xl font-bold">Error: Invalid Input</p>,
+        description: "Make sure all fields are filled out",
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+      });
+    }
+  }, [mutationError]);
+
+  // --- Conditional Rendering ---
 
   // --- ERROR RENDER ---
   if (error) {
@@ -85,7 +101,13 @@ export default function CourseOutlineTeacherView() {
                 classNames={{
                   input: "text-3xl font-extrabold text-gray-900 leading-tight",
                 }}
-                value={courseOutline?.title}
+                value={courseOutline?.title ?? ""}
+                isInvalid={isEmpty(courseOutline?.title)}
+                errorMessage={
+                  isEmpty(courseOutline?.title)
+                    ? "This field is required"
+                    : undefined
+                }
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleTopLevelChange("title", e.target.value)
                 }
@@ -98,7 +120,13 @@ export default function CourseOutlineTeacherView() {
                 fullWidth
                 rows={3}
                 className="w-full text-lg text-gray-600"
-                value={courseOutline?.description}
+                value={courseOutline?.description ?? ""}
+                isInvalid={isEmpty(courseOutline?.description)}
+                errorMessage={
+                  isEmpty(courseOutline?.description)
+                    ? "This field is required"
+                    : undefined
+                }
                 onChange={(e: ChangeEvent<HTMLElement>) =>
                   handleTopLevelChange(
                     "description",
@@ -154,106 +182,128 @@ export default function CourseOutlineTeacherView() {
           <LessonItemSkeleton />
         ) : (
           <div className="space-y-6">
-            {courseOutline?.lessonOutlines?.map((lessonOutline, index) => (
-              <Card
-                key={index.toString()}
-                className="shadow-lg overflow-hidden border-t-4 border-indigo-200"
-              >
-                <CardHeader className="flex flex-col items-start w-full">
-                  <div className="flex items-center justify-between w-full pb-3">
-                    <div className="flex flex-col items-start w-full pr-4">
-                      {/* Editable Lesson Title - using HeroUI Input */}
-                      <Input
-                        label="Lesson Title"
-                        labelPlacement="outside"
+            {courseOutline?.lessonOutlines?.map((lessonOutline, index) => {
+              const titleInvalid = isEmpty(lessonOutline.title);
+              const descriptionInvalid = isEmpty(lessonOutline.description);
+              const outcomeInvalid = isEmpty(lessonOutline.outcome);
+
+              return (
+                <Card
+                  key={index.toString()}
+                  className="shadow-lg overflow-hidden border-t-4 border-indigo-200"
+                >
+                  <CardHeader className="flex flex-col items-start w-full">
+                    <div className="flex items-center justify-between w-full pb-3">
+                      <div className="flex flex-col items-start w-full pr-4">
+                        {/* Editable Lesson Title - using HeroUI Input */}
+                        <Input
+                          label="Lesson Title"
+                          labelPlacement="outside"
+                          size="sm"
+                          fullWidth
+                          classNames={{
+                            input: "text-xl font-bold text-gray-800 p-0 m-0",
+                          }}
+                          className="w-full"
+                          value={lessonOutline.title}
+                          isInvalid={titleInvalid}
+                          errorMessage={
+                            titleInvalid ? "This field is required" : undefined
+                          }
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            handleLessonOutlineChange(
+                              index,
+                              "title",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                      <Chip
                         size="sm"
-                        fullWidth
-                        classNames={{
-                          input: "text-xl font-bold text-gray-800 p-0 m-0",
-                        }}
-                        className="w-full"
-                        value={lessonOutline.title}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                          handleLessonOutlineChange(
-                            index,
-                            "title",
-                            e.target.value
-                          )
-                        }
-                      />
+                        variant="bordered"
+                        className="text-sm ml-4 shrink-0"
+                      >
+                        {lessonOutline.minutes}{" "}
+                        {lessonOutline.minutes === 1 ? "minute" : "minutes"}
+                      </Chip>
                     </div>
-                    <Chip
-                      size="sm"
-                      variant="bordered"
-                      className="text-sm ml-4 shrink-0"
-                    >
-                      {lessonOutline.minutes}{" "}
-                      {lessonOutline.minutes === 1 ? "minute" : "minutes"}
-                    </Chip>
-                  </div>
-                </CardHeader>
+                  </CardHeader>
 
-                <CardBody className="p-4 pt-0">
-                  <div className="p-2 grid grid-cols-1 lg:grid-cols-2 gap-4 border-t pt-4">
-                    <Card className="shadow-sm h-full">
-                      <CardHeader className="flex flex-col items-start pb-2">
-                        <h4 className="flex items-center text-base font-semibold text-gray-800">
-                          <BookOpen className="w-5 h-5 text-indigo-500 mr-2" />
-                          Description
-                        </h4>
-                      </CardHeader>
+                  <CardBody className="p-4 pt-0">
+                    <div className="p-2 grid grid-cols-1 lg:grid-cols-2 gap-4 border-t pt-4">
+                      <Card className="shadow-sm h-full">
+                        <CardHeader className="flex flex-col items-start pb-2">
+                          <h4 className="flex items-center text-base font-semibold text-gray-800">
+                            <BookOpen className="w-5 h-5 text-indigo-500 mr-2" />
+                            Description
+                          </h4>
+                        </CardHeader>
 
-                      <CardBody className="space-y-3 pt-2 border-t border-gray-100">
-                        <div>
-                          <Textarea
-                            label="Description"
-                            labelPlacement="outside"
-                            rows={3}
-                            fullWidth
-                            value={lessonOutline.description}
-                            onChange={(e: ChangeEvent<HTMLElement>) =>
-                              handleLessonOutlineChange(
-                                index,
-                                "description",
-                                (e.target as HTMLTextAreaElement).value
-                              )
-                            }
-                          />
-                        </div>
-                      </CardBody>
-                    </Card>
+                        <CardBody className="space-y-3 pt-2 border-t border-gray-100">
+                          <div>
+                            <Textarea
+                              label="Description"
+                              labelPlacement="outside"
+                              rows={3}
+                              fullWidth
+                              value={lessonOutline.description}
+                              isInvalid={descriptionInvalid}
+                              errorMessage={
+                                descriptionInvalid
+                                  ? "This field is required"
+                                  : undefined
+                              }
+                              onChange={(e: ChangeEvent<HTMLElement>) =>
+                                handleLessonOutlineChange(
+                                  index,
+                                  "description",
+                                  (e.target as HTMLTextAreaElement).value
+                                )
+                              }
+                            />
+                          </div>
+                        </CardBody>
+                      </Card>
 
-                    <Card className="shadow-sm h-full">
-                      <CardHeader className="flex flex-col items-start pb-2">
-                        <h4 className="flex items-center text-base font-semibold text-gray-800">
-                          <CheckCircle className="w-5 h-5 text-indigo-500 mr-2" />
-                          Outcome
-                        </h4>
-                      </CardHeader>
+                      <Card className="shadow-sm h-full">
+                        <CardHeader className="flex flex-col items-start pb-2">
+                          <h4 className="flex items-center text-base font-semibold text-gray-800">
+                            <CheckCircle className="w-5 h-5 text-indigo-500 mr-2" />
+                            Outcome
+                          </h4>
+                        </CardHeader>
 
-                      <CardBody className="space-y-3 pt-2 border-t border-gray-100">
-                        <div>
-                          <Textarea
-                            label="Outcome"
-                            labelPlacement="outside"
-                            rows={3}
-                            fullWidth
-                            value={lessonOutline.outcome}
-                            onChange={(e: ChangeEvent<HTMLElement>) =>
-                              handleLessonOutlineChange(
-                                index,
-                                "outcome",
-                                (e.target as HTMLTextAreaElement).value
-                              )
-                            }
-                          />
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </div>
-                </CardBody>
-              </Card>
-            ))}
+                        <CardBody className="space-y-3 pt-2 border-t border-gray-100">
+                          <div>
+                            <Textarea
+                              label="Outcome"
+                              labelPlacement="outside"
+                              rows={3}
+                              fullWidth
+                              value={lessonOutline.outcome}
+                              isInvalid={outcomeInvalid}
+                              errorMessage={
+                                outcomeInvalid
+                                  ? "This field is required"
+                                  : undefined
+                              }
+                              onChange={(e: ChangeEvent<HTMLElement>) =>
+                                handleLessonOutlineChange(
+                                  index,
+                                  "outcome",
+                                  (e.target as HTMLTextAreaElement).value
+                                )
+                              }
+                            />
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </div>
+                  </CardBody>
+                </Card>
+              );
+            })}
           </div>
         )}
 

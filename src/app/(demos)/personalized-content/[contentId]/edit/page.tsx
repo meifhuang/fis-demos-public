@@ -26,6 +26,7 @@ export default function PeronsalizedContentEditView() {
     cancelChanges,
     personalizedContent,
     error,
+    mutationError,
     handleChange,
     isLoading,
     isPending,
@@ -33,6 +34,14 @@ export default function PeronsalizedContentEditView() {
     isSuccess,
     saveChanges,
   } = useEditPersonalizedContent(id);
+
+  const isEmpty = (value?: string) => !value || !value.trim();
+
+  const validation = {
+    title: isEmpty(personalizedContent?.title),
+    description: isEmpty(personalizedContent?.description),
+    content: isEmpty(personalizedContent?.content),
+  };
 
   useEffect(() => {
     if (isSuccess && id) {
@@ -46,7 +55,16 @@ export default function PeronsalizedContentEditView() {
     }
   }, [isSuccess, id, router]);
 
-  // --- Conditional Rendering ---
+  useEffect(() => {
+    if (mutationError) {
+      addToast({
+        title: <p className="text-xl font-bold">Error: Invalid Input</p>,
+        description: "Make sure all fields are filled out",
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+      });
+    }
+  }, [mutationError]);
 
   if (error) {
     return (
@@ -81,7 +99,11 @@ export default function PeronsalizedContentEditView() {
                 classNames={{
                   input: "text-3xl font-extrabold text-gray-900 leading-tight",
                 }}
-                value={personalizedContent?.title}
+                value={personalizedContent?.title ?? ""}
+                isInvalid={validation.title}
+                errorMessage={
+                  validation.title ? "This field is required" : undefined
+                }
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleChange("title", e.target.value)
                 }
@@ -95,7 +117,11 @@ export default function PeronsalizedContentEditView() {
                 fullWidth
                 rows={3}
                 className="w-full text-lg text-gray-600"
-                value={personalizedContent?.description}
+                value={personalizedContent?.description ?? ""}
+                isInvalid={validation.description}
+                errorMessage={
+                  validation.description ? "This field is required" : undefined
+                }
                 onChange={(e: ChangeEvent<HTMLElement>) =>
                   handleChange(
                     "description",
@@ -114,9 +140,15 @@ export default function PeronsalizedContentEditView() {
                     <div>
                       <MarkdownPreview
                         label="Personalized Content"
-                        value={personalizedContent?.content}
+                        value={personalizedContent?.content ?? ""}
                         onChange={(value) => handleChange("content", value)}
                       />
+
+                      {validation.content && (
+                        <p className="mt-1 text-sm text-red-600">
+                          This field is required
+                        </p>
+                      )}
                     </div>
                   </CardBody>
                 </Card>

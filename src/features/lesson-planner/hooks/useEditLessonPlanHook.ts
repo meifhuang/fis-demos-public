@@ -18,7 +18,12 @@ const isEqual = (a?: LessonPlanRecord, b?: LessonPlanRecord): boolean =>
 
 export const useEditLessonPlanHook = (id: string) => {
   const { data, isFetching, isLoading, error, status } = useLessonPlan(id);
-  const { mutate, isPending, isSuccess } = useLessonPlanEdit();
+  const {
+    mutate,
+    isPending,
+    isSuccess,
+    error: mutationError,
+  } = useLessonPlanEdit();
 
   const [state, setState] = useState<{
     lessonPlan: LessonPlanRecord | undefined;
@@ -121,6 +126,7 @@ export const useEditLessonPlanHook = (id: string) => {
     isFetching,
     isLoading,
     error,
+    mutationError,
     isSuccess,
     status,
     handleTopLevelChange,

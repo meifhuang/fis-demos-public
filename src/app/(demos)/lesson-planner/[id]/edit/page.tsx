@@ -32,13 +32,35 @@ export default function LessonPlanEditPage() {
     isPending,
     isSuccess,
     error,
+    mutationError,
     cancelChanges,
     saveChanges,
     handleTopLevelChange,
     handleLessonSectionChange,
   } = useEditLessonPlanHook(id);
 
-  // Show toast and redirect after save
+  const isEmpty = (value?: string) => !value || !value.trim();
+
+  const lessonSections = [
+    { label: "Introduction", key: "introduction" },
+    { label: "Context", key: "context" },
+    { label: "Example", key: "example" },
+    { label: "Practice", key: "practice" },
+    { label: "Assessment", key: "assessment" },
+    { label: "Reflection", key: "reflection" },
+  ] as const;
+
+  const validation = {
+    title: isEmpty(lessonPlan?.creation_meta.source_material.title),
+    sourceContent: isEmpty(lessonPlan?.creation_meta.source_material.content),
+    introduction: isEmpty(lessonPlan?.introduction),
+    context: isEmpty(lessonPlan?.context),
+    example: isEmpty(lessonPlan?.example),
+    practice: isEmpty(lessonPlan?.practice),
+    assessment: isEmpty(lessonPlan?.assessment),
+    reflection: isEmpty(lessonPlan?.reflection),
+  } satisfies Record<string, boolean>;
+
   useEffect(() => {
     if (isSuccess && id) {
       addToast({
@@ -51,6 +73,17 @@ export default function LessonPlanEditPage() {
     }
   }, [isSuccess, id, router]);
 
+  useEffect(() => {
+    if (mutationError) {
+      addToast({
+        title: <p className="text-xl font-bold">Error: Invalid Input</p>,
+        description: "Make sure all fields are filled out",
+        color: "danger",
+        shouldShowTimeoutProgress: true,
+      });
+    }
+  }, [mutationError]);
+
   if (!isLoading && error) {
     return (
       <>
@@ -62,15 +95,6 @@ export default function LessonPlanEditPage() {
       </>
     );
   }
-
-  const lessonSections = [
-    { label: "Introduction", key: "introduction" },
-    { label: "Context", key: "context" },
-    { label: "Example", key: "example" },
-    { label: "Practice", key: "practice" },
-    { label: "Assessment", key: "assessment" },
-    { label: "Reflection", key: "reflection" },
-  ] as const;
 
   const backRoute = lessonPlan
     ? `/lesson-planner/${lessonPlan.id}`
@@ -92,6 +116,10 @@ export default function LessonPlanEditPage() {
                 fullWidth
                 size="lg"
                 value={lessonPlan?.creation_meta.source_material.title ?? ""}
+                isInvalid={validation.title}
+                errorMessage={
+                  validation.title ? "This field is required" : undefined
+                }
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleTopLevelChange("sourceMaterialTitle", e.target.value)
                 }
@@ -106,6 +134,12 @@ export default function LessonPlanEditPage() {
                 fullWidth
                 rows={3}
                 value={lessonPlan?.creation_meta.source_material.content ?? ""}
+                isInvalid={validation.sourceContent}
+                errorMessage={
+                  validation.sourceContent
+                    ? "This field is required"
+                    : undefined
+                }
                 onChange={(e) =>
                   handleTopLevelChange("sourceMaterialContent", e.target.value)
                 }
@@ -173,6 +207,11 @@ export default function LessonPlanEditPage() {
                             handleLessonSectionChange(section.key, value)
                           }
                         />
+                        {validation[section.key] && (
+                          <p className="mt-1 text-sm text-red-600">
+                            This field is required
+                          </p>
+                        )}
                       </div>
                     </CardBody>
                   </Card>

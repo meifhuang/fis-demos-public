@@ -2,15 +2,17 @@ import { SetStateAction, useState } from "react";
 import { CourseOutline, LessonOutline } from "@demos/course-outline/_models";
 import { useCourseOutline, useUpdateCourseOutline } from "../../_store";
 
-const isEqual = (
-  a?: CourseOutline,
-  b?: CourseOutline
-): boolean => JSON.stringify(a) !== JSON.stringify(b)
-
+const isEqual = (a?: CourseOutline, b?: CourseOutline): boolean =>
+  JSON.stringify(a) !== JSON.stringify(b);
 
 export const useEditCourseOutline = (id: string) => {
-  const { data, isFetching, error, status, } = useCourseOutline(id);
-  const { mutate, isPending, isSuccess, } = useUpdateCourseOutline();
+  const { data, isFetching, error, status } = useCourseOutline(id);
+  const {
+    mutate,
+    isPending,
+    isSuccess,
+    error: mutationError,
+  } = useUpdateCourseOutline();
 
   const [state, setState] = useState<{
     courseOutline: CourseOutline | undefined;
@@ -32,31 +34,40 @@ export const useEditCourseOutline = (id: string) => {
 
   const isModified = isEqual(state.courseOutline, state.originalCourseOutline);
 
-  const setCourseOutline = (courseOutline: SetStateAction<CourseOutline | undefined>) => {
-    setState(prev => ({
+  const setCourseOutline = (
+    courseOutline: SetStateAction<CourseOutline | undefined>
+  ) => {
+    setState((prev) => ({
       ...prev,
-      courseOutline: typeof courseOutline === 'function' ?
-        courseOutline(prev.courseOutline) : courseOutline,
+      courseOutline:
+        typeof courseOutline === "function"
+          ? courseOutline(prev.courseOutline)
+          : courseOutline,
     }));
   };
 
-  const handleTopLevelChange = (name: "title" | "description", value: string) => {
+  const handleTopLevelChange = (
+    name: "title" | "description",
+    value: string
+  ) => {
     setCourseOutline((prev) => {
       if (!prev) return undefined;
 
       return prev.with(name, value);
     });
-  }
+  };
 
   const handleLessonOutlineChange = <K extends keyof LessonOutline>(
-    index: number, field: K, value: LessonOutline[K]
+    index: number,
+    field: K,
+    value: LessonOutline[K]
   ) => {
     setCourseOutline((prev) => {
       if (!prev) return undefined;
 
       return prev.withLessonOutline(index, { [field]: value });
     });
-  }
+  };
 
   const saveChanges = () => {
     if (!state.courseOutline) return;
@@ -67,13 +78,13 @@ export const useEditCourseOutline = (id: string) => {
           courseOutline: updatedData,
           originalCourseOutline: updatedData,
           lastFetchedData: updatedData,
-        })
+        });
       },
       onError: (err) => {
         console.error("Save failed:", err);
       },
     });
-  }
+  };
 
   const cancelChanges = () => {
     if (state.originalCourseOutline) {
@@ -87,6 +98,7 @@ export const useEditCourseOutline = (id: string) => {
     isPending,
     isFetching,
     error,
+    mutationError,
     isSuccess,
     status,
     handleTopLevelChange,
