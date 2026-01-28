@@ -15,23 +15,26 @@ describe("factory", async () => {
 
     it("throws for unknown factory", () => {
       // @ts-expect-error Ensure unknown factories fail at run time
-      expect(() => factory.build("unknownFactory"))
-        .toThrow(/Unknown factory 'unknownFactory'/);
+      expect(() => factory.build("unknownFactory")).toThrow(
+        /Unknown factory 'unknownFactory'/,
+      );
     });
 
     it("overrides are applied and converted to snake_case", () => {
-      const obj = factory.build("learnerProfile", { interests: ["foo"], readingLevel: 1000 });
+      const obj = factory.build("learnerProfile", {
+        interests: ["foo"],
+        readingLevel: 1000,
+      });
       expect(obj.interests).toEqual(["foo"]);
       expect(obj.reading_level).toBe(1000);
     });
   });
 
-
   describe("buildList", () => {
     it("returns the correct number of items", () => {
       const list = factory.buildList("learnerProfile", 3);
       expect(list).toHaveLength(3);
-      list.forEach(item => expect(item).toHaveProperty("label"));
+      list.forEach((item) => expect(item).toHaveProperty("label"));
     });
   });
 
@@ -99,9 +102,9 @@ describe("factory", async () => {
 
     it("throws an error if once occurs", async () => {
       await expect(
-        factory.create("learnerProfile", { bad_column: 123 })
+        factory.create("learnerProfile", { bad_column: 123 }),
       ).rejects.toThrow(
-        /Could not find the 'bad_column' column of 'learner_profiles' in the schema cache/
+        /Could not find the 'bad_column' column of 'learner_profiles' in the schema cache/,
       );
     });
   });

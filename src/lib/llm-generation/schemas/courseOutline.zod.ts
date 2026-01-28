@@ -9,7 +9,7 @@ export const CourseOutlineSchema = z.object({
       outcome: z.string(),
       description: z.string(),
       minutes: z.number().int(),
-    })
+    }),
   ),
 });
 

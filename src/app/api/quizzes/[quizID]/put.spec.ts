@@ -25,7 +25,7 @@ describe("PUT", async () => {
 
     it("updates the record", async () => {
       const { id } = await factory.create("quiz");
-      const title = `New Title ${crypto.randomUUID()}`
+      const title = `New Title ${crypto.randomUUID()}`;
 
       const request = new Request("http://localhost", {
         method: "PUT",
@@ -35,10 +35,9 @@ describe("PUT", async () => {
 
       await PUT(request, { params: Promise.resolve({ quizID: id }) });
 
-      
       const result = await pgClient.query(
         `select title from quizzes where id = $1`,
-        [id]
+        [id],
       );
 
       expect(result.rows).toHaveLength(1);
@@ -119,7 +118,9 @@ describe("PUT", async () => {
         }),
       };
 
-      spy = vi.spyOn(await import("@/lib/supabase"), "getClient").mockReturnValue(fakeClient as any);
+      spy = vi
+        .spyOn(await import("@/lib/supabase"), "getClient")
+        .mockReturnValue(fakeClient as any);
     });
 
     afterEach(() => {

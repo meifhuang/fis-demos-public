@@ -35,7 +35,7 @@ describe("getLessonPlan", () => {
     });
 
     await expect(getLessonPlan(mockId)).rejects.toThrow(
-      `Failed to fetch lesson plan '${mockId}'`
+      `Failed to fetch lesson plan '${mockId}'`,
     );
   });
 });

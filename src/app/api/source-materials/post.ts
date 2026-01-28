@@ -4,10 +4,12 @@ import { NextResponse } from "next/server";
 import { getClient } from "@/lib/supabase";
 import { z } from "zod";
 
-const schema = z.object({
-  title: z.string().min(1),
-  markdown: z.string().min(1),
-}).strict();
+const schema = z
+  .object({
+    title: z.string().min(1),
+    markdown: z.string().min(1),
+  })
+  .strict();
 
 /**
  * Create source material
@@ -17,7 +19,10 @@ export async function POST(req: Request) {
 
   if (zError) {
     Sentry.captureException(zError);
-    return NextResponse.json({ error: z.prettifyError(zError) }, { status: 422 });
+    return NextResponse.json(
+      { error: z.prettifyError(zError) },
+      { status: 422 },
+    );
   }
 
   const supabase = getClient();

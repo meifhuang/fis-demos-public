@@ -13,11 +13,9 @@ export async function putQuiz(quiz: Quiz) {
 
   if (!res.ok) {
     const { error }: { error: string } = await res.json();
-    throw new Error(
-      `Failed to update quiz '${quiz.id}': ${error}`
-    );
+    throw new Error(`Failed to update quiz '${quiz.id}': ${error}`);
   }
 
   const row: QuizRow = await res.json();
   return new Quiz(row);
-};
+}

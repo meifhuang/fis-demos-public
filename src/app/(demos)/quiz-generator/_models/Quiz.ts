@@ -1,4 +1,4 @@
-import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles"
+import { LearnerProfile, LearnerProfileRow } from "@/lib/learner-profiles";
 import { Answer, Json, Question, QuizRow, QuizUpdate } from "@/types";
 
 interface CreationMeta {
@@ -13,8 +13,8 @@ export class Quiz {
     return {
       title: this.data.title,
       description: this.data.description,
-      questions: this.data.questions
-    }
+      questions: this.data.questions,
+    };
   }
 
   // NOTE: if this ever accepts any camelCase `name`, this will need to
@@ -24,16 +24,17 @@ export class Quiz {
   }
 
   withQuestions(updatedQuestions: Question[]) {
-    return new Quiz({...this.data, questions: updatedQuestions as unknown as Json});
+    return new Quiz({
+      ...this.data,
+      questions: updatedQuestions as unknown as Json,
+    });
   }
 
   // NOTE: if Question gains any camelCase properties, this will need to
   // be adjusted to handle the transformation
-  withQuestion(
-    index: number, question: Partial<Question>
-  ): Quiz {
+  withQuestion(index: number, question: Partial<Question>): Quiz {
     const questions = this.questions.map((existing, i) =>
-      i === index ? { ...existing, ...question } : { ...existing }
+      i === index ? { ...existing, ...question } : { ...existing },
     );
     return new Quiz({ ...this.data, questions: questions as unknown as Json });
   }
@@ -41,34 +42,33 @@ export class Quiz {
   withAnswer(
     questionIndex: number,
     answerIndex: number,
-    answer: Partial<Answer>
+    answer: Partial<Answer>,
   ): Quiz {
     const question = this.questions[questionIndex];
-    
+
     const updatedQuestion = {
       ...question,
-      answers: question.answers.map((existing, i) => i === answerIndex ? {...existing, ...answer} : existing)
-    }
+      answers: question.answers.map((existing, i) =>
+        i === answerIndex ? { ...existing, ...answer } : existing,
+      ),
+    };
 
-    return this.withQuestion(questionIndex, updatedQuestion)
+    return this.withQuestion(questionIndex, updatedQuestion);
   }
 
-  withCorrectAnswer(
-    questionIndex: number,
-    newCorrectIndex: number
-  ): Quiz {
+  withCorrectAnswer(questionIndex: number, newCorrectIndex: number): Quiz {
     const question = this.questions[questionIndex];
 
     const updatedQuestion = {
       ...question,
-      answers: question.answers.map((existing, i) => 
-        i === newCorrectIndex 
-        ? {...existing, correct: true} 
-        : {...existing, correct: false}
-      )
-    }
+      answers: question.answers.map((existing, i) =>
+        i === newCorrectIndex
+          ? { ...existing, correct: true }
+          : { ...existing, correct: false },
+      ),
+    };
 
-    return this.withQuestion(questionIndex, updatedQuestion)
+    return this.withQuestion(questionIndex, updatedQuestion);
   }
 
   get id() {
@@ -103,17 +103,19 @@ export class Quiz {
   }
 
   get valid(): boolean {
-    return (this.title !== ""
-    && this.description !== ""
-    && this.questions.every((q) => {
-      const correctIndex = q.answers.findIndex(a => a.correct)
+    return (
+      this.title !== "" &&
+      this.description !== "" &&
+      this.questions.every((q) => {
+        const correctIndex = q.answers.findIndex((a) => a.correct);
 
-      return (
-        q.question !== ""
-        && correctIndex !== -1
-        && correctIndex === q.answers.findLastIndex(a => a.correct)
-        && q.answers.every((a) => a.text !== "")
-      )
-    }))
+        return (
+          q.question !== "" &&
+          correctIndex !== -1 &&
+          correctIndex === q.answers.findLastIndex((a) => a.correct) &&
+          q.answers.every((a) => a.text !== "")
+        );
+      })
+    );
   }
 }

@@ -107,7 +107,7 @@ describe("API Route Handlers: /api/personalized-content", () => {
     const mockRequest = (body: any): NextRequest =>
       ({
         json: vi.fn().mockResolvedValue(body),
-      } as unknown as NextRequest);
+      }) as unknown as NextRequest;
 
     it("should return the inserted course data with 200 status on success", async () => {
       const { from, insert, single } = getMocks();

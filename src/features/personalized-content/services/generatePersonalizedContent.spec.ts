@@ -38,11 +38,13 @@ describe("generatePersonalizedContent", () => {
         Promise.resolve({
           ok: true,
           json: () => Promise.resolve(mockResponseData),
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
-    const result = await generatePersonalizedContent(mockPersonalizedContentData);
+    const result = await generatePersonalizedContent(
+      mockPersonalizedContentData,
+    );
     expect(result).toEqual(mockResponseData);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith("/api/personalized-content/generate", {
@@ -59,12 +61,12 @@ describe("generatePersonalizedContent", () => {
         Promise.resolve({
           ok: false,
           text: () => Promise.resolve("Internal Server Error"),
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
-    await expect(generatePersonalizedContent(mockPersonalizedContentData)).rejects.toThrow(
-      "Failed to create content: Internal Server Error"
-    );
+    await expect(
+      generatePersonalizedContent(mockPersonalizedContentData),
+    ).rejects.toThrow("Failed to create content: Internal Server Error");
   });
 });

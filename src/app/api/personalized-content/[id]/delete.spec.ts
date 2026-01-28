@@ -11,7 +11,7 @@ describe("DELETE", async () => {
     it("responds with a 204 status", async () => {
       const personalizedContent = await factory.create("personalizedContent");
       const response = await DELETE(mockRequest, {
-        params: Promise.resolve({ id: personalizedContent.id })
+        params: Promise.resolve({ id: personalizedContent.id }),
       });
       expect(response.status).toEqual(204);
     });
@@ -25,7 +25,7 @@ describe("DELETE", async () => {
 
       const result = await pgClient.query(
         `select 1 from personalized_contents where id = $1`,
-        [id]
+        [id],
       );
 
       expect(result.rows).toHaveLength(0);
@@ -37,7 +37,7 @@ describe("DELETE", async () => {
 
     beforeEach(async () => {
       response = await DELETE(mockRequest, {
-        params: Promise.resolve({ id: crypto.randomUUID() })
+        params: Promise.resolve({ id: crypto.randomUUID() }),
       });
     });
 
@@ -62,13 +62,13 @@ describe("DELETE", async () => {
             eq: () => ({
               count: null,
               error: { message: "Simulated Supabase error" },
-            })
-          })
+            }),
+          }),
         }),
       });
 
       response = await DELETE(mockRequest, {
-        params: Promise.resolve({ id: crypto.randomUUID() })
+        params: Promise.resolve({ id: crypto.randomUUID() }),
       });
     });
 

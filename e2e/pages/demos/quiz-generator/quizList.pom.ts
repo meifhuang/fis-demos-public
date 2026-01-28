@@ -23,19 +23,19 @@ export class QuizListPage {
 
     this.exampleRecordCard = page.getByTestId("list-item-card").first();
     this.exampleRecordTitle = this.exampleRecordCard.getByTestId(
-      "quiz-list-record-title"
+      "quiz-list-record-title",
     );
     this.exampleRecordDescription = this.exampleRecordCard.getByTestId(
-      "quiz-list-record-description"
+      "quiz-list-record-description",
     );
     this.exampleRecordTotalQuestions = this.exampleRecordCard.getByTestId(
-      "quiz-list-total-questions"
+      "quiz-list-total-questions",
     );
     this.exampleRecordLearnerChip = this.exampleRecordCard.getByTestId(
-      "quiz-list-learner-chip"
+      "quiz-list-learner-chip",
     );
     this.exampleRecordTakeButton = this.exampleRecordCard.getByTestId(
-      "quiz-list-button-take"
+      "quiz-list-button-take",
     );
   }
 

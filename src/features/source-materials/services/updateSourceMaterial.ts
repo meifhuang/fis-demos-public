@@ -5,12 +5,10 @@ export async function updateSourceMaterial(sourceMaterial: SourceMaterial) {
   const response = await fetch(`/api/source-materials/${sourceMaterial.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(
-      {
-        markdown: sourceMaterial.markdown,
-        title: sourceMaterial.title,
-      } as TablesUpdate<"source_materials">
-    ),
+    body: JSON.stringify({
+      markdown: sourceMaterial.markdown,
+      title: sourceMaterial.title,
+    } as TablesUpdate<"source_materials">),
   });
 
   if (!response.ok) {
@@ -20,4 +18,4 @@ export async function updateSourceMaterial(sourceMaterial: SourceMaterial) {
 
   const row: Tables<"source_materials"> = await response.json();
   return new SourceMaterial(row);
-};
+}

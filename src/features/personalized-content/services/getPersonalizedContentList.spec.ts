@@ -1,13 +1,16 @@
 import { vi, describe, it, expect, beforeEach, afterEach, Mock } from "vitest";
 import { getPersonalizedContentList } from "./getPersonalizedContentList";
-import { PersonalizedContentRow, PersonalizedContent } from "../models/PersonalizedContent";
-import { factory } from "@/test"
+import {
+  PersonalizedContentRow,
+  PersonalizedContent,
+} from "../models/PersonalizedContent";
+import { factory } from "@/test";
 
 describe("getPersonalizedContentList", () => {
   const mockRows: PersonalizedContentRow[] = [
     factory.build("personalizedContent", { id: crypto.randomUUID() }),
-    factory.build("personalizedContent", { id: crypto.randomUUID() })
-  ]
+    factory.build("personalizedContent", { id: crypto.randomUUID() }),
+  ];
 
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn());
@@ -39,7 +42,7 @@ describe("getPersonalizedContentList", () => {
     });
 
     await expect(getPersonalizedContentList()).rejects.toThrow(
-      "Failed to fetch personalized content list"
+      "Failed to fetch personalized content list",
     );
   });
 });

@@ -8,15 +8,13 @@ import { courseKeys } from "./keys";
  */
 export const useCourseOutline = (id: string) => {
   const queryClient = useQueryClient();
-  const cache = queryClient.getQueryData<CourseOutline[]>(
-    courseKeys.list()
-  );
+  const cache = queryClient.getQueryData<CourseOutline[]>(courseKeys.list());
   const placeholderData = cache?.find((course) => course.id === id);
 
   return useQuery<CourseOutline, Error>({
     placeholderData,
     queryKey: courseKeys.detail(id),
     queryFn: () => getCourseOutline(id),
-    enabled: !!id
+    enabled: !!id,
   });
 };

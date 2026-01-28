@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { putQuiz } from ".";
 import { Quiz } from "../_models";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("putQuiz", () => {
   const row = factory.build("quiz");
@@ -29,8 +29,8 @@ describe("putQuiz", () => {
       body: JSON.stringify({
         title: row.title,
         description: row.description,
-        questions: row.questions
-      })
+        questions: row.questions,
+      }),
     });
   });
 
@@ -54,7 +54,7 @@ describe("putQuiz", () => {
     });
 
     await expect(putQuiz(quiz)).rejects.toThrow(
-      `Failed to update quiz '${quiz.id}': bad request`
+      `Failed to update quiz '${quiz.id}': bad request`,
     );
   });
 });

@@ -13,12 +13,17 @@ export const useSavePersonalizedContent = () => {
     mutationKey: personalizedContentKeys.save(),
     mutationFn: savePersonalizedContent,
     onSuccess: (newPersonalizedContent: PersonalizedContentRecord) => {
-      const existingContent = queryClient.getQueryData(personalizedContentKeys.list());
+      const existingContent = queryClient.getQueryData(
+        personalizedContentKeys.list(),
+      );
 
       if (existingContent) {
         queryClient.setQueryData(
           personalizedContentKeys.list(),
-          (old: PersonalizedContentRecord[]) => [newPersonalizedContent, ...old]
+          (old: PersonalizedContentRecord[]) => [
+            newPersonalizedContent,
+            ...old,
+          ],
         );
       }
     },

@@ -24,7 +24,7 @@ interface LessonPlanListProps {
  * Provides default values for required database fields that aren't present in the plain object.
  */
 function toLearnerProfile(
-  profile: LessonPlanRecord["creation_meta"]["learner_profile"]
+  profile: LessonPlanRecord["creation_meta"]["learner_profile"],
 ): LearnerProfile {
   const profileRow: LearnerProfileRow = {
     id: profile.id,
@@ -46,7 +46,7 @@ export function LessonPlanListRecord({ record }: LessonPlanListProps) {
     (id: string) => {
       router.push(`/lesson-planner/${id}`);
     },
-    [router]
+    [router],
   );
 
   return (
@@ -72,7 +72,7 @@ export function LessonPlanListRecord({ record }: LessonPlanListProps) {
             <LearnerProfileChip
               data-testid="lesson-plan-list-learner-chip"
               learnerProfile={toLearnerProfile(
-                record.creation_meta.learner_profile
+                record.creation_meta.learner_profile,
               )}
               color="default"
               variant="faded"

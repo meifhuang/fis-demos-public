@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { putPersonalizedContent } from "./putPersonalizedContent";
 import { PersonalizedContent } from "../models/PersonalizedContent";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("putPersonalizedContent", () => {
   const row = factory.build("personalizedContent");
@@ -23,15 +23,18 @@ describe("putPersonalizedContent", () => {
 
     await putPersonalizedContent(personalizedContent);
 
-    expect(fetch).toHaveBeenCalledWith(`/api/personalized-content/${personalizedContent.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: row.title,
-        description: row.description,
-        content: row.content
-      })
-    });
+    expect(fetch).toHaveBeenCalledWith(
+      `/api/personalized-content/${personalizedContent.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: row.title,
+          description: row.description,
+          content: row.content,
+        }),
+      },
+    );
   });
 
   it("returns new personalized content from the response data", async () => {
@@ -54,7 +57,7 @@ describe("putPersonalizedContent", () => {
     });
 
     await expect(putPersonalizedContent(personalizedContent)).rejects.toThrow(
-      `Failed to update personalized content '${personalizedContent.id}': bad request`
+      `Failed to update personalized content '${personalizedContent.id}': bad request`,
     );
   });
 });

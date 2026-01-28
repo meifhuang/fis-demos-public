@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { updateSourceMaterial } from "./updateSourceMaterial";
 import { SourceMaterial } from "@source-materials";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("updateSourceMaterial", () => {
   const row = factory.build("sourceMaterial");
@@ -31,8 +31,8 @@ describe("updateSourceMaterial", () => {
         body: JSON.stringify({
           markdown: sourceMaterial.markdown,
           title: sourceMaterial.title,
-        })
-      }
+        }),
+      },
     );
   });
 
@@ -57,7 +57,7 @@ describe("updateSourceMaterial", () => {
     });
 
     await expect(updateSourceMaterial(sourceMaterial)).rejects.toThrow(
-      `Failed to create source material: bad request`
+      `Failed to create source material: bad request`,
     );
   });
 });

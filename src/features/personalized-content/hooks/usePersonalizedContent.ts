@@ -9,7 +9,7 @@ import { personalizedContentKeys } from "./keys";
 export const usePersonalizedContent = (id: string) => {
   const queryClient = useQueryClient();
   const cache = queryClient.getQueryData<PersonalizedContent[]>(
-    personalizedContentKeys.list()
+    personalizedContentKeys.list(),
   );
   const placeholderData = cache?.find((content) => content.id === id);
 
@@ -17,6 +17,6 @@ export const usePersonalizedContent = (id: string) => {
     placeholderData,
     queryKey: personalizedContentKeys.detail(id),
     queryFn: () => getPersonalizedContent(id),
-    enabled: !!id
+    enabled: !!id,
   });
 };

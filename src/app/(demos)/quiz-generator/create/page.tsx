@@ -27,7 +27,7 @@ export default function QuizForm() {
     learnerProfileId: "",
     sourceMaterial: {
       title: "",
-      markdown: ""
+      markdown: "",
     },
     customization: "",
   });
@@ -42,7 +42,7 @@ export default function QuizForm() {
   const router = useRouter();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -80,10 +80,10 @@ export default function QuizForm() {
     e.preventDefault();
     if (isFormValid && !isSubmitting) {
       const learnerProfile = profiles?.find(
-        (p) => p.id === formData.learnerProfileId
+        (p) => p.id === formData.learnerProfileId,
       );
 
-      const sourceMaterial: SourceMaterial = formData.sourceMaterial
+      const sourceMaterial: SourceMaterial = formData.sourceMaterial;
 
       if (learnerProfile === undefined) return;
       if (sourceMaterial === undefined) return;
@@ -151,12 +151,12 @@ export default function QuizForm() {
               rows={4}
             />
 
-          <SourceSelector
-            onSourceChange={(source) => 
-              handleSelectChange("sourceMaterial", source)
-            }
-            onViewSource={() => setIsViewSourceModalOpen(true)}
-          />
+            <SourceSelector
+              onSourceChange={(source) =>
+                handleSelectChange("sourceMaterial", source)
+              }
+              onViewSource={() => setIsViewSourceModalOpen(true)}
+            />
 
             {/* 5. LEARNER PROFILE SELECTION */}
             <div className="flex gap-4">
@@ -218,8 +218,7 @@ export default function QuizForm() {
               labelPlacement="outside"
               fullWidth
               rows={4}
-
-            data-testid="quiz-create-customization"
+              data-testid="quiz-create-customization"
             />
 
             {/* SUBMIT BUTTON */}
@@ -236,21 +235,21 @@ export default function QuizForm() {
                   <Send size={18} />
                 )
               }
-              >
+            >
               {isGenerating
                 ? "Generating Questions..."
                 : isSubmitting
-                ? "Saving Quiz..."
-                : "Create Quiz"}
+                  ? "Saving Quiz..."
+                  : "Create Quiz"}
             </Button>
           </form>
         </Card>
-      <ViewSourceModal
-        isOpen={isViewSourceModalOpen}
-        onClose={() => setIsViewSourceModalOpen(false)}
-        title="Source Material"
-        markdown={formData.sourceMaterial.markdown ?? ""}
-      />
+        <ViewSourceModal
+          isOpen={isViewSourceModalOpen}
+          onClose={() => setIsViewSourceModalOpen(false)}
+          title="Source Material"
+          markdown={formData.sourceMaterial.markdown ?? ""}
+        />
       </div>
     </>
   );

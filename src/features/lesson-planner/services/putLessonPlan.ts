@@ -14,7 +14,7 @@ export async function putLessonPlan(lessonPlan: LessonPlanUpdate) {
   if (!res.ok) {
     const { error }: { error: string } = await res.json();
     throw new Error(
-      `Failed to update lesson plan '${lessonPlan.id}': ${error}`
+      `Failed to update lesson plan '${lessonPlan.id}': ${error}`,
     );
   }
 

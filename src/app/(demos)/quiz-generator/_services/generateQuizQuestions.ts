@@ -2,7 +2,7 @@ import { QuestionOutput } from "@/lib/llm-generation/schemas/quiz.zod";
 import { QuizGenerationState } from "@/types";
 
 export const generateQuizQuestions = async (
-  newQuizData: QuizGenerationState
+  newQuizData: QuizGenerationState,
 ): Promise<QuestionOutput> => {
   const response = await fetch("/api/quizzes/generate", {
     method: "POST",

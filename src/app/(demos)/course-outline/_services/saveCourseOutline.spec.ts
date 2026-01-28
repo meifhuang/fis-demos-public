@@ -36,8 +36,8 @@ describe("getCourseOutlines", () => {
         Promise.resolve({
           ok: true,
           json: () => Promise.resolve(mockRows),
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
     const result = await getCourseOutlines();
@@ -60,12 +60,12 @@ describe("getCourseOutlines", () => {
         Promise.resolve({
           ok: false,
           status: 500,
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
     await expect(getCourseOutlines()).rejects.toThrow(
-      "Failed to fetch course outlines list"
+      "Failed to fetch course outlines list",
     );
   });
 });

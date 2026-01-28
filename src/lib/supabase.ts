@@ -23,7 +23,7 @@ export function getClient() {
     process.env.SUPABASE_SECRET_KEY!,
     // NOTE: this type strategy doesn't seem ideal, but opting into it for
     // now to unblock our Vercel builds
-    options as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    options as any, // eslint-disable-line @typescript-eslint/no-explicit-any
   );
 
   return client;

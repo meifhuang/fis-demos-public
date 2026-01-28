@@ -15,7 +15,6 @@ import {
   useDeletePersonalizedContent,
   usePersonalizedContent,
 } from "@/features/personalized-content";
-import { useSourceMaterials } from "@/features/source-materials";
 import { useParams, useRouter } from "next/navigation";
 import DemoNavigationPanel from "@/app/(demos)/_components/DemoNavigationPanel";
 import { useState } from "react";
@@ -34,14 +33,6 @@ export default function PersonalizedContentTeacherView() {
   // 1. Integrate the deletion hook
   const { mutate: deletePersonalizedContent, isPending: isDeleting } =
     useDeletePersonalizedContent();
-
-  const sourceLessonId = personalizedContent?.creationMeta.source_lesson_id;
-
-  const {
-    data: sourceMaterials,
-    isLoading: isSourceMaterialLoading,
-    error: sourceMaterialError,
-  } = useSourceMaterials();
 
   const sourceMaterial = personalizedContent?.sourceMaterial;
 
@@ -221,15 +212,7 @@ export default function PersonalizedContentTeacherView() {
               </CardHeader>
 
               <CardBody className="bg-gray-50">
-                {isSourceMaterialLoading ? (
-                  <p className="text-gray-500 italic">
-                    Loading source material…
-                  </p>
-                ) : sourceMaterialError ? (
-                  <p className="text-red-600">
-                    Failed to load source material.
-                  </p>
-                ) : sourceMaterial?.markdown ? (
+                {sourceMaterial?.markdown ? (
                   <div className="prose max-w-none opacity-90">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {sourceMaterial.markdown}

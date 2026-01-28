@@ -4,7 +4,8 @@ import { GET } from "./route";
 import { describe, expect, it } from "vitest";
 import { prepareTestSchema } from "@/test";
 
-type PersonalizedContentRow = keyof Database["public"]["Tables"]["personalized_contents"]["Row"];
+type PersonalizedContentRow =
+  keyof Database["public"]["Tables"]["personalized_contents"]["Row"];
 
 describe("GET", async () => {
   const { factory } = await prepareTestSchema();
@@ -14,7 +15,7 @@ describe("GET", async () => {
     it("responds with a 200 status", async () => {
       const personalizedContent = await factory.create("personalizedContent");
       const response = await GET(mockRequest, {
-        params: Promise.resolve({ id: personalizedContent.id })
+        params: Promise.resolve({ id: personalizedContent.id }),
       });
       expect(response.status).toEqual(200);
     });
@@ -22,7 +23,7 @@ describe("GET", async () => {
     it("responds with the record", async () => {
       const personalizedContent = await factory.create("personalizedContent");
       const response = await GET(mockRequest, {
-        params: Promise.resolve({ id: personalizedContent.id })
+        params: Promise.resolve({ id: personalizedContent.id }),
       });
       const body: PersonalizedContentRow = await response.json();
       expect(body).toEqual(personalizedContent);
@@ -34,7 +35,7 @@ describe("GET", async () => {
 
     beforeEach(async () => {
       response = await GET(mockRequest, {
-        params: Promise.resolve({ id: crypto.randomUUID() })
+        params: Promise.resolve({ id: crypto.randomUUID() }),
       });
     });
 
@@ -60,14 +61,14 @@ describe("GET", async () => {
               maybeSingle: async () => ({
                 data: null,
                 error: { message: "Simulated Supabase error" },
-              })
-            })
-          })
+              }),
+            }),
+          }),
         }),
       });
 
       response = await GET(mockRequest, {
-        params: Promise.resolve({ id: crypto.randomUUID() })
+        params: Promise.resolve({ id: crypto.randomUUID() }),
       });
     });
 

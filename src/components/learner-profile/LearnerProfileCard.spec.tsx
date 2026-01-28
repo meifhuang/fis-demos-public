@@ -28,7 +28,7 @@ describe("LearnerProfileCard (Snapshot)", () => {
   it("should match snapshot with a fully populated profile", () => {
     // Render the component with the standard mock data
     const { container } = render(
-      <LearnerProfileCard learnerProfile={MOCK_PROFILE} />
+      <LearnerProfileCard learnerProfile={MOCK_PROFILE} />,
     );
     // Snapshot ensures the complex output structure (icons, chips, labels) is stable
     expect(container).toMatchSnapshot();
@@ -37,7 +37,7 @@ describe("LearnerProfileCard (Snapshot)", () => {
   it("should match snapshot when profile data is minimal or empty", () => {
     // Render the component with minimal data
     const { container } = render(
-      <LearnerProfileCard learnerProfile={EMPTY_PROFILE} />
+      <LearnerProfileCard learnerProfile={EMPTY_PROFILE} />,
     );
     // Snapshot ensures the component handles empty strings/arrays gracefully without breaking the layout
     expect(container).toMatchSnapshot();

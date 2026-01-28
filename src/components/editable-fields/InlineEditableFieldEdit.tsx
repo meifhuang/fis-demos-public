@@ -5,8 +5,10 @@ import { Textarea, Input, Button } from "@heroui/react";
 import { Save, X } from "lucide-react";
 import { InlineEditableFieldProps } from "./InlineEditableField";
 
-interface InlineEditableFieldEditProps
-  extends Pick<InlineEditableFieldProps, "type" | "multiline" | "label"> {
+interface InlineEditableFieldEditProps extends Pick<
+  InlineEditableFieldProps,
+  "type" | "multiline" | "label"
+> {
   localValue: string;
   setLocalValue: (value: string) => void;
   handleSave: () => void;
@@ -31,7 +33,7 @@ export const InlineEditableFieldEdit: React.FC<
     fullWidth: true,
     label: "",
     onKeyDown: (
-      e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+      e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
       if (!multiline && e.key === "Enter") {
         e.preventDefault();

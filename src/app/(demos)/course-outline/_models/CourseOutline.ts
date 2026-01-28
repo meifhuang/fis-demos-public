@@ -39,10 +39,10 @@ export class CourseOutline {
   // be adjusted to handle the transformation
   withLessonOutline(
     index: number,
-    lessonOutline: Partial<LessonOutline>
+    lessonOutline: Partial<LessonOutline>,
   ): CourseOutline {
     const lessonOutlines = this.lessonOutlines.map((existing, i) =>
-      i === index ? { ...existing, ...lessonOutline } : { ...existing }
+      i === index ? { ...existing, ...lessonOutline } : { ...existing },
     );
     return new CourseOutline({ ...this.data, lesson_outlines: lessonOutlines });
   }

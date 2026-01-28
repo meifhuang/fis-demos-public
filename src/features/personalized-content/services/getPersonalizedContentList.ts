@@ -1,4 +1,7 @@
-import { PersonalizedContentRow, PersonalizedContent } from "../models/PersonalizedContent";
+import {
+  PersonalizedContentRow,
+  PersonalizedContent,
+} from "../models/PersonalizedContent";
 
 export async function getPersonalizedContentList() {
   const res = await fetch("/api/personalized-content");

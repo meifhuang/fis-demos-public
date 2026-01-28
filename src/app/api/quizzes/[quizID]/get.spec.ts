@@ -11,9 +11,9 @@ describe("GET", async () => {
   describe("with an existing record", () => {
     it("responds with a 200 status", async () => {
       const quiz = await factory.create("quiz");
-      
+
       const response = await GET(mockRequest, {
-        params: Promise.resolve({ quizID: quiz.id })
+        params: Promise.resolve({ quizID: quiz.id }),
       });
 
       expect(response.status).toEqual(200);
@@ -23,7 +23,7 @@ describe("GET", async () => {
       const quiz = await factory.create("quiz");
 
       const response = await GET(mockRequest, {
-        params: Promise.resolve({ quizID: quiz.id })
+        params: Promise.resolve({ quizID: quiz.id }),
       });
 
       const body: QuizRow = await response.json();
@@ -36,7 +36,7 @@ describe("GET", async () => {
 
     beforeEach(async () => {
       response = await GET(mockRequest, {
-        params: Promise.resolve({ quizID: crypto.randomUUID() })
+        params: Promise.resolve({ quizID: crypto.randomUUID() }),
       });
     });
 
@@ -62,14 +62,14 @@ describe("GET", async () => {
               maybeSingle: async () => ({
                 data: null,
                 error: { message: "Simulated Supabase error" },
-              })
-            })
-          })
+              }),
+            }),
+          }),
         }),
       });
 
       response = await GET(mockRequest, {
-        params: Promise.resolve({ quizID: crypto.randomUUID() })
+        params: Promise.resolve({ quizID: crypto.randomUUID() }),
       });
     });
 

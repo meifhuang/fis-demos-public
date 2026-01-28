@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { deleteSourceMaterial } from "./deleteSourceMaterial";
 import { SourceMaterial } from "@source-materials";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("deleteSourceMaterial", () => {
   const row = factory.build("sourceMaterial");
@@ -22,7 +22,7 @@ describe("deleteSourceMaterial", () => {
 
     expect(fetch).toHaveBeenCalledWith(
       `/api/source-materials/${sourceMaterial.id}`,
-      { method: "DELETE" }
+      { method: "DELETE" },
     );
   });
 
@@ -41,7 +41,7 @@ describe("deleteSourceMaterial", () => {
     });
 
     await expect(deleteSourceMaterial(sourceMaterial)).rejects.toThrow(
-      `Failed to create source material: bad request`
+      `Failed to create source material: bad request`,
     );
   });
 });

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fira_Sans, Open_Sans } from 'next/font/google';
+import { Fira_Sans, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import NavigationPanel from "./_components/NavigationPanel";
@@ -28,9 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${firaSans.variable} ${openSans.variable} antialiased`}
-      >
+      <body className={`${firaSans.variable} ${openSans.variable} antialiased`}>
         <Providers>
           <NavigationPanel />
           <main className="blue-light text-foreground bg-background w-screen h-screen">

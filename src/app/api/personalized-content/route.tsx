@@ -7,10 +7,12 @@ import { Database, Json } from "@/types";
 const supabase = getClient();
 
 /**
- * Index personalized content 
+ * Index personalized content
  */
 export async function GET() {
-  const { data, error } = await supabase.from("personalized_contents").select("*");
+  const { data, error } = await supabase
+    .from("personalized_contents")
+    .select("*");
 
   if (error) {
     Sentry.captureException(error);

@@ -42,7 +42,7 @@ describe("getLessonPlanList", () => {
     });
 
     await expect(getLessonPlanList()).rejects.toThrow(
-      "Failed to fetch lesson plan list"
+      "Failed to fetch lesson plan list",
     );
   });
 });

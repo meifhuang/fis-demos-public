@@ -6,4 +6,6 @@ export const PersonalizedContentSchema = z.object({
   content: z.string(),
 });
 
-export type PersonalizedContentOutput = z.infer<typeof PersonalizedContentSchema>;
+export type PersonalizedContentOutput = z.infer<
+  typeof PersonalizedContentSchema
+>;

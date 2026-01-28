@@ -9,7 +9,7 @@ describe("DashboardSection (Unit Test)", () => {
     render(
       <DashboardSection heading="Test">
         <h1>{testContent}</h1>
-      </DashboardSection>
+      </DashboardSection>,
     );
 
     expect(screen.getByText(testContent)).toBeInTheDocument();

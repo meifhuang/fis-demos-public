@@ -36,7 +36,7 @@ describe("getLearnerProfiles", () => {
     });
 
     await expect(getLearnerProfiles()).rejects.toThrow(
-      "Failed to fetch learner profiles"
+      "Failed to fetch learner profiles",
     );
   });
 });

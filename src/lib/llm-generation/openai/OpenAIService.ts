@@ -12,7 +12,7 @@ export class OpenAIService extends AbstractLLMService {
   public async generateStructuredContent<T>(
     prompt: string,
     schema: ZodType<T>,
-    options?: GenerateOptions
+    options?: GenerateOptions,
   ): Promise<T> {
     const response = await this.client.responses.parse({
       model: "gpt-4o-2024-08-06",
@@ -28,7 +28,7 @@ export class OpenAIService extends AbstractLLMService {
 
     if (parsedResponse === null) {
       throw new Error(
-        "OpenAI returned null for structured output. The response did not match the schema."
+        "OpenAI returned null for structured output. The response did not match the schema.",
       );
     }
 
@@ -37,7 +37,7 @@ export class OpenAIService extends AbstractLLMService {
 
   private buildInput(
     prompt: string,
-    options?: GenerateOptions
+    options?: GenerateOptions,
   ): ResponseInputItem[] {
     const input: ResponseInputItem[] = [];
 

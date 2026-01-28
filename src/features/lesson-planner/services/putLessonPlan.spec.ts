@@ -5,7 +5,7 @@ import { factory } from "@/test";
 
 describe("putLessonPlan", () => {
   const lessonPlan: LessonPlanRecord = factory.build(
-    "lessonPlan"
+    "lessonPlan",
   ) as LessonPlanRecord;
 
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe("putLessonPlan", () => {
     });
 
     await expect(putLessonPlan(lessonPlan)).rejects.toThrow(
-      `Failed to update lesson plan '${lessonPlan.id}': bad request`
+      `Failed to update lesson plan '${lessonPlan.id}': bad request`,
     );
   });
 });

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { getQuiz } from "./";
-import { factory } from "@/test"
+import { factory } from "@/test";
 import { QuizRow } from "@/types";
 import { Quiz } from "../_models";
 
@@ -35,7 +35,7 @@ describe("getQuiz", () => {
     });
 
     await expect(getQuiz(mockId)).rejects.toThrow(
-      `Failed to fetch quiz '${mockId}'`
+      `Failed to fetch quiz '${mockId}'`,
     );
   });
 });

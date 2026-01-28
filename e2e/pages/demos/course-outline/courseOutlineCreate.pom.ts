@@ -24,7 +24,7 @@ export class CourseOutlineCreatePage {
     // --- Locators for Form Fields ---
     this.titleField = page.getByTestId("course-outline-create-title");
     this.descriptionField = page.getByTestId(
-      "course-outline-create-description"
+      "course-outline-create-description",
     );
     this.numberOfLessonsField = page.getByLabel("Number of Lessons");
     this.durationValueField = page.getByLabel("Time Per Lesson").first(); // Target the input for the value
@@ -32,7 +32,7 @@ export class CourseOutlineCreatePage {
       name: "Time Per Lesson Unit",
     });
     this.learnerProfileSelect = page.getByTestId(
-      "course-outline-create-learner-profile"
+      "course-outline-create-learner-profile",
     );
     this.customizationField = page.getByLabel("Customization");
 
@@ -59,14 +59,14 @@ export class CourseOutlineCreatePage {
     durationUnit?: "minutes" | "hours";
   }) {
     await expect(this.learnerProfileSelect).toHaveText(
-      "Select existing profile"
+      "Select existing profile",
     );
     await expect(this.learnerProfileSelect).not.toBeDisabled();
 
     // 1. Fill Text/Number fields
     await this.titleField.fill(data?.title ?? "Advanced Playwright Testing");
     await this.descriptionField.fill(
-      data?.description ?? "A course on end-to-end testing strategies."
+      data?.description ?? "A course on end-to-end testing strategies.",
     );
     await this.durationValueField.fill(String(data?.durationValue ?? 30));
 

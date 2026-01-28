@@ -8,7 +8,7 @@ describe("NavigationPanel (Unit Test)", () => {
   it("renders the brand name", () => {
     render(<NavigationPanel />);
     expect(
-      screen.getByRole("img", { name: /flatiron school/i })
+      screen.getByRole("img", { name: /flatiron school/i }),
     ).toBeInTheDocument();
   });
 
@@ -20,7 +20,7 @@ describe("NavigationPanel (Unit Test)", () => {
     expect(dashboardLink).toHaveAttribute("href", "/");
 
     const learnerProfilesLink = screen.getByTestId(
-      "navigation-link-learner-profiles"
+      "navigation-link-learner-profiles",
     );
     expect(learnerProfilesLink).toBeInTheDocument();
     expect(learnerProfilesLink).toHaveAttribute("href", "/learner-profiles");
@@ -58,7 +58,7 @@ describe("NavigationPanel (Unit Test)", () => {
 
     await user.click(toggleButton);
     expect(
-      screen.getByRole("button", { name: /close menu/i })
+      screen.getByRole("button", { name: /close menu/i }),
     ).toBeInTheDocument();
   });
 
@@ -73,13 +73,13 @@ describe("NavigationPanel (Unit Test)", () => {
     await user.click(toggleButton);
 
     const settingsLink = await screen.findByTestId(
-      "mobile-navigation-link-settings"
+      "mobile-navigation-link-settings",
     );
     expect(settingsLink).toBeInTheDocument();
     expect(settingsLink).toHaveAttribute("href", "/account");
 
     const logoutLink = await screen.findByTestId(
-      "mobile-navigation-link-logout"
+      "mobile-navigation-link-logout",
     );
     expect(logoutLink).toBeInTheDocument();
     expect(logoutLink).toHaveAttribute("href", "#");

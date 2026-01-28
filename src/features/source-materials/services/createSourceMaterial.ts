@@ -2,7 +2,7 @@ import type { Tables, TablesInsert } from "@/types";
 import { SourceMaterial } from "@source-materials";
 
 export async function createSourceMaterial(
-  payload: TablesInsert<"source_materials">
+  payload: TablesInsert<"source_materials">,
 ) {
   const response = await fetch("/api/source-materials", {
     method: "POST",
@@ -17,4 +17,4 @@ export async function createSourceMaterial(
 
   const row: Tables<"source_materials"> = await response.json();
   return new SourceMaterial(row);
-};
+}

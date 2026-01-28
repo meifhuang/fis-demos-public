@@ -58,7 +58,7 @@ describe("API Route Handlers: Course Outlines PUT", () => {
   const mockRequest = (body: any): NextRequest =>
     ({
       json: vi.fn().mockResolvedValue(body),
-    } as unknown as NextRequest);
+    }) as unknown as NextRequest;
 
   const mockParams = { params: Promise.resolve({ id: "course-123" }) };
 

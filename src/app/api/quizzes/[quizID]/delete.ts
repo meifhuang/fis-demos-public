@@ -6,20 +6,19 @@ import { getClient } from "@/lib/supabase";
  * Delete quiz
  */
 export async function DELETE(
-    _: Request,
-  { params }: { params: Promise<{ quizID: string }> }
+  _: Request,
+  { params }: { params: Promise<{ quizID: string }> },
 ) {
   const id = (await params).quizID;
-  const supabase = getClient()
-  
-  const {error, count} = await supabase
+  const supabase = getClient();
+
+  const { error, count } = await supabase
     .from("quizzes")
     .delete({ count: "exact" })
-    .eq("id", id)
-
+    .eq("id", id);
 
   if (error) {
-    Sentry.captureException(error)
+    Sentry.captureException(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 

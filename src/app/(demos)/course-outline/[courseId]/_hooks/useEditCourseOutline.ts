@@ -35,7 +35,7 @@ export const useEditCourseOutline = (id: string) => {
   const isModified = isEqual(state.courseOutline, state.originalCourseOutline);
 
   const setCourseOutline = (
-    courseOutline: SetStateAction<CourseOutline | undefined>
+    courseOutline: SetStateAction<CourseOutline | undefined>,
   ) => {
     setState((prev) => ({
       ...prev,
@@ -48,7 +48,7 @@ export const useEditCourseOutline = (id: string) => {
 
   const handleTopLevelChange = (
     name: "title" | "description",
-    value: string
+    value: string,
   ) => {
     setCourseOutline((prev) => {
       if (!prev) return undefined;
@@ -60,7 +60,7 @@ export const useEditCourseOutline = (id: string) => {
   const handleLessonOutlineChange = <K extends keyof LessonOutline>(
     index: number,
     field: K,
-    value: LessonOutline[K]
+    value: LessonOutline[K],
   ) => {
     setCourseOutline((prev) => {
       if (!prev) return undefined;

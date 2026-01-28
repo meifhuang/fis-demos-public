@@ -4,25 +4,30 @@ import { NextResponse } from "next/server";
 import { getClient } from "@/lib/supabase";
 import { z } from "zod";
 
-const schema = z.object({
-  title: z.string().min(1).optional(),
-  description: z.string().optional(),
-  content: z.string().optional(),
-}).strict();
+const schema = z
+  .object({
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
+    content: z.string().optional(),
+  })
+  .strict();
 
 /**
  * Update personalized content
  */
 export async function PUT(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const { data: input, error: zError } = schema.safeParse(await req.json());
 
   if (zError) {
     Sentry.captureException(zError);
-    return NextResponse.json({ error: z.prettifyError(zError) }, { status: 422 });
+    return NextResponse.json(
+      { error: z.prettifyError(zError) },
+      { status: 422 },
+    );
   }
 
   const supabase = getClient();

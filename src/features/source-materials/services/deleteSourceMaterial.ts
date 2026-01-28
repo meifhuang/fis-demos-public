@@ -2,7 +2,7 @@ import { SourceMaterial } from "@source-materials";
 
 export async function deleteSourceMaterial(sourceMaterial: SourceMaterial) {
   const response = await fetch(`/api/source-materials/${sourceMaterial.id}`, {
-    method: "DELETE"
+    method: "DELETE",
   });
 
   if (!response.ok) {
@@ -11,4 +11,4 @@ export async function deleteSourceMaterial(sourceMaterial: SourceMaterial) {
   }
 
   return sourceMaterial;
-};
+}

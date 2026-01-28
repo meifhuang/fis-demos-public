@@ -6,7 +6,8 @@ export const personalizedContentKeys = {
   list: () => [...personalizedContentKeys.all, "list"] as const,
 
   // Key for fetching details of a specific personalized content item
-  detail: (id: string | number) => [...personalizedContentKeys.all, "detail", id] as const,
+  detail: (id: string | number) =>
+    [...personalizedContentKeys.all, "detail", id] as const,
 
   // Key for creating personalized content in the database
   create: () => [...personalizedContentKeys.all, "create"] as const,
@@ -20,4 +21,3 @@ export const personalizedContentKeys = {
   // Key for updating personalized content in the database
   update: () => [...personalizedContentKeys.all, "update"] as const,
 };
-

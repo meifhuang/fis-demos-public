@@ -34,21 +34,21 @@ test("2. Renders all four Demo Cards with correct titles and links", async ({
 test("3. Shows the correct description for each tool", async ({ page }) => {
   // Test 3: Check for the descriptions (verifies data integrity)
   await expect(
-    page.getByText(/Transform any content into a personalized, adaptive/i)
+    page.getByText(/Transform any content into a personalized, adaptive/i),
   ).toBeVisible();
 
   await expect(
-    page.getByText(/Quickly generate a full, adaptable course outline./i)
+    page.getByText(/Quickly generate a full, adaptable course outline./i),
   ).toBeVisible();
 
   await expect(
     page.getByText(
-      /Instantly rewrite any text or document into a format, tone/i
-    )
+      /Instantly rewrite any text or document into a format, tone/i,
+    ),
   ).toBeVisible();
 
   await expect(
-    page.getByText(/Plan your lessons perfectly based around/i)
+    page.getByText(/Plan your lessons perfectly based around/i),
   ).toBeVisible();
 });
 
@@ -104,7 +104,7 @@ test("6. Personalized Content card navigates to /personalized-content and verifi
 
   // ASSERTION: Verify the content on the new page
   await expect(
-    page.getByRole("heading", { name: "Personalized Content Demo" })
+    page.getByRole("heading", { name: "Personalized Content Demo" }),
   ).toBeVisible();
 });
 

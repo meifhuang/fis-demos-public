@@ -41,7 +41,7 @@ export default function CourseOutlineForm() {
   const router = useRouter();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
 
@@ -59,7 +59,7 @@ export default function CourseOutlineForm() {
 
   // Handler for the duration number input
   const handleDurationValueChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { value } = e.target;
 
@@ -106,7 +106,7 @@ export default function CourseOutlineForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const learnerProfile = profiles?.find(
-      (p) => p.id === formData.learnerProfileId
+      (p) => p.id === formData.learnerProfileId,
     );
     if (isFormValid && !isSubmitting) {
       // Structure data for API submission

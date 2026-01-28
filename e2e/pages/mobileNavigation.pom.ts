@@ -21,7 +21,7 @@ export class MobileNavigationPage {
     // Menu Buttons/Links
     this.dashboardLink = page.getByTestId("mobile-navigation-link-dashboard");
     this.learnerProfilesLink = page.getByTestId(
-      "mobile-navigation-link-learner-profiles"
+      "mobile-navigation-link-learner-profiles",
     );
   }
 }

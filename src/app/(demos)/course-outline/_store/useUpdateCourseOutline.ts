@@ -1,6 +1,6 @@
 import { CourseOutline } from "../_models";
 import { courseKeys } from "./keys";
-import { putCourseOutline } from "../_services"
+import { putCourseOutline } from "../_services";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
@@ -18,7 +18,7 @@ export const useUpdateCourseOutline = () => {
       // This ensures the page viewing the course details immediately reflects the change.
       queryClient.setQueryData(
         courseKeys.detail(updatedCourse.id),
-        updatedCourse
+        updatedCourse,
       );
 
       // Manually update the list cache for a faster UX (no refetch)
@@ -29,9 +29,9 @@ export const useUpdateCourseOutline = () => {
 
           // Find the index of the updated course and replace it
           return old.map((course) =>
-            course.id === updatedCourse.id ? updatedCourse : course
+            course.id === updatedCourse.id ? updatedCourse : course,
           );
-        }
+        },
       );
     },
     onError: (error) => {

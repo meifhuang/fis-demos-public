@@ -26,19 +26,19 @@ type CustomFixtures = {
   mobileNavigationPage: MobileNavigationPage;
 
   // Demos
-    personalizedContentPage: PersonalizedContentPage;
+  personalizedContentPage: PersonalizedContentPage;
 
-    // Course Outline Generator
-    courseOutlineListPage: CourseOutlineListPage;
-    courseOutlineCreatePage: CourseOutlineCreatePage;
+  // Course Outline Generator
+  courseOutlineListPage: CourseOutlineListPage;
+  courseOutlineCreatePage: CourseOutlineCreatePage;
 
-    // Lesson Plan Generator
-    lessonPlanPage: LessonPlanPage;
-    lessonPlanCreatePage: LessonPlanCreatePage;
+  // Lesson Plan Generator
+  lessonPlanPage: LessonPlanPage;
+  lessonPlanCreatePage: LessonPlanCreatePage;
 
-    // Quiz Generator
-    quizListPage: QuizListPage;
-    quizCreatePage: QuizCreatePage;
+  // Quiz Generator
+  quizListPage: QuizListPage;
+  quizCreatePage: QuizCreatePage;
 };
 
 // 📝 Define the global setup here
@@ -73,36 +73,36 @@ export const test = base.extend<CustomFixtures>({
     await use(personalizedContentPage);
   },
 
-    // Course Outline Generator
-    courseOutlineListPage: async ({ page }, use) => {
-      const courseOutlineListPage = new CourseOutlineListPage(page);
-      await use(courseOutlineListPage);
-    },
-    courseOutlineCreatePage: async ({ page }, use) => {
-      const courseOutlineCreatePage = new CourseOutlineCreatePage(page);
-      await use(courseOutlineCreatePage);
-    },
+  // Course Outline Generator
+  courseOutlineListPage: async ({ page }, use) => {
+    const courseOutlineListPage = new CourseOutlineListPage(page);
+    await use(courseOutlineListPage);
+  },
+  courseOutlineCreatePage: async ({ page }, use) => {
+    const courseOutlineCreatePage = new CourseOutlineCreatePage(page);
+    await use(courseOutlineCreatePage);
+  },
 
-    //Lesson Plan Generator
-    lessonPlanPage: async ({ page }, use) => {
-      const lessonPlanPage = new LessonPlanPage(page);
-      await use(lessonPlanPage);
-    },
-    lessonPlanCreatePage: async ({ page }, use) => {
-      const lessonPlanCreatePage = new LessonPlanCreatePage(page);
-      await use(lessonPlanCreatePage);
-    },
+  //Lesson Plan Generator
+  lessonPlanPage: async ({ page }, use) => {
+    const lessonPlanPage = new LessonPlanPage(page);
+    await use(lessonPlanPage);
+  },
+  lessonPlanCreatePage: async ({ page }, use) => {
+    const lessonPlanCreatePage = new LessonPlanCreatePage(page);
+    await use(lessonPlanCreatePage);
+  },
 
-    //Quiz Generator
-    quizListPage: async ({ page }, use) => {
-      const quizListPage = new QuizListPage(page);
-      await use(quizListPage);
-    },
+  //Quiz Generator
+  quizListPage: async ({ page }, use) => {
+    const quizListPage = new QuizListPage(page);
+    await use(quizListPage);
+  },
 
-    quizCreatePage: async ({ page }, use) => {
-      const quizCreatePage = new QuizCreatePage(page);
-      await use(quizCreatePage);
-    },
+  quizCreatePage: async ({ page }, use) => {
+    const quizCreatePage = new QuizCreatePage(page);
+    await use(quizCreatePage);
+  },
 
   // Global/Default Page Setup
   page: async ({ page }, use) => {

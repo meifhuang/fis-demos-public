@@ -1,5 +1,5 @@
 export const quizKeys = {
-// Base key for the entity
+  // Base key for the entity
   all: ["quizzes"] as const,
 
   // Key for the main list view (used in useCourseOutlines)

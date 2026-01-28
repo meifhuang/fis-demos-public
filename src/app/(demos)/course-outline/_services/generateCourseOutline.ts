@@ -2,7 +2,7 @@ import { CourseOutlineOutput } from "@/lib/llm-generation/schemas/courseOutline.
 import { CourseOutlineFormState } from "@/types";
 
 export const generateCourseOutline = async (
-  newCourseData: CourseOutlineFormState
+  newCourseData: CourseOutlineFormState,
 ): Promise<CourseOutlineOutput> => {
   const response = await fetch("/api/course-outlines/generate", {
     method: "POST",

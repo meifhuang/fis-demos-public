@@ -17,7 +17,9 @@ export const useDeletePersonalizedContent = () => {
     onSuccess: (deleted: PersonalizedContent) => {
       // 1. Manually invalidate or remove the specific detail cache entry
       // Removing is cleaner than invalidating for a deleted item:
-      queryClient.removeQueries({ queryKey: personalizedContentKeys.detail(deleted.id) });
+      queryClient.removeQueries({
+        queryKey: personalizedContentKeys.detail(deleted.id),
+      });
 
       // 2. Manually update the list cache to remove the deleted item (Optimistic/Manual Update)
       queryClient.setQueryData(
@@ -26,7 +28,7 @@ export const useDeletePersonalizedContent = () => {
           if (!cache) return undefined;
 
           return cache.filter((cached) => cached.id !== deleted.id);
-        }
+        },
       );
     },
     onError: (error) => {

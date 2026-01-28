@@ -38,11 +38,11 @@ export const useEditPersonalizedContent = (id: string) => {
 
   const isModified = isEqual(
     state.personalizedContent,
-    state.originalPersonalizedContent
+    state.originalPersonalizedContent,
   );
 
   const setPersonalizedContent = (
-    personalizedContent: SetStateAction<PersonalizedContent | undefined>
+    personalizedContent: SetStateAction<PersonalizedContent | undefined>,
   ) => {
     setState((prev) => ({
       ...prev,
@@ -55,7 +55,7 @@ export const useEditPersonalizedContent = (id: string) => {
 
   const handleChange = (
     name: "title" | "description" | "content",
-    value: string
+    value: string,
   ) => {
     setPersonalizedContent((prev) => {
       if (!prev) return undefined;

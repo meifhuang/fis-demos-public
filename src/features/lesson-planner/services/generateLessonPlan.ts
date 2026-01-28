@@ -2,7 +2,7 @@ import { LessonPlanOutput } from "@/lib/llm-generation/schemas/lessonPlan.zod";
 import { LessonPlanRecord } from "@/types/demos/lesson-plan";
 
 export const generateLessonPlan = async (
-  newLessonData: Partial<LessonPlanRecord>
+  newLessonData: Partial<LessonPlanRecord>,
 ): Promise<LessonPlanOutput> => {
   const response = await fetch("/api/lesson-planner/generate", {
     method: "POST",

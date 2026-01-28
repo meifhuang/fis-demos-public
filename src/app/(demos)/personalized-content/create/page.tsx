@@ -5,8 +5,10 @@ import {
   useSavePersonalizedContent,
 } from "@/features/personalized-content";
 import { useLearnerProfiles } from "@demos/_store/useLearnerProfiles";
-import { useSourceMaterials } from "@/features/source-materials";
-import { PersonalizedContentFormState, PersonalizedContentGenerationRequest } from "@/types";
+import {
+  PersonalizedContentFormState,
+  PersonalizedContentGenerationRequest,
+} from "@/types";
 import { ViewSourceModal } from "../../_components/ViewSourceModal";
 import { SourceSelector } from "../../_components/SourceSelector";
 import {
@@ -46,7 +48,7 @@ export default function PersonalizedContentForm() {
   const router = useRouter();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -61,11 +63,7 @@ export default function PersonalizedContentForm() {
   };
 
   const isFormValid = useMemo(() => {
-    const {
-      title,
-      learnerProfileId,
-      sourceMaterial,
-    } = formData;
+    const { title, learnerProfileId, sourceMaterial } = formData;
 
     return (
       title.trim().length > 0 &&
@@ -75,18 +73,18 @@ export default function PersonalizedContentForm() {
     );
   }, [formData]);
 
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Find the full profile and sourceMaterial objects based on selected IDs
     const learnerProfile = profiles?.find(
-      (p) => p.id === formData.learnerProfileId
+      (p) => p.id === formData.learnerProfileId,
     );
 
     if (!learnerProfile) {
-      throw new Error("Learner profile is required to generate personalized content.");
+      throw new Error(
+        "Learner profile is required to generate personalized content.",
+      );
     }
 
     const sourceMaterial = formData.sourceMaterial;
@@ -101,14 +99,15 @@ export default function PersonalizedContentForm() {
           age: learnerProfile.age,
           reading_level: learnerProfile.readingLevel ?? 12,
           interests: learnerProfile.interests,
-          experience: learnerProfile.experience?.trim() || "No prior experience specified.",
+          experience:
+            learnerProfile.experience?.trim() ||
+            "No prior experience specified.",
         },
         customization: formData.customization,
       };
 
-      const createdPersonalizedContent = await createPersonalizedContent(
-        submissionData
-      );
+      const createdPersonalizedContent =
+        await createPersonalizedContent(submissionData);
 
       // save the title, profile, and source material from the form
       const savedPersonalizedContent = await savePersonalizedContent({
@@ -147,15 +146,15 @@ export default function PersonalizedContentForm() {
               required
             />
 
-          <div className="flex flex-col gap-2 mb-12">
-            {/* 2. SOURCE MATERIAL SELECTION */}
-            <SourceSelector
-              onSourceChange={(value) =>
-                setFormData((prev) => ({ ...prev, sourceMaterial: value }))
-              }
-              onViewSource={() => setIsViewSourceModalOpen(true)}
-            />
-          </div>
+            <div className="flex flex-col gap-2 mb-12">
+              {/* 2. SOURCE MATERIAL SELECTION */}
+              <SourceSelector
+                onSourceChange={(value) =>
+                  setFormData((prev) => ({ ...prev, sourceMaterial: value }))
+                }
+                onViewSource={() => setIsViewSourceModalOpen(true)}
+              />
+            </div>
 
             {/* 3. LEARNER PROFILE SELECTION */}
             <Select

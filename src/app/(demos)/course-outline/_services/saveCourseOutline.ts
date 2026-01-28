@@ -4,7 +4,7 @@ import { CourseOutlineRecord } from "@/types";
 export const saveCourseOutline = async (
   generatedCourseOutlineOutput: CourseOutlineOutput & {
     creation_meta: Record<string, unknown>;
-  }
+  },
 ): Promise<CourseOutlineRecord> => {
   const response = await fetch("/api/course-outlines", {
     method: "POST",

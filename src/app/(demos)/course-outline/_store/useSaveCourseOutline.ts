@@ -18,7 +18,7 @@ export const useSaveCourseOutline = () => {
       if (existingCourses) {
         queryClient.setQueryData(
           courseKeys.list(),
-          (old: CourseOutlineRecord[]) => [newCourse, ...old]
+          (old: CourseOutlineRecord[]) => [newCourse, ...old],
         );
       }
     },

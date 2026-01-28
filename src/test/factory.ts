@@ -102,16 +102,16 @@ const factories = {
   question(): Question {
     return {
       question: faker.lorem.sentence(),
-      answers: buildList("answer", 4)
-    }
+      answers: buildList("answer", 4),
+    };
   },
 
   answer(): Answer {
     return {
       text: faker.lorem.sentence(),
       feedback: faker.lorem.sentence(),
-      correct: Math.random() < 0.5
-    }
+      correct: Math.random() < 0.5,
+    };
   },
 
   sourceMaterial(): Tables<"source_materials"> {
@@ -126,11 +126,12 @@ const factories = {
   },
 };
 
-function snakeCaseKeys(input: any): any { // eslint-disable-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function snakeCaseKeys(input: any): any {
   if (Array.isArray(input)) return input.map(snakeCaseKeys);
   if (input && typeof input === "object") {
     return Object.fromEntries(
-      Object.entries(input).map(([k, v]) => [underscore(k), snakeCaseKeys(v)])
+      Object.entries(input).map(([k, v]) => [underscore(k), snakeCaseKeys(v)]),
     );
   }
   return input;
@@ -138,7 +139,7 @@ function snakeCaseKeys(input: any): any { // eslint-disable-line @typescript-esl
 
 export function build<F extends Factory>(
   name: F,
-  overrides = {}
+  overrides = {},
 ): FactoryOutput<F> {
   const factory = factories[name];
   if (!factory) throw new Error(`Unknown factory '${name}'`);
@@ -149,31 +150,32 @@ export function build<F extends Factory>(
 export function buildList<F extends Factory>(
   name: F,
   length: number,
-  overrides = {}
+  overrides = {},
 ): FactoryOutput<F>[] {
   return Array.from({ length }, () =>
-    build(name, overrides)
+    build(name, overrides),
   ) as FactoryOutput<F>[];
 }
 
 export async function create<F extends Factory>(
   name: F,
-  overrides = {}
+  overrides = {},
 ): Promise<FactoryOutput<F>> {
   const table = tableize(name) as keyof Database["public"]["Tables"];
   const entity = build(name, overrides) as Tables<typeof table>;
-  
+
   const supabase = getClient();
-  
+
   const { data, error } = await supabase
-  .from(table)
-  .insert(entity)
-  .select()
-  .single();
+    .from(table)
+    .insert(entity)
+    .select()
+    .single();
 
   if (error) throw error;
 
-  if (!data) throw new Error(`
+  if (!data)
+    throw new Error(`
     Factory failed to *create* record: ${name} with overrides ${JSON.stringify(overrides)}.
     Is the Supabase module being mocked elsewhere in your tests? If so, use
     *build* rather than *create*.
@@ -185,9 +187,9 @@ export async function create<F extends Factory>(
 export async function createList<F extends Factory>(
   name: F,
   length: number,
-  overrides = {}
+  overrides = {},
 ): Promise<FactoryOutput<F>[]> {
   return await Promise.all(
-    Array.from({ length }, () => create(name, overrides)) as FactoryOutput<F>[]
+    Array.from({ length }, () => create(name, overrides)) as FactoryOutput<F>[],
   );
 }

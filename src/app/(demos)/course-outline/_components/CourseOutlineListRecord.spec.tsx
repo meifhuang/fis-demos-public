@@ -66,23 +66,23 @@ describe("CourseOutlineListRecord", () => {
 
     // Title and Description
     expect(
-      screen.getByTestId("course-outline-list-record-title")
+      screen.getByTestId("course-outline-list-record-title"),
     ).toHaveTextContent(record.title);
     expect(
-      screen.getByTestId("course-outline-list-record-description")
+      screen.getByTestId("course-outline-list-record-description"),
     ).toHaveTextContent(record.description);
 
     // Duration/Lesson details
     expect(
-      screen.getByTestId("course-outline-list-time-per-lesson")
+      screen.getByTestId("course-outline-list-time-per-lesson"),
     ).toHaveTextContent(`${record.totalMinutes} minutes`);
     expect(
-      screen.getByTestId("course-outline-list-total-lessons")
+      screen.getByTestId("course-outline-list-total-lessons"),
     ).toHaveTextContent(`${record.lessonOutlineCount} lessons`);
 
     // Learner chip
     expect(
-      screen.getByTestId("course-outline-list-learner-chip")
+      screen.getByTestId("course-outline-list-learner-chip"),
     ).toHaveTextContent(`Learner Profile: ${record.learnerProfile?.label}`);
   });
 
@@ -94,10 +94,10 @@ describe("CourseOutlineListRecord", () => {
 
     render(<CourseOutlineListRecord record={newRecord} />);
     expect(
-      screen.getByTestId("course-outline-list-time-per-lesson")
+      screen.getByTestId("course-outline-list-time-per-lesson"),
     ).toHaveTextContent("1 minute");
     expect(
-      screen.getByTestId("course-outline-list-total-lessons")
+      screen.getByTestId("course-outline-list-total-lessons"),
     ).toHaveTextContent("1 lesson");
   });
 

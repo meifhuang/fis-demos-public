@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Chip } from "@heroui/react";
-import { CircleQuestionMark, Eye, ListTodo } from "lucide-react";
+import { CircleQuestionMark, ListTodo } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Quiz } from "../_models";
 import { LearnerProfileChip } from "@/lib/learner-profiles";

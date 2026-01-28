@@ -45,7 +45,7 @@ export default function QuestionSkeleton() {
               </div>
             </CardBody>
           </Card>
-      ))}
+        ))}
       </CardBody>
     </Card>
   );

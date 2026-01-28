@@ -130,7 +130,7 @@ export default function CourseOutlineTeacherView() {
                 onChange={(e: ChangeEvent<HTMLElement>) =>
                   handleTopLevelChange(
                     "description",
-                    (e.target as HTMLTextAreaElement).value
+                    (e.target as HTMLTextAreaElement).value,
                   )
                 }
               />
@@ -214,7 +214,7 @@ export default function CourseOutlineTeacherView() {
                             handleLessonOutlineChange(
                               index,
                               "title",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                         />
@@ -258,7 +258,7 @@ export default function CourseOutlineTeacherView() {
                                 handleLessonOutlineChange(
                                   index,
                                   "description",
-                                  (e.target as HTMLTextAreaElement).value
+                                  (e.target as HTMLTextAreaElement).value,
                                 )
                               }
                             />
@@ -292,7 +292,7 @@ export default function CourseOutlineTeacherView() {
                                 handleLessonOutlineChange(
                                   index,
                                   "outcome",
-                                  (e.target as HTMLTextAreaElement).value
+                                  (e.target as HTMLTextAreaElement).value,
                                 )
                               }
                             />

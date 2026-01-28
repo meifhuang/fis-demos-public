@@ -51,8 +51,8 @@ describe("generateCourseOutline", () => {
         Promise.resolve({
           ok: true,
           json: () => Promise.resolve(mockResponseData),
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
     const result = await generateCourseOutline(mockCourseData);
@@ -72,12 +72,12 @@ describe("generateCourseOutline", () => {
         Promise.resolve({
           ok: false,
           text: () => Promise.resolve("Internal Server Error"),
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
     await expect(generateCourseOutline(mockCourseData)).rejects.toThrow(
-      "Failed to create course: Internal Server Error"
+      "Failed to create course: Internal Server Error",
     );
   });
 });

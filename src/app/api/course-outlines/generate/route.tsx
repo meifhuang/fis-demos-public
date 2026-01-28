@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
             "Do not include commentary, markdown, or explanations. Structured data only.",
           temperature: 0.7,
           max_output_tokens: 1200,
-        }
+        },
       );
 
     return NextResponse.json({ ...result });
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     console.error("POST /course-outlines/generate", error);
     return NextResponse.json(
       { error: "Failed to generate course outline" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

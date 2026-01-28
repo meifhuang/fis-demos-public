@@ -32,7 +32,9 @@ export default function LearnerProfileCard({
           <BookOpen size={16} className="text-gray-500 mr-3 mt-0.5 min-w-4" />
           <div>
             <span className="font-semibold text-gray-800">Reading Level:</span>{" "}
-            <span className="text-gray-600">{learnerProfile.reading_level}</span>
+            <span className="text-gray-600">
+              {learnerProfile.reading_level}
+            </span>
           </div>
         </div>
 

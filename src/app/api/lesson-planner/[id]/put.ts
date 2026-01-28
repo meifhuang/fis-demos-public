@@ -42,7 +42,7 @@ export const schema = z
  */
 export async function PUT(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const { data: input, error: zError } = schema.safeParse(await req.json());
@@ -51,7 +51,7 @@ export async function PUT(
     Sentry.captureException(zError);
     return NextResponse.json(
       { error: z.prettifyError(zError) },
-      { status: 422 }
+      { status: 422 },
     );
   }
 

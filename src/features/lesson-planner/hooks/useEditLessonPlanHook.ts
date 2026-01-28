@@ -46,7 +46,7 @@ export const useEditLessonPlanHook = (id: string) => {
   const isModified = isEqual(state.lessonPlan, state.originalLessonPlan);
 
   const setLessonPlan = (
-    lessonPlan: SetStateAction<LessonPlanRecord | undefined>
+    lessonPlan: SetStateAction<LessonPlanRecord | undefined>,
   ) => {
     setState((prev) => ({
       ...prev,

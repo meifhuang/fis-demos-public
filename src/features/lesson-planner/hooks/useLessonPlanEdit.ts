@@ -18,7 +18,7 @@ export const useLessonPlanEdit = () => {
       // This ensures the page viewing the course details immediately reflects the change.
       queryClient.setQueryData(
         lessonKeys.detail(updatedLesson.id),
-        updatedLesson
+        updatedLesson,
       );
 
       // Manually update the list cache for a faster UX (no refetch)
@@ -29,9 +29,9 @@ export const useLessonPlanEdit = () => {
 
           // Find the index of the updated course and replace it
           return old.map((course) =>
-            course.id === updatedLesson.id ? updatedLesson : course
+            course.id === updatedLesson.id ? updatedLesson : course,
           );
-        }
+        },
       );
     },
     onError: (error) => {

@@ -67,7 +67,7 @@ describe("OpenAIService", () => {
 
       const result = await service.generateStructuredContent(
         "Analyze this code",
-        testSchema
+        testSchema,
       );
 
       expect(result).toEqual(mockSuccessResponse);
@@ -108,7 +108,7 @@ describe("OpenAIService", () => {
             { role: "developer", content: "Developer context" },
             { role: "user", content: "User Prompt" },
           ],
-        })
+        }),
       );
     });
 
@@ -130,7 +130,7 @@ describe("OpenAIService", () => {
         expect.objectContaining({
           temperature: 0.7,
           max_output_tokens: 500,
-        })
+        }),
       );
     });
 
@@ -145,9 +145,9 @@ describe("OpenAIService", () => {
       });
 
       await expect(
-        service.generateStructuredContent("Prompt", testSchema)
+        service.generateStructuredContent("Prompt", testSchema),
       ).rejects.toThrow(
-        "OpenAI returned null for structured output. The response did not match the schema."
+        "OpenAI returned null for structured output. The response did not match the schema.",
       );
     });
 
@@ -160,7 +160,7 @@ describe("OpenAIService", () => {
       vi.mocked(parse).mockRejectedValue(apiError);
 
       await expect(
-        service.generateStructuredContent("Prompt", testSchema)
+        service.generateStructuredContent("Prompt", testSchema),
       ).rejects.toThrow("Rate limit exceeded");
     });
   });

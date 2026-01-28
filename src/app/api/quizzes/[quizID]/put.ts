@@ -7,33 +7,38 @@ import { QuizUpdate } from "@/types";
 const answer = z.object({
   text: z.string().min(1),
   feedback: z.string(),
-  correct: z.boolean()
-})
+  correct: z.boolean(),
+});
 
 const question = z.object({
   question: z.string().min(1),
-  answers: z.array(answer).min(1)
-})
+  answers: z.array(answer).min(1),
+});
 
-const quiz = z.object({
-  title: z.string().min(1).optional(),
-  description: z.string().optional(),
-  questions: z.array(question).optional(),
-}).strict();
+const quiz = z
+  .object({
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
+    questions: z.array(question).optional(),
+  })
+  .strict();
 
 /**
  * Update quiz
  */
 export async function PUT(
   req: Request,
-  { params }: { params: Promise<{ quizID: string }> }
+  { params }: { params: Promise<{ quizID: string }> },
 ) {
   const id = (await params).quizID;
   const { data: input, error: zError } = quiz.safeParse(await req.json());
 
   if (zError) {
     Sentry.captureException(zError);
-    return NextResponse.json({ error: z.prettifyError(zError) }, { status: 422 });
+    return NextResponse.json(
+      { error: z.prettifyError(zError) },
+      { status: 422 },
+    );
   }
 
   const supabase = getClient();

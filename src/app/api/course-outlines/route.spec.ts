@@ -107,7 +107,7 @@ describe("API Route Handlers: /api/course-outlines", () => {
     const mockRequest = (body: any): NextRequest =>
       ({
         json: vi.fn().mockResolvedValue(body),
-      } as unknown as NextRequest);
+      }) as unknown as NextRequest;
 
     const validCourseData = {
       title: "New Course",

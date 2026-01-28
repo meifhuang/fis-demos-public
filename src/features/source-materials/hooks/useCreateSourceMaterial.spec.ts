@@ -13,7 +13,9 @@ describe("useCreateSourceMaterial", () => {
     const row = factory.build("sourceMaterial", { markdown, title });
     const sourceMaterial = new SourceMaterial(row);
 
-    const spy = vi.spyOn(services, "createSourceMaterial").mockResolvedValue(sourceMaterial);
+    const spy = vi
+      .spyOn(services, "createSourceMaterial")
+      .mockResolvedValue(sourceMaterial);
 
     const { result } = renderHook(() => useCreateSourceMaterial(), {
       wrapper: QueryProvider,
@@ -26,14 +28,16 @@ describe("useCreateSourceMaterial", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toEqual(sourceMaterial);
-    expect(spy.mock.calls[0][0]).toEqual({ markdown, title })
+    expect(spy.mock.calls[0][0]).toEqual({ markdown, title });
 
     spy.mockRestore();
   });
 
   it("handles errors correctly", async () => {
     const error = new Error("Network error");
-    const spy = vi.spyOn(services, "createSourceMaterial").mockRejectedValue(error);
+    const spy = vi
+      .spyOn(services, "createSourceMaterial")
+      .mockRejectedValue(error);
 
     const { result } = renderHook(() => useCreateSourceMaterial(), {
       wrapper: QueryProvider,

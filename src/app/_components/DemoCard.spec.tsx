@@ -37,7 +37,7 @@ describe("DemoCard (Unit Test)", () => {
         title="Test Demo"
         description="This is a test description."
         href="/test-demo"
-      />
+      />,
     );
 
     expect(screen.getByText("Test Demo")).toBeInTheDocument();

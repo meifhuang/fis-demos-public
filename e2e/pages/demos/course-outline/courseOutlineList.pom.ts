@@ -24,22 +24,22 @@ export class CourseOutlineListPage {
 
     this.exampleRecordCard = page.getByTestId("list-item-card").first();
     this.exampleRecordTitle = this.exampleRecordCard.getByTestId(
-      "course-outline-list-record-title"
+      "course-outline-list-record-title",
     );
     this.exampleRecordDescription = this.exampleRecordCard.getByTestId(
-      "course-outline-list-record-description"
+      "course-outline-list-record-description",
     );
     this.exampleRecordTimePerLesson = this.exampleRecordCard.getByTestId(
-      "course-outline-list-time-per-lesson"
+      "course-outline-list-time-per-lesson",
     );
     this.exampleRecordTotalLessons = this.exampleRecordCard.getByTestId(
-      "course-outline-list-total-lessons"
+      "course-outline-list-total-lessons",
     );
     this.exampleRecordLearnerChip = this.exampleRecordCard.getByTestId(
-      "course-outline-list-learner-chip"
+      "course-outline-list-learner-chip",
     );
     this.exampleRecordViewButton = this.exampleRecordCard.getByTestId(
-      "course-outline-list-button-view"
+      "course-outline-list-button-view",
     );
   }
 

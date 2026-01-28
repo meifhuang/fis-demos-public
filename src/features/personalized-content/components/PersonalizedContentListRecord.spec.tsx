@@ -44,7 +44,7 @@ vi.mock(
         isPending: mockIsDeleting(),
       })),
     };
-  }
+  },
 );
 
 // Mock the ConfirmationDialog component (Declare globally)
@@ -71,15 +71,15 @@ describe("PersonalizedContentListRecord", () => {
 
     // Title and Description
     expect(
-      screen.getByTestId("personalized-content-list-record-title")
+      screen.getByTestId("personalized-content-list-record-title"),
     ).toHaveTextContent(record.title);
     expect(
-      screen.getByTestId("personalized-content-list-record-description")
+      screen.getByTestId("personalized-content-list-record-description"),
     ).toHaveTextContent(record.description);
 
     // Learner chip
     expect(
-      screen.getByTestId("personalized-content-list-learner-chip")
+      screen.getByTestId("personalized-content-list-learner-chip"),
     ).toHaveTextContent(`Learner Profile: ${record.learnerProfile?.label}`);
   });
 
@@ -87,7 +87,7 @@ describe("PersonalizedContentListRecord", () => {
     render(<PersonalizedContentListRecord record={record} />);
 
     const viewButton = screen.getByTestId(
-      "personalized-content-list-button-view"
+      "personalized-content-list-button-view",
     );
     fireEvent.click(viewButton);
 

@@ -10,6 +10,6 @@ export const useQuiz = (id: string) => {
   return useQuery<Quiz, Error>({
     queryKey: quizKeys.detail(id),
     queryFn: () => getQuiz(id),
-    enabled: !!id
+    enabled: !!id,
   });
 };

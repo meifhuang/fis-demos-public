@@ -52,14 +52,14 @@ export class QuizCreatePage {
     durationUnit?: "minutes" | "hours";
   }) {
     await expect(this.learnerProfileSelect).toHaveText(
-      "Select existing profile"
+      "Select existing profile",
     );
     await expect(this.learnerProfileSelect).not.toBeDisabled();
 
     // 1. Fill Text/Number fields
     await this.titleField.fill(data?.title ?? "Advanced Playwright Testing");
     await this.descriptionField.fill(
-      data?.description ?? "A quiz on end-to-end testing strategies."
+      data?.description ?? "A quiz on end-to-end testing strategies.",
     );
 
     // 3. Select Learner Profile (Selects the first available option)
@@ -76,13 +76,11 @@ export class QuizCreatePage {
   async selectSource() {
     await expect(this.sourceMaterialSelector).not.toBeDisabled();
     await this.sourceMaterialSelector.click();
-    
+
     const sourceList = this.page.getByRole("listbox").first();
 
     // Select first non-custom option
-    const firstExistingMaterial = sourceList
-      .getByRole("option")
-      .first();
+    const firstExistingMaterial = sourceList.getByRole("option").first();
     await firstExistingMaterial.waitFor({ state: "visible" });
     await firstExistingMaterial.click({ force: true });
   }

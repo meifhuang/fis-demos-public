@@ -40,11 +40,10 @@ export async function POST(req: NextRequest) {
         {
           systemPrompt:
             "You are an expert lesson adapter. Always follow the provided schema exactly.",
-          developerPrompt:
-            "content should be a markdown string.",
+          developerPrompt: "content should be a markdown string.",
           temperature: 0.7,
           max_output_tokens: 1200,
-        }
+        },
       );
 
     return NextResponse.json({ ...result });
@@ -52,7 +51,7 @@ export async function POST(req: NextRequest) {
     console.error("POST /personalized-content/generate", error);
     return NextResponse.json(
       { error: "Failed to generate personalized content" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

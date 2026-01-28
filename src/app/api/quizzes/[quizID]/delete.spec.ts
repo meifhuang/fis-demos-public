@@ -10,12 +10,12 @@ describe("DELETE", async () => {
   describe("with an existing record", () => {
     it("responds with a 204 status", async () => {
       const quiz = await factory.create("quiz");
-      
+
       const response = await DELETE(mockRequest, {
-        params: Promise.resolve({ quizID: quiz.id })
+        params: Promise.resolve({ quizID: quiz.id }),
       });
 
-      console.log(response)
+      console.log(response);
 
       expect(response.status).toEqual(204);
     });
@@ -29,7 +29,7 @@ describe("DELETE", async () => {
 
       const result = await pgClient.query(
         `select 1 from quizzes where id = $1`,
-        [id]
+        [id],
       );
 
       expect(result.rows).toHaveLength(0);
@@ -41,7 +41,7 @@ describe("DELETE", async () => {
 
     beforeEach(async () => {
       response = await DELETE(mockRequest, {
-        params: Promise.resolve({ quizID: crypto.randomUUID() })
+        params: Promise.resolve({ quizID: crypto.randomUUID() }),
       });
     });
 
@@ -66,13 +66,13 @@ describe("DELETE", async () => {
             eq: () => ({
               count: null,
               error: { message: "Simulated Supabase error" },
-            })
-          })
+            }),
+          }),
         }),
       });
 
       response = await DELETE(mockRequest, {
-        params: Promise.resolve({ quizID: crypto.randomUUID() })
+        params: Promise.resolve({ quizID: crypto.randomUUID() }),
       });
     });
 

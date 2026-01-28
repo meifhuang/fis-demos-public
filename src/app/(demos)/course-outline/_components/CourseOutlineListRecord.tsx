@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button, Chip } from "@heroui/react";
-import { Clock, Eye, Files, LayoutList } from "lucide-react";
+import { Clock, Eye, LayoutList } from "lucide-react";
 
 import { LearnerProfileChip } from "@/lib/learner-profiles";
 import { CourseOutline } from "../_models";

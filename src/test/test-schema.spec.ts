@@ -16,7 +16,7 @@ describe.sequential("prepareTestSchema", async () => {
 
   afterAll(async () => {
     await pgClient.query(`DROP TABLE IF EXISTS ${table}`);
-  })
+  });
 
   it("starts with an empty table", async () => {
     const { rows } = await pgClient.query(`SELECT * FROM ${table}`);

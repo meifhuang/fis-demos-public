@@ -66,21 +66,21 @@ describe("QuizListRecord", () => {
 
     // Title and Description
     expect(screen.getByTestId("quiz-list-record-title")).toHaveTextContent(
-      record.title
+      record.title,
     );
 
     expect(
-      screen.getByTestId("quiz-list-record-description")
+      screen.getByTestId("quiz-list-record-description"),
     ).toHaveTextContent(record.description);
 
     // Duration/Lesson details
     expect(screen.getByTestId("quiz-list-total-questions")).toHaveTextContent(
-      `${record.questionCount} questions`
+      `${record.questionCount} questions`,
     );
 
     // Learner chip
     expect(screen.getByTestId("quiz-list-learner-chip")).toHaveTextContent(
-      `Learner Profile: ${record.learnerProfile?.label}`
+      `Learner Profile: ${record.learnerProfile?.label}`,
     );
   });
 
@@ -92,7 +92,7 @@ describe("QuizListRecord", () => {
     const singleRecord = new Quiz(singleData);
     render(<QuizListRecord record={singleRecord} />);
     expect(screen.getByTestId("quiz-list-total-questions")).toHaveTextContent(
-      /^1 question$/
+      /^1 question$/,
     );
   });
 
@@ -105,7 +105,7 @@ describe("QuizListRecord", () => {
 
     render(<QuizListRecord record={pluralRecord} />);
     expect(screen.getByTestId("quiz-list-total-questions")).toHaveTextContent(
-      /^2 questions$/
+      /^2 questions$/,
     );
   });
 

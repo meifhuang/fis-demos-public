@@ -45,7 +45,7 @@ describe("PUT", async () => {
 
       const result = await pgClient.query(
         `select * from lesson_plans where id = $1`,
-        [id]
+        [id],
       );
 
       expect(result.rows).toHaveLength(1);

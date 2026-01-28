@@ -5,9 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 /**
  * Hook to fetch source materials.
  */
-export function useSourceMaterials(
-  { retry = true }: { retry?: boolean } = {}
-) {
+export function useSourceMaterials({ retry = true }: { retry?: boolean } = {}) {
   return useQuery<SourceMaterial[], Error>({
     retry,
     queryFn: getSourceMaterials,

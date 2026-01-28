@@ -4,13 +4,7 @@ import { useLearnerProfiles } from "@demos/_store/useLearnerProfiles";
 import { LessonPlanPreSave, LessonPlanRecord } from "@/types/demos/lesson-plan";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  Select,
-  SelectItem,
-  Button,
-  Spinner,
-} from "@heroui/react";
+import { Card, Select, SelectItem, Button, Spinner } from "@heroui/react";
 import { User, Send } from "lucide-react";
 import {
   useLessonPlanGenerate,
@@ -48,7 +42,10 @@ export default function LessonPlanForm() {
   const { mutateAsync: saveLessonPlan } = useLessonPlanSave();
 
   // Handler for both learnerprofile and sourcematerials
-  const handleSelectChange = <T extends keyof FormData>(name: T, value: FormData[T]) => {
+  const handleSelectChange = <T extends keyof FormData>(
+    name: T,
+    value: FormData[T],
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -56,8 +53,7 @@ export default function LessonPlanForm() {
   };
 
   const isFormValid = useMemo(() => {
-    const { sourceMaterial, learnerProfileId } =
-      formData;
+    const { sourceMaterial, learnerProfileId } = formData;
     return (
       sourceMaterial.title.trim().length > 0 &&
       sourceMaterial.markdown.trim().length > 0 &&
@@ -68,10 +64,10 @@ export default function LessonPlanForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const learnerProfile = profiles?.find(
-      (p) => p.id === formData.learnerProfileId
+      (p) => p.id === formData.learnerProfileId,
     );
 
-    const sourceMaterial = formData.sourceMaterial
+    const sourceMaterial = formData.sourceMaterial;
 
     if (isFormValid && !isSubmitting && learnerProfile) {
       // Structure data for API submission - transform learnerProfile to match LessonPlanRecord structure
@@ -90,8 +86,8 @@ export default function LessonPlanForm() {
           learner_profile: learnerProfileData,
           source_material: {
             title: sourceMaterial.title,
-            content: sourceMaterial.markdown
-          }
+            content: sourceMaterial.markdown,
+          },
         },
       };
 
@@ -123,14 +119,16 @@ export default function LessonPlanForm() {
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 Source Material
               </h2>
-              <SourceSelector 
-                onSourceChange={(source) => handleSelectChange("sourceMaterial", source)}
+              <SourceSelector
+                onSourceChange={(source) =>
+                  handleSelectChange("sourceMaterial", source)
+                }
                 onViewSource={() => setIsViewSourceModalOpen(true)}
               />
             </div>
 
-                {/* DIVIDER */}
-                <div className="border-t border-gray-200"></div>
+            {/* DIVIDER */}
+            <div className="border-t border-gray-200"></div>
 
             {/* LEARNER PROFILE SECTION */}
             <div className="space-y-4">
@@ -190,11 +188,11 @@ export default function LessonPlanForm() {
         </Card>
       </div>
       <ViewSourceModal
-          isOpen={isViewSourceModalOpen}
-          onClose={() => setIsViewSourceModalOpen(false)}
-          title="Source Material"
-          markdown={formData.sourceMaterial.markdown ?? ""}
-        />
+        isOpen={isViewSourceModalOpen}
+        onClose={() => setIsViewSourceModalOpen(false)}
+        title="Source Material"
+        markdown={formData.sourceMaterial.markdown ?? ""}
+      />
     </>
   );
 }

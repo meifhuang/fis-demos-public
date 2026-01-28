@@ -2,7 +2,7 @@
  * API function to delete an existing Quiz record by ID.
  * @param id The ID of the quiz to delete.
  */
-export async function deleteQuiz (id: string) {
+export async function deleteQuiz(id: string) {
   const response = await fetch(`/api/quizzes/${id}`, {
     method: "DELETE",
   });
@@ -13,4 +13,4 @@ export async function deleteQuiz (id: string) {
   }
 
   return id;
-};
+}

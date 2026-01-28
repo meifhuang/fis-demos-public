@@ -3,11 +3,13 @@
 ## Getting Started
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Start the Local Database (Supabase)
+
 > **Requires Docker Engine**
 
 ```bash
@@ -21,13 +23,16 @@ On success, this will output your local Supabase URL and Supabase Secret Key.
 Copy `.env.example` to `.env` and fill in required values.
 
 At minimum:
+
 - `SUPABASE_URL`
 - `SUPABASE_SECRET_KEY`
 
 Optionally:
+
 - `OPENAI_API_KEY` (required for generating new content)
 
 ### 4. Run the Development Server
+
 ```bash
 npm run dev
 ```
@@ -45,6 +50,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 While the `./supabase` directory in this repo could be elsewhere (e.g. it's own repo), we've opted to keep it together until we have a case for moving it.
 
 Common commands:
+
 ```bash
 npm run db:start      # starts Supabase locally (Docker required)
 npm run db:status     # shows status and connection info
@@ -84,10 +90,10 @@ The Supabase CLI includes [tools to test and lint the DB](https://supabase.com/d
 #### Recommended
 
 Configure your text editor with the following linters:
+
 - [ActionLint](https://github.com/rhysd/actionlint) NOTE: this is not included as a direct dependency of the project. You can install it with [Homebrew](https://formulae.brew.sh/formula/actionlint).
 - [ESLint](https://eslint.org/)
 - [SQLFluff](https://www.sqlfluff.com/) NOTE: this is not included as a direct dependency of the project. You can install it with [Homebrew](https://formulae.brew.sh/formula/sqlfluff).
-- [YAMLLint](https://github.com/adrienverge/yamllint) NOTE: this is not included as a direct dependency of the project. You can install it with [Homebrew](https://formulae.brew.sh/formula/yamllint).
 
 ### Pre-commit
 

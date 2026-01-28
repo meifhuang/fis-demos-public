@@ -1,7 +1,7 @@
 import { QuizFormSubmission, QuizRow } from "@/types";
 import { Quiz } from "../_models";
 
-export async function saveQuiz (formData: QuizFormSubmission): Promise<Quiz> {
+export async function saveQuiz(formData: QuizFormSubmission): Promise<Quiz> {
   const response = await fetch("/api/quizzes", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,5 +15,5 @@ export async function saveQuiz (formData: QuizFormSubmission): Promise<Quiz> {
 
   const json: QuizRow = await response.json();
 
-  return new Quiz(json)
-};
+  return new Quiz(json);
+}

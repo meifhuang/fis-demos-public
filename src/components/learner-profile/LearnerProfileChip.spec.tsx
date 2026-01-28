@@ -111,7 +111,7 @@ describe("LearnerProfileChip", () => {
 
       // The logic should fall through to the "Unknown Learner" chip
       expect(screen.getByTestId("mock-chip")).toHaveTextContent(
-        "Unknown Learner"
+        "Unknown Learner",
       );
       expect(screen.queryByTestId("popover-trigger")).not.toBeInTheDocument();
     });
@@ -122,7 +122,7 @@ describe("LearnerProfileChip", () => {
       // Check that the Popover structure and profile name are rendered
       expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
       expect(screen.getByTestId("popover-trigger")).toHaveTextContent(
-        MOCK_PROFILE.label
+        MOCK_PROFILE.label,
       );
     });
 
@@ -154,7 +154,7 @@ describe("LearnerProfileChip", () => {
         <LearnerProfileChip
           learnerProfileId={MOCK_PROFILE.id}
           data-testid={CUSTOM_TEST_ID}
-        />
+        />,
       );
 
       expect(screen.getByTestId(CUSTOM_TEST_ID)).toBeInTheDocument();
@@ -172,7 +172,7 @@ describe("LearnerProfileChip", () => {
       } as UseLearnerProfilesReturn);
 
       const { container } = render(
-        <LearnerProfileChip learnerProfileId={MOCK_PROFILE.id} />
+        <LearnerProfileChip learnerProfileId={MOCK_PROFILE.id} />,
       );
       expect(container).toMatchSnapshot();
     });
@@ -186,7 +186,7 @@ describe("LearnerProfileChip", () => {
       } as UseLearnerProfilesReturn);
 
       const { container } = render(
-        <LearnerProfileChip learnerProfileId="999" />
+        <LearnerProfileChip learnerProfileId="999" />,
       );
       expect(container).toMatchSnapshot();
     });
@@ -194,7 +194,7 @@ describe("LearnerProfileChip", () => {
     it("should match snapshot in Success state (Profile Found)", () => {
       // Uses the beforeEach mock setup (Success state)
       const { container } = render(
-        <LearnerProfileChip learnerProfileId={MOCK_PROFILE.id} />
+        <LearnerProfileChip learnerProfileId={MOCK_PROFILE.id} />,
       );
       expect(container).toMatchSnapshot();
     });

@@ -63,7 +63,7 @@ describe("LearnerProfileChip", () => {
       render(<LearnerProfileChip learnerProfile={null} />);
 
       expect(screen.getByTestId("learner-profile-chip")).toHaveTextContent(
-        "Unknown Learner"
+        "Unknown Learner",
       );
       expect(screen.queryByTestId("popover-trigger")).not.toBeInTheDocument();
     });
@@ -73,7 +73,7 @@ describe("LearnerProfileChip", () => {
 
       expect(screen.getByTestId("popover-trigger")).toBeInTheDocument();
       expect(screen.getByTestId("popover-trigger")).toHaveTextContent(
-        learnerProfile.label
+        learnerProfile.label,
       );
     });
 
@@ -96,7 +96,7 @@ describe("LearnerProfileChip", () => {
         <LearnerProfileChip
           learnerProfile={learnerProfile}
           data-testid={testid}
-        />
+        />,
       );
 
       expect(screen.getByTestId(testid)).toBeInTheDocument();
@@ -106,14 +106,14 @@ describe("LearnerProfileChip", () => {
   describe("Snapshot Tests", () => {
     it("should match snapshot in Loading state", () => {
       const { container } = render(
-        <LearnerProfileChip learnerProfile={null} isLoading />
+        <LearnerProfileChip learnerProfile={null} isLoading />,
       );
       expect(container).toMatchSnapshot();
     });
 
     it("should match snapshot in Unknown Learner state", () => {
       const { container } = render(
-        <LearnerProfileChip learnerProfile={null} data-testid="mock-chip" />
+        <LearnerProfileChip learnerProfile={null} data-testid="mock-chip" />,
       );
       expect(container).toMatchSnapshot();
     });
@@ -124,7 +124,7 @@ describe("LearnerProfileChip", () => {
       });
       const profile = new LearnerProfile(data);
       const { container } = render(
-        <LearnerProfileChip learnerProfile={profile} data-testid="mock-chip" />
+        <LearnerProfileChip learnerProfile={profile} data-testid="mock-chip" />,
       );
       expect(container).toMatchSnapshot();
     });

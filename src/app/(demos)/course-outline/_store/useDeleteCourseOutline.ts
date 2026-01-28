@@ -26,7 +26,7 @@ export const useDeleteCourseOutline = () => {
           if (!cache) return undefined;
 
           return cache.filter((cached) => cached.id !== deleted.id);
-        }
+        },
       );
     },
     onError: (error) => {

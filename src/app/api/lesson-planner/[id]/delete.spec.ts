@@ -25,7 +25,7 @@ describe("DELETE", async () => {
 
       const result = await pgClient.query(
         `select 1 from lesson_plans where id = $1`,
-        [id]
+        [id],
       );
 
       expect(result.rows).toHaveLength(0);

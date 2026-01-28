@@ -4,7 +4,7 @@ import { LessonPlanRecord } from "@/types/demos/lesson-plan";
 export const saveLessonPlan = async (
   generatedLessonPlanOutput: LessonPlanOutput & {
     creation_meta: Record<string, unknown>;
-  }
+  },
 ): Promise<LessonPlanRecord> => {
   const response = await fetch("/api/lesson-planner", {
     method: "POST",

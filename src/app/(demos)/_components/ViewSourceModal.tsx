@@ -37,9 +37,7 @@ export function ViewSourceModal({
         {(onClose) => (
           <>
             <ModalHeader className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">
-                {title}
-              </h2>
+              <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
             </ModalHeader>
 
             <ModalBody className="bg-gray-50">
@@ -51,7 +49,11 @@ export function ViewSourceModal({
             </ModalBody>
 
             <ModalFooter>
-              <Button aria-label="Close modal" color="primary" onPress={onClose}>
+              <Button
+                aria-label="Close modal"
+                color="primary"
+                onPress={onClose}
+              >
                 Close
               </Button>
             </ModalFooter>

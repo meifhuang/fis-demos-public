@@ -22,7 +22,7 @@
       "@/*": ["./src/*"],
       "@demos/*": ["./src/app/(demos)/*"],
       "@features/*": ["./src/features/*"],
-      "@source-materials": ["./src/features/source-materials"],
+      "@source-materials": ["./src/features/source-materials"]
     },
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },

@@ -18,7 +18,7 @@ export const useUpdatePersonalizedContent = () => {
       // This ensures the page viewing the personalized content details immediately reflects the change.
       queryClient.setQueryData(
         personalizedContentKeys.detail(updatedPersonalizedContent.id),
-        updatedPersonalizedContent
+        updatedPersonalizedContent,
       );
 
       // Manually update the list cache for a faster UX (no refetch)
@@ -29,9 +29,11 @@ export const useUpdatePersonalizedContent = () => {
 
           // Find the index of the updated personalized content and replace it
           return old.map((content) =>
-            content.id === updatedPersonalizedContent.id ? updatedPersonalizedContent : content
+            content.id === updatedPersonalizedContent.id
+              ? updatedPersonalizedContent
+              : content,
           );
-        }
+        },
       );
     },
     onError: (error) => {

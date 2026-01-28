@@ -11,9 +11,9 @@ export async function deleteCourseOutline(courseOutline: CourseOutline) {
   if (!res.ok) {
     const { error }: { error: string } = await res.json();
     throw new Error(
-      `Failed to delete course outline '${courseOutline.id}': ${error}`
+      `Failed to delete course outline '${courseOutline.id}': ${error}`,
     );
   }
 
   return courseOutline;
-};
+}

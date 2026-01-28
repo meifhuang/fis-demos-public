@@ -1,5 +1,5 @@
 import { quizKeys } from "./keys";
-import { putQuiz } from "../_services"
+import { putQuiz } from "../_services";
 import { useMutation } from "@tanstack/react-query";
 
 /**

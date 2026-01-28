@@ -18,7 +18,7 @@ describe("LearnerProfileCard (Snapshot)", () => {
 
     const profile = new LearnerProfile(data);
     const { container } = render(
-      <LearnerProfileCard learnerProfile={profile} />
+      <LearnerProfileCard learnerProfile={profile} />,
     );
 
     expect(container).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe("LearnerProfileCard (Snapshot)", () => {
     });
     const profile = new LearnerProfile(data);
     const { container } = render(
-      <LearnerProfileCard learnerProfile={profile} />
+      <LearnerProfileCard learnerProfile={profile} />,
     );
 
     expect(container).toMatchSnapshot();

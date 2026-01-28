@@ -28,7 +28,7 @@ export const useDeleteQuiz = () => {
 
           // Filter out the deleted course from the list
           return old.filter((quiz) => quiz.id !== deletedId);
-        }
+        },
       );
     },
     onError: (error) => {

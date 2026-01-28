@@ -39,7 +39,7 @@ export const useEditQuiz = (id: string) => {
 
   const handleTopLevelChange = (
     name: "title" | "description",
-    value: string
+    value: string,
   ) => {
     setQuiz((prev) => {
       if (!prev) return undefined;

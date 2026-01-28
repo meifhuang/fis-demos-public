@@ -7,16 +7,19 @@ describe("LearnerProfileCard (Snapshot)", () => {
   it("should match snapshot", () => {
     const question: Question = {
       question: "Example?",
-      answers: [{text: "True", feedback: "", correct: true}, {text: "False", feedback: "", correct: false}]
-    }
+      answers: [
+        { text: "True", feedback: "", correct: true },
+        { text: "False", feedback: "", correct: false },
+      ],
+    };
 
     const { container } = render(
-      <EditableQuestion 
-        question={question} 
+      <EditableQuestion
+        question={question}
         handleQuestionChange={() => {}}
-        handleAnswerChange={() => () => {}} 
+        handleAnswerChange={() => () => {}}
         handleCorrectAnswerChange={() => {}}
-      />
+      />,
     );
 
     expect(container).toMatchSnapshot();

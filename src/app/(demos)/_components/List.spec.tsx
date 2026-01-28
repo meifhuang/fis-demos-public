@@ -71,7 +71,7 @@ describe("ListView Component", () => {
 
     // Check Title
     expect(
-      screen.getByRole("heading", { name: "Product List" })
+      screen.getByRole("heading", { name: "Product List" }),
     ).toBeInTheDocument();
 
     // Check Divider
@@ -94,7 +94,7 @@ describe("ListView Component", () => {
     render(<ListView {...MOCK_PROPS} records={[]} />);
 
     const emptyMessage = screen.getByText(
-      "No records found. Click 'Create New' to get started!"
+      "No records found. Click 'Create New' to get started!",
     );
     expect(emptyMessage).toBeInTheDocument();
 

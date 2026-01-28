@@ -27,7 +27,7 @@ export async function prepareTestSchema() {
 
   const truncateAll = async () => {
     const { rows } = await pgClient.query(
-      `SELECT tablename FROM pg_tables WHERE schemaname = '${schemaName}'`
+      `SELECT tablename FROM pg_tables WHERE schemaname = '${schemaName}'`,
     );
 
     for (const { tablename } of rows) {

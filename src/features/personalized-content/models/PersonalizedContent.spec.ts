@@ -18,7 +18,7 @@ describe("PersonalizedContent", () => {
     const personalizedContent = new PersonalizedContent(data);
     expect(personalizedContent.learnerProfile).toBeInstanceOf(LearnerProfile);
     expect(personalizedContent.learnerProfile?.label).toBe(
-      learnerProfile.label
+      learnerProfile.label,
     );
   });
 

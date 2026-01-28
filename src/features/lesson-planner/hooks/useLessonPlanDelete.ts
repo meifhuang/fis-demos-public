@@ -28,7 +28,7 @@ export const useDeleteLessonPlan = () => {
 
           // Filter out the deleted course from the list
           return old.filter((course) => course.id !== deletedId);
-        }
+        },
       );
     },
     onError: (error) => {

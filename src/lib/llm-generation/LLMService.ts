@@ -11,6 +11,6 @@ export abstract class AbstractLLMService {
   public abstract generateStructuredContent<T>(
     prompt: string,
     schema: ZodType<T>,
-    options?: GenerateOptions
+    options?: GenerateOptions,
   ): Promise<T>;
 }

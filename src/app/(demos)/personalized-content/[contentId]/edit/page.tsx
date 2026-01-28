@@ -125,7 +125,7 @@ export default function PeronsalizedContentEditView() {
                 onChange={(e: ChangeEvent<HTMLElement>) =>
                   handleChange(
                     "description",
-                    (e.target as HTMLTextAreaElement).value
+                    (e.target as HTMLTextAreaElement).value,
                   )
                 }
               />

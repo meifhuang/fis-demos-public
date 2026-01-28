@@ -44,7 +44,7 @@ test.describe("List of generated course outlines", () => {
 
     // Details (Time/Lessons)
     await expect(
-      courseOutlineListPage.exampleRecordTimePerLesson
+      courseOutlineListPage.exampleRecordTimePerLesson,
     ).toBeVisible();
     await expect(courseOutlineListPage.exampleRecordTotalLessons).toBeVisible();
 

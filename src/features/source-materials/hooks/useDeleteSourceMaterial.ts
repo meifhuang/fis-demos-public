@@ -6,9 +6,7 @@ import { useMutation } from "@tanstack/react-query";
  * Hook to delete source material.
  */
 export function useDeleteSourceMaterial() {
-  return useMutation<
-    SourceMaterial, Error, SourceMaterial
-  >({
-    mutationFn: deleteSourceMaterial
+  return useMutation<SourceMaterial, Error, SourceMaterial>({
+    mutationFn: deleteSourceMaterial,
   });
 }

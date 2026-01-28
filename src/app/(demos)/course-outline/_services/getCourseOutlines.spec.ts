@@ -1,13 +1,13 @@
 import { vi, describe, it, expect, beforeEach, afterEach, Mock } from "vitest";
 import { getCourseOutlines } from "./getCourseOutlines";
 import { CourseOutlineRow, CourseOutline } from "../_models";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("getCourseOutlines", () => {
   const mockRows: CourseOutlineRow[] = [
     factory.build("courseOutline", { id: crypto.randomUUID() }),
-    factory.build("courseOutline", { id: crypto.randomUUID() })
-  ]
+    factory.build("courseOutline", { id: crypto.randomUUID() }),
+  ];
 
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn());
@@ -39,7 +39,7 @@ describe("getCourseOutlines", () => {
     });
 
     await expect(getCourseOutlines()).rejects.toThrow(
-      "Failed to fetch course outlines list"
+      "Failed to fetch course outlines list",
     );
   });
 });

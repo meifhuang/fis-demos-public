@@ -80,7 +80,7 @@ describe("QuizEditView – Save functionality", () => {
 
     await waitFor(() => {
       expect(addToastMock).toHaveBeenCalledWith(
-        expect.objectContaining({ color: "danger" })
+        expect.objectContaining({ color: "danger" }),
       );
       expect(pushMock).not.toHaveBeenCalled();
     });
@@ -97,7 +97,7 @@ describe("QuizEditView – Save functionality", () => {
 
     await waitFor(() => {
       expect(addToastMock).toHaveBeenCalledWith(
-        expect.objectContaining({ color: "success" })
+        expect.objectContaining({ color: "success" }),
       );
       expect(pushMock).toHaveBeenCalledWith("/quiz-generator/test-id");
     });

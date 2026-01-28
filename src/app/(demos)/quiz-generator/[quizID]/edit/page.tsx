@@ -121,7 +121,7 @@ export default function QuizEditView() {
                 onChange={(e: ChangeEvent<HTMLElement>) =>
                   handleTopLevelChange(
                     "description",
-                    (e.target as HTMLTextAreaElement).value
+                    (e.target as HTMLTextAreaElement).value,
                   )
                 }
               />

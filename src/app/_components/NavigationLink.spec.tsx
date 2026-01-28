@@ -15,7 +15,7 @@ describe("NavigationLink (Unit Test)", () => {
     render(
       <Navbar>
         <NavigationLink {...mockProps} />
-      </Navbar>
+      </Navbar>,
     );
 
     const linkElement = screen.getByRole("link", { name: mockProps.title });
@@ -29,7 +29,7 @@ describe("NavigationLink (Unit Test)", () => {
     render(
       <Navbar>
         <NavigationLink {...mockProps} />
-      </Navbar>
+      </Navbar>,
     );
 
     const linkElement = screen.getByRole("link", { name: mockProps.title });
@@ -42,7 +42,7 @@ describe("NavigationLink (Unit Test)", () => {
     render(
       <Navbar>
         <NavigationLink {...mockProps} icon={mockIcon} />
-      </Navbar>
+      </Navbar>,
     );
 
     expect(screen.getByTestId("mock-icon")).toBeInTheDocument();
@@ -53,7 +53,7 @@ describe("NavigationLink (Unit Test)", () => {
     render(
       <Navbar>
         <NavigationLink {...mockProps} />
-      </Navbar>
+      </Navbar>,
     );
 
     const linkElement = screen.getByRole("link", { name: mockProps.title });

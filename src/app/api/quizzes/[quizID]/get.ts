@@ -7,10 +7,10 @@ import { getClient } from "@/lib/supabase";
  */
 export async function GET(
   _: Request,
-  { params }: { params: Promise<{quizID: string}> }
+  { params }: { params: Promise<{ quizID: string }> },
 ) {
   const id = (await params).quizID;
-  const supabase = getClient()
+  const supabase = getClient();
 
   const { data, error } = await supabase
     .from("quizzes")
@@ -19,13 +19,13 @@ export async function GET(
     .maybeSingle();
 
   if (error) {
-    Sentry.captureException(error)
+    Sentry.captureException(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  
+
   if (!data) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 })
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  
+
   return NextResponse.json(data, { status: 200 });
 }

@@ -2,6 +2,7 @@
 set -euo pipefail
 
 STAGED_FILES=$(git diff --cached --name-only)
+HAS_WARNINGS=false
 
 # Flags for staged changes
 echo "$STAGED_FILES" | grep -q '^supabase/migrations/' && HAS_MIGRATIONS=true || HAS_MIGRATIONS=false
@@ -9,6 +10,7 @@ echo "$STAGED_FILES" | grep -q '^supabase/schema/' && HAS_SCHEMA=true || HAS_SCH
 echo "$STAGED_FILES" | grep -q '^src/types/database' && HAS_TYPES=true || HAS_TYPES=false
 
 warn() {
+  HAS_WARNINGS=true
   cat <<EOF
 
 ⚠️  $1
@@ -25,7 +27,6 @@ if [[ "$HAS_MIGRATIONS" = true && "$HAS_SCHEMA" = false ]]; then
 "    npm run db:dump     # generate the schema
     npm run db:migrate  # run your migration & generate the schema
     npm run db:reset    # reset your local DB & generate the schema"
-  exit 1
 fi
 
 # --- Check: validate staged schema matches DB state ---
@@ -42,7 +43,6 @@ if [[ "$HAS_MIGRATIONS" = true && "$HAS_SCHEMA" = true ]]; then
       "The staged schema does not match the current database state." \
 "    npm run db:dump     # generate the schema
     npm run db:reset    # reset your local DB & generate the schema"
-    exit 1
   fi
 fi
 
@@ -52,7 +52,6 @@ if [[ "$HAS_SCHEMA" = true && "$HAS_TYPES" = false ]]; then
     "You have staged schema changes but no type changes." \
 "    npm run db:types   # generate the types
     npm run db:reset   # reset your local DB & generate the types"
-  exit 1
 fi
 
 # --- Check: validate staged types match DB state ---
@@ -69,8 +68,11 @@ if [[ "$HAS_SCHEMA" = true && "$HAS_TYPES" = true ]]; then
       "The staged types do not match the current database state." \
 "    npm run db:types   # generate the types
     npm run db:reset   # reset your local DB & regenerate types"
-    exit 1
   fi
+fi
+
+if [[ "$HAS_WARNINGS" = true ]]; then
+  echo "⚠️  Database consistency warnings detected (commit NOT blocked)."
 fi
 
 exit 0

@@ -1,10 +1,10 @@
 import { vi, describe, it, expect, beforeEach, afterEach, Mock } from "vitest";
 import { getSourceMaterials } from "./getSourceMaterials";
 import { SourceMaterial } from "@source-materials";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("getSourceMaterials", () => {
-  const mockRows = factory.buildList("sourceMaterial", 2)
+  const mockRows = factory.buildList("sourceMaterial", 2);
 
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn());
@@ -36,7 +36,7 @@ describe("getSourceMaterials", () => {
     });
 
     await expect(getSourceMaterials()).rejects.toThrow(
-      "Failed to fetch source materials"
+      "Failed to fetch source materials",
     );
   });
 });

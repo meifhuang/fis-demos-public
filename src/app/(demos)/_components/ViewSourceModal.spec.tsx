@@ -21,7 +21,7 @@ describe("ViewSourceModal (Snapshot)", () => {
         onClose={vi.fn()}
         title="Source Material"
         markdown={MARKDOWN_CONTENT}
-      />
+      />,
     );
 
     // Snapshot ensures modal layout + markdown rendering remain stable
@@ -35,7 +35,7 @@ describe("ViewSourceModal (Snapshot)", () => {
         onClose={vi.fn()}
         title="Source Material"
         markdown={MARKDOWN_CONTENT}
-      />
+      />,
     );
 
     // Snapshot ensures nothing renders when modal is closed
@@ -51,15 +51,15 @@ describe("ViewSourceModal (Behavior)", () => {
         onClose={vi.fn()}
         title="Source Material"
         markdown={MARKDOWN_CONTENT}
-      />
+      />,
     );
 
     expect(
-      screen.getByRole("heading", { name: "Source Material" })
+      screen.getByRole("heading", { name: "Source Material" }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole("heading", { name: "Source Lesson Title" })
+      screen.getByRole("heading", { name: "Source Lesson Title" }),
     ).toBeInTheDocument();
   });
 
@@ -73,7 +73,7 @@ describe("ViewSourceModal (Behavior)", () => {
         onClose={onClose}
         title="Source Material"
         markdown={MARKDOWN_CONTENT}
-      />
+      />,
     );
 
     await user.click(screen.getByLabelText("Close"));
@@ -91,7 +91,7 @@ describe("ViewSourceModal (Behavior)", () => {
         onClose={onClose}
         title="Source Material"
         markdown={MARKDOWN_CONTENT}
-      />
+      />,
     );
 
     const dialog = screen.getByRole("dialog");

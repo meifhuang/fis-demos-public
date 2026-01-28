@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { putCourseOutline } from "./";
 import { CourseOutline } from "../_models";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("putCourseOutline", () => {
   const row = factory.build("courseOutline");
@@ -23,15 +23,18 @@ describe("putCourseOutline", () => {
 
     await putCourseOutline(courseOutline);
 
-    expect(fetch).toHaveBeenCalledWith(`/api/course-outlines/${courseOutline.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: row.title,
-        description: row.description,
-        lesson_outlines: row.lesson_outlines
-      })
-    });
+    expect(fetch).toHaveBeenCalledWith(
+      `/api/course-outlines/${courseOutline.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: row.title,
+          description: row.description,
+          lesson_outlines: row.lesson_outlines,
+        }),
+      },
+    );
   });
 
   it("returns a new course outline from the response data", async () => {
@@ -54,7 +57,7 @@ describe("putCourseOutline", () => {
     });
 
     await expect(putCourseOutline(courseOutline)).rejects.toThrow(
-      `Failed to update course outline '${courseOutline.id}': bad request`
+      `Failed to update course outline '${courseOutline.id}': bad request`,
     );
   });
 });

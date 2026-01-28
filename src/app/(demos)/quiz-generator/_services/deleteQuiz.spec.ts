@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import { deleteQuiz } from "./deleteQuiz";
 
 describe("getCourseOutlines", () => {
-  const firstID = crypto.randomUUID()
+  const firstID = crypto.randomUUID();
 
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn());
@@ -20,7 +20,9 @@ describe("getCourseOutlines", () => {
 
     const result = await deleteQuiz(firstID);
 
-    expect(fetch).toHaveBeenCalledWith(`/api/quizzes/${firstID}`, {method: "DELETE"});
+    expect(fetch).toHaveBeenCalledWith(`/api/quizzes/${firstID}`, {
+      method: "DELETE",
+    });
     expect(result).toEqual(firstID);
   });
 
@@ -28,11 +30,11 @@ describe("getCourseOutlines", () => {
     const errorStr = "Failed";
     (fetch as unknown as Mock).mockResolvedValueOnce({
       ok: false,
-      text: async () => errorStr
+      text: async () => errorStr,
     });
 
     await expect(deleteQuiz(firstID)).rejects.toThrow(
-      `Failed to delete quiz (ID: ${firstID}): ${errorStr}`
+      `Failed to delete quiz (ID: ${firstID}): ${errorStr}`,
     );
   });
 });

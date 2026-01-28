@@ -1,10 +1,10 @@
 import { LearnerProfile } from "@/lib/learner-profiles";
 import { Database, SourceMaterial } from "@/types";
 
-export type QuizDB = Database["public"]["Tables"]["quizzes"]
-export type QuizRow = QuizDB["Row"]
-export type QuizInsert = QuizDB["Insert"]
-export type QuizUpdate = QuizDB["Update"]
+export type QuizDB = Database["public"]["Tables"]["quizzes"];
+export type QuizRow = QuizDB["Row"];
+export type QuizInsert = QuizDB["Insert"];
+export type QuizUpdate = QuizDB["Update"];
 
 export interface QuizFormState {
   title: string;
@@ -12,7 +12,7 @@ export interface QuizFormState {
   customization: string;
   numberOfQuestions: string;
   learnerProfileId: string;
-  sourceMaterial: SourceMaterial
+  sourceMaterial: SourceMaterial;
 }
 
 export interface QuizGenerationState {
@@ -21,21 +21,20 @@ export interface QuizGenerationState {
   customization: string;
   numberOfQuestions: number;
   learnerProfile: LearnerProfile;
-  sourceMaterial: SourceMaterial
+  sourceMaterial: SourceMaterial;
 }
 
 export type QuizFormSubmission = Omit<QuizInsert, "creation_meta"> & {
-  creation_meta: Record<string, unknown>
-}
-
+  creation_meta: Record<string, unknown>;
+};
 
 export interface Answer {
   text: string;
-  feedback: string; 
+  feedback: string;
   correct: boolean;
 }
 
 export interface Question {
-  question:  string;
+  question: string;
   answers: Answer[];
 }

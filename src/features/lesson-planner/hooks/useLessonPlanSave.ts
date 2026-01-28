@@ -18,7 +18,7 @@ export const useLessonPlanSave = () => {
       if (existingLessons) {
         queryClient.setQueryData(
           lessonKeys.list(),
-          (old: LessonPlanRecord[]) => [newLesson, ...old]
+          (old: LessonPlanRecord[]) => [newLesson, ...old],
         );
       }
     },

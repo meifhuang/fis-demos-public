@@ -5,7 +5,7 @@ import { saveQuiz } from "../_services";
 /**
  * Hook for creating a new Course Outline record, invalidating the list cache upon success.
  */
-export const useSaveQuiz= () => {
+export const useSaveQuiz = () => {
   return useMutation({
     mutationKey: quizKeys.save(),
     mutationFn: saveQuiz,

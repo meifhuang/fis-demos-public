@@ -18,16 +18,19 @@ export class PersonalizedContent {
   constructor(private data: PersonalizedContentRow) {}
 
   asUpdate(): PersonalizedContentUpdate {
-      return {
-        title: this.data.title,
-        description: this.data.description,
-        content: this.data.content,
-      };
-    }
+    return {
+      title: this.data.title,
+      description: this.data.description,
+      content: this.data.content,
+    };
+  }
 
   // NOTE: if this ever accepts any camelCase `name`, this will need to
   // be adjusted to handle the transformation
-  with(name: "title" | "description" | "content", value: string): PersonalizedContent {
+  with(
+    name: "title" | "description" | "content",
+    value: string,
+  ): PersonalizedContent {
     return new PersonalizedContent({ ...this.data, [name]: value });
   }
 

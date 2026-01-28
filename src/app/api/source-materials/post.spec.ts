@@ -55,7 +55,7 @@ describe("API Route Handlers: Source Materials POST", () => {
   const mockRequest = (body: any): NextRequest =>
     ({
       json: vi.fn().mockResolvedValue(body),
-    } as unknown as NextRequest);
+    }) as unknown as NextRequest;
 
   describe("POST handler", () => {
     it("should return the created record with 201 status on success", async () => {

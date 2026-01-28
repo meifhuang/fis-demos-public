@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { LearnerProfile } from "@/types"
-
+import { LearnerProfile } from "@/types";
 
 const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
   console.warn(`
@@ -8,7 +7,7 @@ const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
     the useDeprecatedLearnerProfiles hook directly, or through a deprecated
     component (e.g. src/components/learn-profiles/*). When feasibly, migrate
     to the useLearnerProfiles hook (or the src/lib/learner-profiles components)
-  `)
+  `);
 
   return [
     {
@@ -41,7 +40,7 @@ const deprecatedLearnerProfiles = async (): Promise<LearnerProfile[]> => {
       experience:
         "Has participated in a few coding camps; understands basic Python syntax and logic.",
       interests: ["Robotics", "Space Exploration", "Cybersecurity"],
-    }
+    },
   ];
 };
 

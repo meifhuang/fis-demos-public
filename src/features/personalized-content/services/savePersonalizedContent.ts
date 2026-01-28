@@ -4,7 +4,7 @@ import { PersonalizedContentOutput } from "@/lib/llm-generation/schemas/personal
 export const savePersonalizedContent = async (
   generatedPersonalizedContentOutput: PersonalizedContentOutput & {
     creation_meta: Record<string, unknown>;
-  }
+  },
 ): Promise<PersonalizedContentRecord> => {
   const response = await fetch("/api/personalized-content", {
     method: "POST",

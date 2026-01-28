@@ -1,7 +1,6 @@
 import type { Tables } from "@/types";
 
-export type SourceMaterialRow =
-  Tables<"source_materials">
+export type SourceMaterialRow = Tables<"source_materials">;
 
 export class SourceMaterial {
   constructor(private data: Tables<"source_materials">) {}

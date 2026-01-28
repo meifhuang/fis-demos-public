@@ -18,19 +18,13 @@ export class LessonPlanCreatePage {
       name: "Create New Lesson Plan",
     });
 
-    this.sourceMaterialSelect = page.getByTestId(
-      "source-material-selector"
-    );
+    this.sourceMaterialSelect = page.getByTestId("source-material-selector");
 
-    this.sourceMaterialTitleField = page.getByTestId(
-      "custom-source-title"
-    );
-    this.sourceMaterialContentField = page.getByTestId(
-      "custom-source-content"
-    );
+    this.sourceMaterialTitleField = page.getByTestId("custom-source-title");
+    this.sourceMaterialContentField = page.getByTestId("custom-source-content");
 
     this.learnerProfileSelect = page.getByTestId(
-      "lesson-plan-create-learner-profile"
+      "lesson-plan-create-learner-profile",
     );
 
     // --- Locator for Submit Button ---
@@ -55,7 +49,7 @@ export class LessonPlanCreatePage {
     await expect(this.learnerProfileSelect).toBeEnabled();
 
     await expect(this.learnerProfileSelect).toHaveText(
-      "Select existing profile"
+      "Select existing profile",
     );
 
     await this.learnerProfileSelect.click();
@@ -76,10 +70,10 @@ export class LessonPlanCreatePage {
 
     // Fill required fields
     await this.sourceMaterialTitleField.fill(
-      "Introduction to Atomic Structure"
+      "Introduction to Atomic Structure",
     );
     await this.sourceMaterialContentField.fill(
-      "Atoms are the basic building blocks of matter..."
+      "Atoms are the basic building blocks of matter...",
     );
   }
 
@@ -87,7 +81,7 @@ export class LessonPlanCreatePage {
     await expect(this.learnerProfileSelect).toBeEnabled();
 
     await expect(this.learnerProfileSelect).toHaveText(
-      "Select existing profile"
+      "Select existing profile",
     );
 
     // Select Learner Profile (Selects the first available option)
@@ -100,13 +94,11 @@ export class LessonPlanCreatePage {
 
     // Source material
     await this.sourceMaterialSelect.click();
-    
+
     const sourceList = this.page.getByRole("listbox").first();
 
     // Select first non-custom option
-    const firstExistingMaterial = sourceList
-      .getByRole("option")
-      .first();
+    const firstExistingMaterial = sourceList.getByRole("option").first();
     await firstExistingMaterial.waitFor({ state: "visible" });
     await firstExistingMaterial.click();
 

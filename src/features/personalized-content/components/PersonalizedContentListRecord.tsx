@@ -20,7 +20,7 @@ export default function PersonalizedContentListRecord({
     (id: string) => {
       router.push(`/personalized-content/${id}`);
     },
-    [router]
+    [router],
   );
 
   return (

@@ -63,15 +63,15 @@ describe("LessonPlanListRecord", () => {
 
     // Title / description (from introduction in new type)
     expect(
-      screen.getByTestId("lesson-plan-list-record-title")
+      screen.getByTestId("lesson-plan-list-record-title"),
     ).toHaveTextContent(mockRecord.creation_meta.source_material.title);
     expect(
-      screen.getByTestId("lesson-plan-list-record-description")
+      screen.getByTestId("lesson-plan-list-record-description"),
     ).toHaveTextContent(mockRecord.introduction);
 
     // Learner chip
     expect(
-      screen.getByTestId("lesson-plan-list-learner-chip")
+      screen.getByTestId("lesson-plan-list-learner-chip"),
     ).toHaveTextContent(mockRecord.creation_meta.learner_profile.label);
   });
 

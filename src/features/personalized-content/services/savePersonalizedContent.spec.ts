@@ -28,8 +28,8 @@ describe("getPersonalizedContentList", () => {
         Promise.resolve({
           ok: true,
           json: () => Promise.resolve(mockRows),
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
     const result = await getPersonalizedContentList();
@@ -52,12 +52,12 @@ describe("getPersonalizedContentList", () => {
         Promise.resolve({
           ok: false,
           status: 500,
-        })
-      ) as unknown as typeof fetch
+        }),
+      ) as unknown as typeof fetch,
     );
 
     await expect(getPersonalizedContentList).rejects.toThrow(
-      "Failed to fetch personalized content list"
+      "Failed to fetch personalized content list",
     );
   });
 });

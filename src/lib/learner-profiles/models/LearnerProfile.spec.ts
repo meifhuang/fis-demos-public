@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { LearnerProfile } from "./LearnerProfile";
-import { factory } from "@/test"
+import { factory } from "@/test";
 
 describe("LearnerProfile", () => {
   const data = factory.build("learnerProfile");

@@ -27,7 +27,7 @@ export class DashboardPage {
       name: "Adaptive Learning",
     });
     this.introText = page.getByText(
-      /Experience the future of creation. Our adaptive content generation tools intelligently tailor output to fit any need, making content unique and relevant every time./i
+      /Experience the future of creation. Our adaptive content generation tools intelligently tailor output to fit any need, making content unique and relevant every time./i,
     );
 
     // Quiz Generator Card Elements
@@ -35,7 +35,7 @@ export class DashboardPage {
       .getByRole("button", { name: "View Demo" })
       .nth(0);
     this.quizGeneratorDescription = page.getByText(
-      /Transform any content into a personalized, adaptive/i
+      /Transform any content into a personalized, adaptive/i,
     );
 
     // Content Mapping (Lesson Planning) Card Elements
@@ -43,7 +43,7 @@ export class DashboardPage {
       .getByRole("button", { name: "View Demo" })
       .nth(1);
     this.courseOutlineDescription = page.getByText(
-      /Quickly generate a full, adaptable course outline/i
+      /Quickly generate a full, adaptable course outline/i,
     );
 
     // Personalized Content Card Elements
@@ -51,7 +51,7 @@ export class DashboardPage {
       .getByRole("button", { name: "View Demo" })
       .nth(2);
     this.personalizedContentDescription = page.getByText(
-      /Instantly rewrite any text or document into a format, tone/i
+      /Instantly rewrite any text or document into a format, tone/i,
     );
 
     // Lesson Plan Card Elements
@@ -59,7 +59,7 @@ export class DashboardPage {
       .getByRole("button", { name: "View Demo" })
       .nth(3);
     this.lessonPlanContentDescription = page.getByText(
-      /Plan your lessons perfectly based around/i
+      /Plan your lessons perfectly based around/i,
     );
   }
 

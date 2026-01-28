@@ -13,6 +13,8 @@ export default defineConfig({
     // Path to your setup file
     setupFiles: "./vitest.setup.ts",
     exclude: ["e2e", "node_modules"],
-    coverage: { exclude: ["src/lib/learner-profiles/index.ts", "src/test/index.ts"] },
+    coverage: {
+      exclude: ["src/lib/learner-profiles/index.ts", "src/test/index.ts"],
+    },
   },
 });

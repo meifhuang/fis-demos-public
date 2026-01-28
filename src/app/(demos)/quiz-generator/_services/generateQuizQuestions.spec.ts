@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
-import { factory } from "@/test"
+import { factory } from "@/test";
 import { QuizGenerationState, SourceMaterial } from "@/types";
 import { generateQuizQuestions } from "./generateQuizQuestions";
 import { LearnerProfile } from "@/lib/learner-profiles";
 
 describe("createQuiz", () => {
-  const mockQuiz = factory.build("quiz", {id: crypto.randomUUID()})
+  const mockQuiz = factory.build("quiz", { id: crypto.randomUUID() });
   const mockLearner = factory.build("learnerProfile");
   const mockSourceMaterial: SourceMaterial = {
-        title: "",
-        markdown: ""
-  }
+    title: "",
+    markdown: "",
+  };
 
   const mockForm: QuizGenerationState = {
     title: mockQuiz.title,
@@ -18,8 +18,8 @@ describe("createQuiz", () => {
     customization: "",
     numberOfQuestions: 1,
     learnerProfile: new LearnerProfile(mockLearner),
-    sourceMaterial: mockSourceMaterial
-  }
+    sourceMaterial: mockSourceMaterial,
+  };
 
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn());
@@ -31,26 +31,26 @@ describe("createQuiz", () => {
 
   it("makes the post with the correct payload", async () => {
     (fetch as unknown as Mock).mockResolvedValueOnce({
-        ok: true, 
-        json: async () => mockQuiz
-      }
-    )
+      ok: true,
+      json: async () => mockQuiz,
+    });
 
     await generateQuizQuestions(mockForm);
 
     expect(fetch).toHaveBeenCalledWith("/api/quizzes/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(mockForm)
+      body: JSON.stringify(mockForm),
     });
   });
 
   it("successfully returns the new quiz", async () => {
     (fetch as unknown as Mock).mockResolvedValueOnce({
-        ok: true, 
-        json: async () => {return {questions: []}}
-      }
-    )
+      ok: true,
+      json: async () => {
+        return { questions: [] };
+      },
+    });
 
     const result = await generateQuizQuestions(mockForm);
 
@@ -62,11 +62,11 @@ describe("createQuiz", () => {
     const errorText = "Failed";
     (fetch as unknown as Mock).mockResolvedValueOnce({
       ok: false,
-      text: async () => errorText
+      text: async () => errorText,
     });
 
     await expect(generateQuizQuestions(mockForm)).rejects.toThrow(
-      `Failed to create questions: ${errorText}`
+      `Failed to create questions: ${errorText}`,
     );
   });
 });

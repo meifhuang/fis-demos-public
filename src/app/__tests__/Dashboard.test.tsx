@@ -9,11 +9,11 @@ describe("Home Page Content (Integration Test)", () => {
     render(<Home />);
 
     expect(
-      screen.getByRole("heading", { name: /Adaptive Learning/i })
+      screen.getByRole("heading", { name: /Adaptive Learning/i }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(/Experience the future of creation/i)
+      screen.getByText(/Experience the future of creation/i),
     ).toBeInTheDocument();
   });
 
