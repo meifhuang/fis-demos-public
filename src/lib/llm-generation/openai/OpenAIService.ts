@@ -41,6 +41,8 @@ export class OpenAIService extends AbstractLLMService {
   ): ResponseInputItem[] {
     const input: ResponseInputItem[] = [];
 
+    input.push({ role: "user", content: prompt });
+
     if (options?.systemPrompt) {
       input.push({ role: "system", content: options.systemPrompt });
     }
@@ -48,8 +50,6 @@ export class OpenAIService extends AbstractLLMService {
     if (options?.developerPrompt) {
       input.push({ role: "developer", content: options.developerPrompt });
     }
-
-    input.push({ role: "user", content: prompt });
 
     return input;
   }

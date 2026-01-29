@@ -104,9 +104,9 @@ describe("OpenAIService", () => {
       expect(parse).toHaveBeenCalledWith(
         expect.objectContaining({
           input: [
+            { role: "user", content: "User Prompt" },
             { role: "system", content: "System instruction" },
             { role: "developer", content: "Developer context" },
-            { role: "user", content: "User Prompt" },
           ],
         }),
       );
