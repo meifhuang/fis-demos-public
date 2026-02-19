@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { lessonsKeys } from "./keys";
-import { LessonRecord } from "@/types/demos/lesson";
+import { Lesson } from "../models/Lesson";
+// import { LessonRecord } from "@/types/demos/lesson";
 import { getLessonList } from "../services/getLessonList";
 
 /**
@@ -8,7 +9,7 @@ import { getLessonList } from "../services/getLessonList";
  */
 
 export const useListLesson = () => {
-  const query = useQuery<LessonRecord[], Error>({
+  const query = useQuery<Lesson[], Error>({
     queryKey: lessonsKeys.list(),
     queryFn: getLessonList,
   });
