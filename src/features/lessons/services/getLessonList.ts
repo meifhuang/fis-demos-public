@@ -6,7 +6,7 @@ import { LessonRow, Lesson } from "../models/Lesson";
 
 export async function getLessonList() {
   const response = await fetch("/api/lessons");
-  if (!response.ok) throw new Error("Failed to fetch lesson plan list");
+  if (!response.ok) throw new Error("Failed to fetch lesson list");
 
   const rows: LessonRow[] = await response.json();
   return rows.map((row) => new Lesson(row));
