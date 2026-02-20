@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { vi, describe, it, expect, beforeEach, afterEach, Mock } from "vitest";
 import { getLessonList } from "./getLessonList";
 import { LessonRow, Lesson } from "../models/Lesson";

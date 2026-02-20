@@ -8,8 +8,9 @@ import { getLessonList } from "../services/getLessonList";
  * Hook to fetch the list of lesson record summaries.
  */
 
-export const useListLesson = () => {
+export const useLessonList = ({ retry = true }: { retry?: boolean } = {}) => {
   const query = useQuery<Lesson[], Error>({
+    retry,
     queryKey: lessonsKeys.list(),
     queryFn: getLessonList,
   });
