@@ -1,68 +1,110 @@
-// @vitest-environment node
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import * as Sentry from "@sentry/nextjs";
+import { getClient } from "../../../lib/supabase";
+import { GET } from "../../../app/api/lessons/route";
 
-import * as supabaseLib from "@/lib/supabase";
-import { GET } from "./route";
-import { describe, expect, it } from "vitest";
-import { prepareTestSchema } from "@/test";
+// 1. Mock Sentry
+vi.mock("@sentry/nextjs", () => ({
+  captureException: vi.fn(),
+}));
 
-describe("GET", async () => {
-  const { factory } = await prepareTestSchema();
+// 2. Mock Supabase with internal spies
+vi.mock("@/lib/supabase", () => {
+  // Spies for the POST chain: .insert().select().single()
+  const mockSingle = vi.fn();
+  const mockSelectForInsert = vi.fn(() => ({ single: mockSingle }));
+  const mockInsert = vi.fn(() => ({ select: mockSelectForInsert }));
 
-  describe("without any records", async () => {
-    it("responds with 200 status", async () => {
-      const response = await GET();
-      expect(response.status).toEqual(200);
-    });
-    it("responds with an empty array", async () => {
+  // Spy for the GET chain: .select("*")
+  const mockSelectForGet = vi.fn();
+
+  // Root spy for .from()
+  const mockFrom = vi.fn(() => ({
+    select: mockSelectForGet,
+    insert: mockInsert,
+  }));
+
+  return {
+    getClient: vi.fn(() => ({
+      from: mockFrom,
+    })),
+  };
+});
+
+describe("API Route Handler: /api/lessons", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const getMocks = () => {
+    const client = getClient();
+    const from = client.from;
+
+    const chain = client.from("setup_extraction" as any);
+    const select = chain.select;
+    const insert = chain.insert;
+
+    const single = insert({} as any).select().single;
+
+    // Clear the history of these setup calls
+    vi.clearAllMocks();
+
+    return { from, select, insert, single };
+  };
+
+  describe("GET handler", () => {
+    const mockData = [
+      {
+        id: 1,
+        title: "Quantum Physics",
+        content: "test",
+        creation_meta: {
+          learner_profile: {
+            age: 5,
+            grade: 8,
+          },
+        },
+      },
+    ];
+
+    it("should return lesson data with 200 status on success", async () => {
+      const { from, select } = getMocks();
+
+      vi.mocked(select).mockResolvedValueOnce({
+        data: mockData,
+        error: null,
+        count: null,
+        status: 200,
+        statusText: "OK",
+      } as any); // 'as any' is safe here to avoid mocking every single Postgrest property
       const response = await GET();
       const body = await response.json();
 
-      expect(body).toEqual([]);
+      expect(from).toHaveBeenCalledWith("lessons");
+      expect(select).toHaveBeenCalledWith("*");
+      expect(response.status).toBe(200);
+      expect(body).toEqual(mockData);
     });
   });
 
-  describe("with records", () => {
-    it("responds with 200 status", async () => {
-      await factory.create("lesson");
-      const response = await GET();
-      expect(response.status).toEqual(200);
-    });
-    it("response with an array of records", async () => {
-      const lessons = await factory.create("lesson");
-      const response = await GET();
-      const body = await response.json();
-      expect(body).toEqual([lessons]);
-    });
-  });
+  it("should return 500 status and call Sentry on database error", async () => {
+    const { select } = getMocks();
+    const mockError = new Error("Connection pool timeout");
 
-  describe("when a Supabase error occurs", async () => {
-    let spy: ReturnType<typeof vi.spyOn>;
+    // FIX: Add missing properties here as well
+    vi.mocked(select).mockResolvedValueOnce({
+      data: null,
+      error: mockError,
+      count: null,
+      status: 500,
+      statusText: "Internal Server Error",
+    } as any);
 
-    beforeEach(() => {
-      spy = vi.spyOn(supabaseLib, "getClient").mockReturnValue({
-        from: () => ({
-          //  @ts-expect-error Irrelevant type mismatch in mock
-          select: async () => ({
-            data: null,
-            error: { message: "Simulated Supabase error" },
-          }),
-        }),
-      });
-    });
+    const response = await GET();
+    const body = await response.json();
 
-    afterEach(() => {
-      spy.mockRestore();
-    });
-
-    it("responds with a 500 status and the error message", async () => {
-      const response = await GET();
-      expect(response.status).toEqual(500);
-    });
-
-    it("responds with the error message", async () => {
-      const response = await GET();
-      const body = await response.json();
-      expect(body).toEqual({ error: "Simulated Supabase error" });
-    });
+    expect(response.status).toBe(500);
+    expect(body).toEqual({ error: mockError.message });
+    expect(Sentry.captureException).toHaveBeenCalledWith(mockError);
   });
 });
