@@ -437,3 +437,45 @@ $creation_meta$,
   Why is understanding atoms important for science?
   $reflection$
 );
+
+
+-- Seed lesson_plans
+insert into lessons
+( creation_meta, title, content)
+values
+(
+    $creation_meta$
+{
+  "source_material": {
+    "title": "What is an atom?",
+    "content": "Atoms are the building blocks of matter. Everything around you — the air, water, your body — is made of atoms. Scientists discovered that atoms are incredibly small and consist of even smaller parts: **protons**, **neutrons**, and **electrons**.\n- **Protons** have a positive charge and sit in the center, called the **nucleus**.\n- **Neutrons** have no charge and are also in the nucleus.\n- **Electrons** have a negative charge and orbit around the nucleus.\nLearning about atoms helps us understand chemistry, biology, and physics.\nFor example, how water molecules form, how chemical reactions occur, and why different materials behave differently all depend on atoms."
+  },
+  "learner_profile": {
+    "label": "7th grader",
+    "age": 12,
+    "reading_level": 5,
+    "experience": "Has completed introductory STEM activities and basic robotics challenges.",
+    "interests": ["Robotics", "Graphic novels", "Animals"]
+  }
+}
+$creation_meta$,
+
+  $title$
+    Atoms
+  $title$,
+
+   $content$
+Atoms are the smallest building blocks of matter. Everything around you—air, water, plants, animals, and your own body—is made of atoms. They are extremely small, but they make up everything you can see and touch.
+
+Each atom is made of even smaller parts:
+• Protons have a positive (+) charge and are found in the center of the atom, called the nucleus.
+• Neutrons have no charge and are also in the nucleus.
+• Electrons have a negative (–) charge and move around the nucleus.
+
+Atoms can join together to form molecules. For example, water is made from atoms of hydrogen and oxygen bonded together. The way atoms are arranged and interact explains why different materials behave differently.
+
+Learning about atoms helps us understand chemistry, biology, and physics—from how chemical reactions happen to how living things are built from tiny parts.
+$content$
+);
+
+
