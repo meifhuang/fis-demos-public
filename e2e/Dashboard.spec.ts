@@ -11,7 +11,7 @@ test("1. Renders the main Adaptive Learning headline and intro text", async ({
   await expect(dashboardPage.introText).toBeVisible();
 });
 
-test("2. Renders all four Demo Cards with correct titles and links", async ({
+test("2. Renders all five Demo Cards with correct titles and links", async ({
   page,
   dashboardPage,
 }) => {
@@ -20,7 +20,7 @@ test("2. Renders all four Demo Cards with correct titles and links", async ({
   await expect(dashboardPage.courseOutlineCardButton).toBeVisible();
   await expect(dashboardPage.personalizedContentCardButton).toBeVisible();
   await expect(dashboardPage.lessonPlanCardButton).toBeVisible();
-
+  await expect(dashboardPage.lessonCardButton).toBeVisible();
   // Test 2: Verify the Quiz Generator card is linked correctly and has the description
   const quizCardButton = dashboardPage.quizGeneratorCardButton;
 
@@ -49,6 +49,10 @@ test("3. Shows the correct description for each tool", async ({ page }) => {
 
   await expect(
     page.getByText(/Plan your lessons perfectly based around/i),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText(/Create your lessons perfectly based around the/i),
   ).toBeVisible();
 });
 
@@ -124,4 +128,17 @@ test("7. Lesson Plan card navigates to /lesson-planner and verifies the heading"
 
   // ASSERTION: Verify the content on the new page
   await expect(lessonPlanPage.heading).toBeVisible();
+});
+
+test("8. Lesson card navigate to /lesson and verifies the heading", async ({
+  page,
+  lessonListPage,
+}) => {
+  const lessonButton = page.getByRole("button", { name: "View Demo" }).nth(3);
+
+  await lessonButton.click();
+
+  await expect(page).toHaveURL(ROUTES.lesson);
+
+  await expect(lessonListPage.heading).toBeVisible();
 });

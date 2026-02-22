@@ -38,6 +38,12 @@ export default function Home() {
             description={`Plan your lessons perfectly based around the individual's unique profile.`}
             href="/lesson-planner"
           ></DemoCard>
+          <DemoCard
+            imageSource="/lesson-plan-thumbnail.png"
+            title="Lessons"
+            description={`Create your lessons perfectly based around the individual's unique profile.`}
+            href="/lesson"
+          ></DemoCard>
         </div>
       </DashboardSection>
     </>
