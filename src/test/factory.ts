@@ -107,10 +107,7 @@ const factories = {
       updated_at: now,
       creation_meta: {
         learner_profile: build("learnerProfile"),
-        source_material: {
-          title: faker.lorem.sentence(),
-          content: faker.lorem.lines(1),
-        },
+        source_material: build("sourceMaterial"),
       },
       title: faker.lorem.sentence(),
       content: faker.lorem.lines(1),
