@@ -6,6 +6,7 @@ export class LessonListPage {
   readonly skeletonWrapper: Locator;
   readonly recordsContainer: Locator;
   readonly allCards: Locator;
+  readonly createButton: Locator;
 
   readonly exampleRecordCard: Locator;
   readonly exampleRecordTitle: Locator;
@@ -19,6 +20,7 @@ export class LessonListPage {
     this.skeletonWrapper = page.getByTestId("list-skeleton-wrapper");
     this.recordsContainer = page.getByTestId("record-list-container");
     this.allCards = page.getByTestId("list-item-card");
+    this.createButton = page.getByTestId("create-new-button");
 
     this.exampleRecordCard = page.getByTestId("list-item-card").first();
     this.exampleRecordTitle = this.exampleRecordCard.getByTestId(

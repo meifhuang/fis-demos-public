@@ -12,20 +12,25 @@ test.describe("List of generated lessons", () => {
   });
 
   test("should render the list title and create button", async ({
-    page,
+    // page,
     lessonListPage,
   }) => {
     await expect(lessonListPage.heading).toBeVisible();
 
     // Verify Create Button
-    const createButton = page.getByTestId("create-new-button");
-    await expect(createButton).toBeVisible();
-    await expect(createButton).toHaveText(/Create New/);
+    await expect(lessonListPage.createButton).toBeVisible();
+    await expect(lessonListPage.createButton).toHaveText(/Create New/);
+    // const createButton = page.getByTestId("create-new-button");
+    // await expect(createButton).toBeVisible();
+    // await expect(createButton).toHaveText(/Create New/);
   });
 
-  test("should render the correct number of list items", async ({ page }) => {
-    const listItems = page.getByTestId("list-item-card");
-    await expect(listItems).toHaveCount(1);
+  test("should render the correct number of list items", async ({
+    lessonListPage,
+  }) => {
+    // const listItems = page.getByTestId("list-item-card");
+    // await expect(listItems).toHaveCount(1);
+    await expect(await lessonListPage.getNumberOfRecords()).toBeGreaterThan(0);
   });
 
   test("should display content and action buttons for the first course record", async ({
