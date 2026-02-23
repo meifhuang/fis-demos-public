@@ -74,7 +74,7 @@
     "eslint-config-next": "16.0.7",
     "husky": "^9.1.7",
     "inflection": "^3.0.2",
-    "jsdom": "^25.0.1",
+    "jsdom": "^27.2.0",
     "lint-staged": "^16.2.7",
     "pg-schema-dump": "^2.0.2",
     "prettier": "^3.7.4",
