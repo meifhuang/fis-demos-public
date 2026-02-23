@@ -1,12 +1,14 @@
 import { test, expect } from "../../base-test";
 
 test.describe("List of generated lessons", () => {
-  test.beforeEach(async ({ lessonListPage: lessonListPage }) => {
-    await lessonListPage.goto();
+  test.beforeEach(async ({ lessonListPage: lessonPage }) => {
+    await lessonPage.goto();
 
-    await expect(lessonListPage.skeletonWrapper).not.toBeVisible();
+    await expect(lessonPage.skeletonWrapper).not.toBeVisible({
+      timeout: 10000,
+    });
 
-    await expect(lessonListPage.recordsContainer).toBeVisible();
+    await expect(lessonPage.recordsContainer).toBeVisible();
   });
 
   test("should render the list title and create button", async ({

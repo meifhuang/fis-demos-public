@@ -3,7 +3,7 @@ export const ROUTES = {
   quizGenerator: "/quiz-generator",
   courseOutline: "/course-outline",
   personalizedContent: "/personalized-content",
-  lesson: "/lessons",
+  lesson: "/lesson",
   lessonPlan: "/lesson-planner",
   learnerProfiles: "/learner-profiles",
   account: "/account",

@@ -14,7 +14,7 @@ export class LessonListPage {
   readonly exampleRecordViewButton: Locator;
 
   constructor(readonly page: Page) {
-    this.heading = page.getByRole("heading", { name: "Lesson" });
+    this.heading = page.getByRole("heading", { name: "Lesson Demo" });
 
     this.skeletonWrapper = page.getByTestId("list-skeleton-wrapper");
     this.recordsContainer = page.getByTestId("record-list-container");

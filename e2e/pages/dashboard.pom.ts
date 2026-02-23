@@ -69,29 +69,29 @@ export class DashboardPage {
     // Lesson Card Elements
     this.lessonCardButton = page
       .getByRole("button", { name: "View Demo" })
-      .nth(3);
+      .nth(4);
     this.lessonCardDescription = page.getByText(
       /Create your lessons perfectly based around the/i,
     );
   }
 
   public async visitQuizGeneratorDemo(): Promise<void> {
-    return await this.quizGeneratorCardButton.click();
+    await this.quizGeneratorCardButton.click();
   }
 
   public async visitLessonPlannerDemo(): Promise<void> {
-    return await this.courseOutlineCardButton.click();
+    await this.courseOutlineCardButton.click();
   }
 
   public async visitPersonalizedContentDemo(): Promise<void> {
-    return await this.personalizedContentCardButton.click();
+    await this.personalizedContentCardButton.click();
   }
 
   public async visitLessonPlanDemo(): Promise<void> {
-    return await this.lessonPlanCardButton.click();
+    await this.lessonPlanCardButton.click();
   }
 
   public async visitLessonDemo(): Promise<void> {
-    return await this.lessonCardButton.click();
+    await this.lessonCardButton.click();
   }
 }
