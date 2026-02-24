@@ -2,7 +2,7 @@ import { BaseListRecord } from "@/types/list";
 
 export interface LessonRecord extends BaseListRecord {
   creation_meta: {
-    learner_profile: {
+    learner_profile?: {
       id: string;
       age: number;
       label: string;
@@ -10,7 +10,7 @@ export interface LessonRecord extends BaseListRecord {
       experience: string;
       reading_level: number;
     };
-    source_material: {
+    source_material?: {
       title: string;
       content: string;
     };
