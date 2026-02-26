@@ -31,7 +31,7 @@ export function LessonSkeleton() {
             <CardHeader className="flex flex-col items-start pb-2">
               <h4 className="flex items-center text-base font-semibold text-gray-800">
                 <BookOpen className="w-5 h-5 text-indigo-500 mr-2" />
-                Introduction
+                Title
               </h4>
             </CardHeader>
 
