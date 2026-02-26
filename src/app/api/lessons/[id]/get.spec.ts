@@ -52,14 +52,15 @@ describe("API Route Handlers: Lessons GET", () => {
   };
 
   const mockRequest = {} as NextRequest; // GET requests usually don't need a body mock
-  const mockParams = { params: Promise.resolve({ id: "lesson-123" }) };
+  const lessonId = crypto.randomUUID();
+  const mockParams = { params: Promise.resolve({ id: lessonId }) };
 
   describe("GET handler", () => {
     it("should return the record with 200 status on success", async () => {
       const { from, select, eq, maybeSingle } = getMocks();
 
       const mockRecord = {
-        id: "lesson-123",
+        id: lessonId,
         title: "Introduction to Atoms",
         content: "Atoms are the smallest building blocks of matter.",
       };
@@ -77,7 +78,7 @@ describe("API Route Handlers: Lessons GET", () => {
 
       expect(from).toHaveBeenCalledWith("lessons");
       expect(select).toHaveBeenCalledWith("*");
-      expect(eq).toHaveBeenCalledWith("id", "lesson-123");
+      expect(eq).toHaveBeenCalledWith("id", lessonId);
       expect(maybeSingle).toHaveBeenCalled();
 
       expect(response.status).toBe(200);
@@ -91,9 +92,6 @@ describe("API Route Handlers: Lessons GET", () => {
       vi.mocked(maybeSingle).mockResolvedValueOnce({
         data: null, // Supabase returns null data for not found in maybeSingle
         error: null,
-        count: null,
-        status: 200,
-        statusText: "OK",
       } as any);
 
       const response = await GET(mockRequest, mockParams);
