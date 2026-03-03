@@ -1,0 +1,159 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { NextRequest } from "next/server";
+import * as Sentry from "@sentry/nextjs";
+import { getClient } from "@/lib/supabase"; // This path is mocked below
+import { PUT } from "./route"; // Relative import is safest
+
+// 1. Mock Sentry
+vi.mock("@sentry/nextjs", () => ({
+  captureException: vi.fn(),
+}));
+
+// 2. Mock Supabase with extended spies for the Update chain
+vi.mock("@/lib/supabase", () => {
+  // Chain spies: .update() -> .eq() -> .select() -> .maybeSingle()
+  const mockMaybeSingle = vi.fn();
+  const mockSelectForUpdate = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
+  const mockEq = vi.fn(() => ({ select: mockSelectForUpdate }));
+  const mockUpdate = vi.fn(() => ({ eq: mockEq }));
+
+  // Root spy for .from()
+  const mockFrom = vi.fn(() => ({
+    update: mockUpdate,
+  }));
+
+  return {
+    getClient: vi.fn(() => ({
+      from: mockFrom,
+    })),
+  };
+});
+
+describe("API Route Handlers: Lessons PUT", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const getMocks = () => {
+    const client = getClient();
+    const from = client.from;
+
+    // Simulate the chain to get specific spy references
+    const chainUpdate = client.from("any_table" as any).update({} as any);
+    const chainEq = chainUpdate.eq("id", "1");
+    const chainSelect = chainEq.select("*");
+
+    const update = from("lessons").update; // Reference to the update spy
+    const eq = chainUpdate.eq; // Reference to the eq spy
+    const maybeSingle = chainSelect.maybeSingle; // Reference to the end spy
+
+    vi.clearAllMocks(); // Clear history from setup steps
+
+    return { from, update, eq, maybeSingle };
+  };
+
+  const mockRequest = (body: any): NextRequest =>
+    ({
+      json: vi.fn().mockResolvedValue(body),
+    }) as unknown as NextRequest;
+
+  const lessonId = crypto.randomUUID();
+  const mockParams = { params: Promise.resolve({ id: lessonId }) };
+
+  describe("PUT handler", () => {
+    it("should return the updated record with 200 status on success", async () => {
+      const { from, update, eq, maybeSingle } = getMocks();
+
+      const inputBody = {
+        title: "Advanced Quantum Mechanics",
+        content: "An updated description.",
+        creation_meta: {
+          source_material: { title: "Quantum" },
+        },
+      };
+
+      const updatedRecord = { id: lessonId, ...inputBody };
+
+      vi.mocked(maybeSingle).mockResolvedValueOnce({
+        data: updatedRecord,
+        error: null,
+        count: null,
+        status: 200,
+        statusText: "OK",
+      } as any);
+
+      const req = mockRequest(inputBody);
+      const response = await PUT(req, mockParams);
+      const body = await response.json();
+
+      // Assertions
+      expect(from).toHaveBeenCalledWith("lessons");
+      expect(update).toHaveBeenCalledWith(inputBody);
+      expect(eq).toHaveBeenCalledWith("id", lessonId);
+      expect(maybeSingle).toHaveBeenCalled();
+
+      expect(response.status).toBe(200);
+      expect(body).toEqual(updatedRecord);
+    });
+
+    it("should return 404 when record is not found (data is null)", async () => {
+      const { maybeSingle } = getMocks();
+      const inputBody = { title: "Ghost Course" };
+
+      // Mock DB "Not Found" response (valid query, but no rows returned)
+      vi.mocked(maybeSingle).mockResolvedValueOnce({
+        data: null,
+        error: null,
+      } as any);
+
+      const req = mockRequest(inputBody);
+      const response = await PUT(req, mockParams);
+      const body = await response.json();
+
+      expect(response.status).toBe(404);
+      expect(body.error).toBe("Not found");
+    });
+
+    it("should return 422 status when validation fails (Zod)", async () => {
+      const { from } = getMocks();
+      const invalidBody = {
+        data: {
+          title: "Atoms",
+        },
+      };
+      const req = mockRequest(invalidBody);
+      const response = await PUT(req, mockParams);
+      const body = await response.json();
+
+      expect(response.status).toBe(422);
+      expect(body.error).toBeDefined();
+
+      // Ensure we stopped before hitting the database
+      expect(from).not.toHaveBeenCalled();
+      expect(Sentry.captureException).toHaveBeenCalled();
+    });
+
+    it("should return 500 status and call Sentry on database error", async () => {
+      const { maybeSingle } = getMocks();
+      const inputBody = { title: "Error Case" };
+      const mockError = new Error("Database connection failed");
+
+      // Mock DB Error response
+      vi.mocked(maybeSingle).mockResolvedValueOnce({
+        data: null,
+        error: mockError,
+        count: null,
+        status: 500,
+        statusText: "Internal Server Error",
+      } as any);
+
+      const req = mockRequest(inputBody);
+      const response = await PUT(req, mockParams);
+      const body = await response.json();
+
+      expect(response.status).toBe(500);
+      expect(body).toEqual({ error: mockError.message });
+      expect(Sentry.captureException).toHaveBeenCalledWith(mockError);
+    });
+  });
+});
